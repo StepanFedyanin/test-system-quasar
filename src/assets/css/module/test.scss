@@ -1,0 +1,32 @@
+.tests {
+    display: flex;
+    flex-direction: column;
+
+    &__search {
+        max-width: 300px;
+        padding: 0 1rem 0 1.5rem;
+        border-radius: var(--b-radius-more);
+        box-shadow: var(--box-shadow-inside);
+    }
+}
+
+.test {
+    box-shadow: var(--box-shadow-volume);
+    border-radius: var(--b-radius);
+
+    &__header {
+        background: var(--q-primary);
+        border-bottom-left-radius: var(--b-radius) !important;
+        border-bottom-right-radius: var(--b-radius) !important;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        &:before{
+            content: url("assets/img/icon/info.svg");
+            height: 20px;
+        }
+    }
+    &__item{
+        border-radius: 0;
+    }
+}

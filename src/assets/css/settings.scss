@@ -1,0 +1,14 @@
+$h1:        (size: var(--font-family-base) * 3.375,     line-height: var(--font-family-base) * 3.375,     letter-spacing: normal, weight: 300);
+$h2:        (size: var(--font-family-base) * 1.5,  line-height: var(--font-family-base) * 1.5,  letter-spacing: normal, weight: 300);
+$h3:        (size: var(--font-family-base) * 1.25,     line-height: var(--font-family-base) * 1.25, letter-spacing: normal,    weight: 400);
+$h4:        (size: var(--font-family-base) * 1.125, line-height: var(--font-family-base) * 1.125,   letter-spacing: normal,  weight: 400);
+$h5:        (size: var(--font-family-base),   line-height: var(--font-family-base),     letter-spacing: normal,    weight: 400);
+$h6:        (size: var(--font-family-base) *0.75,  line-height: var(--font-family-base) *0.75,     letter-spacing: normal,   weight: 500);
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
+) !default;

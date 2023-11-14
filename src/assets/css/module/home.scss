@@ -1,0 +1,12 @@
+.home{
+    &__cover{
+        background-image: url('assets/img/temp/sign_up.png');
+    }
+}
+.home__cover{
+    background-image: url('assets/img/temp/sign_up.png');
+    background-repeat: no-repeat;
+    background-position: initial;
+    position: relative;
+    height: 500px !important;
+}
