@@ -1,5 +1,5 @@
 <template>
-  <div class="container column full-height">
+  <div class="container full-height">
     <router-view/>
   </div>
 </template>
@@ -14,4 +14,5 @@ export default defineComponent({
 
 <style>
 @import "src/assets/css/index.scss";
+@import '@splidejs/vue-splide/css';
 </style>

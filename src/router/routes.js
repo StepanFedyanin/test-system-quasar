@@ -20,11 +20,22 @@ const routes = [
     path: '/test',
     name: 'test',
     component: () => import('src/views/test.vue'),
+    redirect: { name: 'testDescription' },
     children: [
       {
         path: '',
         name: 'testDescription',
         component: () => import('src/views/test-description.vue')
+      },
+      {
+        path: 'response',
+        name: 'testResponse',
+        component: () => import('src/views/test-response.vue')
+      },
+      {
+        path: 'finale',
+        name: 'testFinale',
+        component: () => import('src/views/test-finale.vue')
       }
     ]
   }

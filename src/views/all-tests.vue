@@ -50,19 +50,25 @@
     class="q-ma-md"
   />
   <div v-else class="row">
-    <q-card class="test col-3">
-      <q-card-section class="test__header">
-        <div class="text-white">Проективные</div>
+    <q-card
+      class="card col-3"
+      v-for="category in testsCategory"
+      :key="`category-${category.id}`"
+    >
+      <q-card-section class="card__header q-py-sm">
+        <div class="text-white">{{category.name}}</div>
       </q-card-section>
 
-      <q-separator />
       <q-card-actions vertical>
-        <q-btn class="test__item full-width" align="between" flat @click="next('test')">
-          Action 1
-          <q-icon color="primary" name="chevron_right"/>
-        </q-btn>
-        <q-btn class="test__item full-width" align="between" flat @click="next('test')">
-          Action 1
+        <q-btn
+          class="card__item full-width"
+          align="between"
+          flat
+          @click="next('test', test.id)"
+          v-for="test in category.test"
+          :key="`test-${test.id}`"
+        >
+          {{test.name}}
           <q-icon color="primary" name="chevron_right"/>
         </q-btn>
       </q-card-actions>
@@ -72,9 +78,10 @@
 
 <script>
 
+import app from 'src/services/app'
+
 export default {
   name: 'all-test',
-  // components: { HistoryPage, TestCard },
   data () {
     return {
       testFilters: [
@@ -104,21 +111,12 @@ export default {
       currentFilter: { type: 'test', sorted: 'difficulties', searchValue: '' },
       testsCategory: [],
       showLoaderTests: true,
-      breadcrumb: {
-        breadcrumbs: [],
-        active: 'Все тесты'
-      }
+      test: null
     }
   },
   created () {
-    this.showLoaderTests = true
-    // app.getCategory().then((res) => {
-    //   this.testsCategory = res
-    this.showLoaderTests = false
-    // }).catch((error) => {
-    //   this.$store.dispatch('showError', error)
-    //   this.showLoaderTests = false
-    // })
+    this.test = this.$store.state.test
+    this.getCategory()
   },
   computed: {
     filteredTestsCategory () {
@@ -126,13 +124,25 @@ export default {
     }
   },
   methods: {
+    getCategory () {
+      this.showLoaderTests = true
+      app.getCategory().then((res) => {
+        this.testsCategory = res
+        this.showLoaderTests = false
+      }).catch((error) => {
+        this.$store.dispatch('showError', error)
+        this.showLoaderTests = false
+      })
+    },
     changeCurrentType (type) {
       this.currentFilter = { ...this.currentFilter, type }
     },
     changeCurrentSorted (sorted) {
       this.currentFilter = { ...this.currentFilter, sorted }
     },
-    next (name) {
+    next (name, params) {
+      console.log()
+      this.$store.dispatch('addTest', params)
       this.$router.push({ name: name || '' })
     }
   }

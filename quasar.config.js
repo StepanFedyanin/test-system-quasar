@@ -9,8 +9,10 @@
 // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js
 
 const ESLintPlugin = require('eslint-webpack-plugin')
-
+const webpack = require('webpack')
+const nodeExternals = require('webpack-node-externals')
 const { configure } = require('quasar/wrappers')
+const { resolve } = require('path')
 
 module.exports = configure(function (ctx) {
   return {
@@ -23,9 +25,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-webpack/boot-files
-    boot: [
-
-    ],
+    boot: ['main'],
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-css
 
@@ -70,8 +70,29 @@ module.exports = configure(function (ctx) {
       chainWebpack (chain) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
-      }
-
+        chain.plugin('normal-module-replacement').use(
+          new webpack.NormalModuleReplacementPlugin(/settings$/, function (resource) {
+            resource.request = resource.request.replace(/settings$/, `settings/${process.env.NODE_ENV}`)
+          })
+        )
+        chain.module.rule('images')
+          .test(/\.(png|jpe?g|gif|svg|webp|avif|ico)(\?.*)?$/)
+          .type('javascript/auto')
+          .use('url-loader')
+          .loader('url-loader')
+          .options({
+            esModule: false,
+            limit: 16384,
+            name: 'img/[name].[hash:8].[ext]'
+          })
+      },
+      extendWebpack (cfg) {
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias,
+          '@': resolve(__dirname, './src')
+        }
+      },
+      devtool: 'source-map'
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer

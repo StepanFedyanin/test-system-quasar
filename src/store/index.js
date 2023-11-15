@@ -1,27 +1,46 @@
-import { store } from 'quasar/wrappers'
 import { createStore } from 'vuex'
+import VuexPersist from 'vuex-persist'
 
-// import example from './module-example'
-
-/*
- * If not building with SSR mode, you can
- * directly export the Store instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Store instance.
- */
-
-export default store(function (/* { ssrContext } */) {
-  const Store = createStore({
-    modules: {
-      // example
-    },
-
-    // enable strict mode (adds overhead!)
-    // for dev mode and --debug builds only
-    strict: process.env.DEBUGGING
-  })
-
-  return Store
+const vuexPersist = new VuexPersist({
+  key: 'test-system',
+  storage: window.localStorage
 })
+
+const templateTest = (id) => {
+  return {
+    name: '',
+    sdescription: '',
+    test: id,
+    answers: [],
+    subtest: [],
+    active_subtest: 0,
+    select_subtest: {}
+  }
+}
+
+const store = createStore({
+  namespaced: true,
+  state: () => ({
+    test: null
+  }),
+  plugins: [vuexPersist.plugin],
+  mutations: {
+    ADD_TEST (state, data) {
+      state.test = null
+      state.test = templateTest(data)
+    },
+    UPDATE_TEST (state, data) {
+      state.test = data
+    }
+  },
+  actions: {
+    addTest (context, payload) {
+      context.commit('ADD_TEST', payload)
+    },
+    updateTest (context, payload) {
+      context.commit('UPDATE_TEST', payload)
+    }
+  }
+})
+
+export default store

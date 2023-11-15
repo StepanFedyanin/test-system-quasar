@@ -19,6 +19,7 @@
 // import app from '@/services/app'
 
 import TopBar from 'components/top-bar.vue'
+import { app } from 'src/services'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -32,20 +33,23 @@ export default {
     }
   },
   created () {
+    console.log()
     this.test = this.$store.state.test
     this.getTest()
   },
   methods: {
     getTest () {
       this.showLoaderTest = true
-      // app.getTestForId(this.test.test_id).then(data => {
-      //   this.$store.dispatch('updateTest', { ...this.test, ...data })
-      //   this.test = this.$store.state.test
-      this.showLoaderTest = false
-      // }).catch(err => {
-      //   this.$store.dispatch('showError', err)
-      //   this.showLoaderTest = false
-      // })
+      app.getTestForId(this.test.test).then(data => {
+        this.$store.dispatch('updateTest', this.$helpers.removeKeys({ ...this.test, ...data }, ['id']))
+        this.$nextTick(() => {
+          this.test = this.$store.state.test
+        })
+        this.showLoaderTest = false
+      }).catch(err => {
+        this.$store.dispatch('showError', err)
+        this.showLoaderTest = false
+      })
     }
   }
 }

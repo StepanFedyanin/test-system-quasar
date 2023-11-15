@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-toolbar class="topbar">
+    <q-toolbar class="topbar q-mt-md">
       <div class="col-2">
         <q-btn flat class="topbar__logo text-h2 full-width text-primary">
           Pro<span class="text-secondary">Test</span>

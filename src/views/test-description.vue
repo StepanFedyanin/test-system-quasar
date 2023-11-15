@@ -81,7 +81,7 @@
           </div>
           <div class="row justify-between">
             <q-btn outline color="primary">75 вопросов</q-btn>
-            <q-btn color="primary">Пройти тест</q-btn>
+            <q-btn color="primary" @click="next">Пройти тест</q-btn>
         </div>
         </div>
       </div>
@@ -147,11 +147,12 @@ export default {
     }
   },
   created () {
-    // this.test = this.$store.state.test
+    this.test = this.$store.state.test
   },
   methods: {
     next () {
-      this.$router.push(this.$route.path.replace('description', 'response'))
+      this.$router.push({ name: 'testResponse' })
+      // this.$router.push(this.$route.path.replace('description', 'response'))
     }
   }
 }

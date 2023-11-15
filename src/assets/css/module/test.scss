@@ -10,7 +10,7 @@
     }
 }
 
-.test {
+.card {
     box-shadow: var(--box-shadow-volume);
     border-radius: var(--b-radius);
 
@@ -28,5 +28,23 @@
     }
     &__item{
         border-radius: 0;
+    }
+    &__point{
+        width: 23px;
+        height: 35px;
+        border-radius: var(--b-radius);
+        background: var(--q-primary);
+    }
+}
+.test{
+    max-width: 960px;
+    &__shadow{
+        box-shadow: var(--box-shadow-volume);
+        border-radius: var(--b-radius-more);
+        overflow: hidden;
+        padding: 1.5rem 3rem 3rem;
+    }
+    &__cover{
+        max-width: 300px;
     }
 }
