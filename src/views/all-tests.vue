@@ -79,7 +79,6 @@
 <script>
 
 import app from 'src/services/app'
-
 export default {
   name: 'all-test',
   data () {

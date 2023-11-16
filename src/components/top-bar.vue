@@ -1,12 +1,12 @@
 <template>
   <div>
-    <q-toolbar class="topbar q-mt-md">
-      <div class="col-2">
-        <q-btn flat class="topbar__logo text-h2 full-width text-primary">
+    <q-toolbar class="topbar q-mt-md justify-between">
+      <div class="col">
+        <button class="topbar__logo text-h2 full-width text-primary">
           Pro<span class="text-secondary">Test</span>
-        </q-btn>
+        </button>
       </div>
-      <div class="col-md-6 col-lg-7">
+      <div class="col-md-6 col-lg-9">
         <router-link
           v-for="item in accountMenu"
           :key="item.name"
@@ -16,10 +16,10 @@
         >
           {{ item.title }}
         </router-link>
-<!--                        <b-button class="topBar__link topBar__menu&#45;&#45;item text-uppercase fw-bold p-0 d-flex d-md-none" v-else @click="next()">-->
-<!--                            вход / регистрация-->
-<!--                        </b-button>-->
       </div>
+      <q-btn class="col q-px-lg" outline color="primary" @click="next('auth')">
+        вход / регистрация
+      </q-btn>
     </q-toolbar>
   </div>
 </template>
@@ -36,6 +36,11 @@ export default {
   },
   created () {
     this.accountMenu = accountMenu.notAuthorized
+  },
+  methods: {
+    next (params) {
+      this.$router.push({ name: params || 'allTests' })
+    }
   }
 }
 </script>

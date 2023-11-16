@@ -15,11 +15,37 @@ body {
 }
 
 .container {
-    margin: 0 auto;
-    max-width: 1400px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
     display: flex;
     flex-direction: column;
 }
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px
+    }
+}
+@media (min-width: 1400px) {
+    .container {
+        width: 1370px
+    }
+}
+
 
 .text-h1 {
     font-size: calc(var(--font-family-size) * 3.375);
@@ -124,5 +150,24 @@ body {
 
     &__svg {
         padding: 2px;
+    }
+}
+.q-input{
+    .q-field__control{
+        border-radius: var(--b-radius);
+    }
+}
+
+.breadcrumb{
+    display: flex;
+    margin: 0;
+    padding: 0 0 10px;
+    font-weight: 500;
+    &__item:not(:last-child){
+        padding-right: 10px;
+        &:after{
+            content: "-";
+            padding-left: 10px;
+        }
     }
 }

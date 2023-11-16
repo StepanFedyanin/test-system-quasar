@@ -8,7 +8,6 @@
     class="q-ma-md"
   />
   <template v-else>
-    <TopBar class="q-mb-lg"/>
     <router-view/>
   </template>
 </template>
@@ -18,13 +17,11 @@
 // import HistoryPage from '@/components/history-page.vue'
 // import app from '@/services/app'
 
-import TopBar from 'components/top-bar.vue'
 import { app } from 'src/services'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'test',
-  components: { TopBar },
   // components: { HistoryPage },
   data () {
     return {

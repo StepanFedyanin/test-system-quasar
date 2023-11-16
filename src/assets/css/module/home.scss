@@ -1,12 +1,14 @@
 .home{
+    &__content{
+        flex-direction: column;
+    }
     &__cover{
         background-image: url('assets/img/temp/sign_up.png');
+        background-repeat: no-repeat;
+        background-position: initial;
+        background-size: contain;
+        position: relative;
+        height: 500px !important;
     }
 }
-.home__cover{
-    background-image: url('assets/img/temp/sign_up.png');
-    background-repeat: no-repeat;
-    background-position: initial;
-    position: relative;
-    height: 500px !important;
-}
+

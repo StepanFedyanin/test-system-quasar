@@ -1,0 +1,14 @@
+.auth{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    max-width: 460px;
+    width: 100%;
+    height: 100%;
+    .q-tab__label{
+        text-transform: uppercase;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+}
