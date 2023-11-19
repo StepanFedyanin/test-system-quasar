@@ -1,5 +1,5 @@
-import { logger as settings } from 'src/settings'
 import { REST, RESTError } from './rest'
+import { logger as settings } from 'src/settings'
 
 export default class extends REST {
   static get settings () {

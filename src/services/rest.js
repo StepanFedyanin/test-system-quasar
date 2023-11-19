@@ -77,8 +77,6 @@ class REST {
   }
 }
 
-export default REST
-
 export {
   RESTError,
   REST

@@ -8,9 +8,19 @@ export default class extends REST {
 
   static obtainToken (params) {
     return this._post('token/create', {}, params).then((data) => {
-      return data
+      const tokens = data
+      return tokens
     }).catch((error) => {
       throw new RESTError(error, 'Не удалось авторизоваться')
+    })
+  }
+
+  static createUser (params) {
+    return this._post('user/create_user', {}, params).then((data) => {
+      const tokens = data
+      return tokens
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось создать пользователя')
     })
   }
 

@@ -72,6 +72,7 @@ module.exports = configure(function (ctx) {
           .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
         chain.plugin('normal-module-replacement').use(
           new webpack.NormalModuleReplacementPlugin(/settings$/, function (resource) {
+            console.log(process.env.NODE_ENV)
             resource.request = resource.request.replace(/settings$/, `settings/${process.env.NODE_ENV}`)
           })
         )

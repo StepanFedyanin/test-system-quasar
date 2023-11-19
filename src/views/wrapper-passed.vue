@@ -1,6 +1,6 @@
 <template>
-  <TopBar class="q-mb-lg"/>
-  <router-view/>
+    <TopBar class="q-mb-lg"/>
+    <router-view/>
 </template>
 
 <script>

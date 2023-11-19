@@ -8,7 +8,7 @@
         v-for="(item, index) in $breadcrumbs.value"
         :key="`breadcrumbs-${index}`"
         class="breadcrumb__item text-secondary"
-
+        @click="next(item.link)"
       >
         {{ item.label }}
       </li>
@@ -41,8 +41,11 @@ export default {
     },
     initBreadcrumbs () {
       this.$nextTick(() => {
-        if (this.$breadcrumbs.value[this.$breadcrumbs.value.length - 1].link === 'test') {
+        if (this.$route.fullPath.includes('/test') && !this.$route.fullPath.includes('/test/')) {
           this.$breadcrumbs.value[this.$breadcrumbs.value.length - 1].label = this.$store.state.test.name
+        }
+        if (this.$route.fullPath.includes('/test/')) {
+          this.$breadcrumbs.value[this.$breadcrumbs.value.length - 2].label = this.$store.state.test.name
         }
       })
     }

@@ -1,14 +1,26 @@
 .home{
     &__content{
         flex-direction: column;
+        @media (max-width: 1024px) {
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+    }
+    &__title,&__description{
+        @media (max-width: 1024px) {
+            text-align: center;
+        }
     }
     &__cover{
         background-image: url('assets/img/temp/sign_up.png');
         background-repeat: no-repeat;
-        background-position: initial;
         background-size: contain;
         position: relative;
+        background-position: center;
         height: 500px !important;
+        @media (max-width: 1024px) {
+            height: 250px !important;
+        }
     }
 }
 

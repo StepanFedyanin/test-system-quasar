@@ -8,8 +8,9 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev",
-    "build": "quasar build"
+    "dev": "quasar dev NODE_ENV=development",
+    "build": "quasar build NODE_ENV=development",
+    "build:dev": "npx cross-env NODE_ENV=development quasar build"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
@@ -17,6 +18,7 @@
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.2",
     "core-js": "^3.6.5",
+    "postcss-loader": "^7.3.3",
     "postcss-nested": "^6.0.1",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",

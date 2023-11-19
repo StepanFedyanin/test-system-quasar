@@ -1,4 +1,5 @@
 <template>
+  <breadcrumbs-menu/>
   <div class="tests">
     <div class="description description__point q-mb-lg">
       Быстрая навигация по популярным тестам и тематикам. Всего на сайте более тысячи тестов, найти нужный можно
@@ -7,51 +8,57 @@
       class="description__selected">поиском</span> по названию. Можно посмотреть <span
       class="description__selected">полный список</span>.
     </div>
-    <div class="row q-mb-md">
+    <div class="row">
       <q-btn
         v-for="testFilter in testFilters"
         :key="testFilter.type"
         @click="changeCurrentType(testFilter.type)"
         :outline="currentFilter.type!==testFilter.type"
         color="primary"
-        class="q-px-xl q-mr-md"
+        class="q-px-xl q-mr-md q-mb-md"
       >
         {{ testFilter.name }}
       </q-btn>
     </div>
     <div class="row q-mb-md items-center">
-          Сортировать по:
-          <q-btn
-            v-for="testFilterAds in testFiltersAds"
-            :key="testFilterAds.type"
-            :variant="currentFilter.sorted===testFilterAds.type?'secondary active':'secondary'"
-            @click="changeCurrentSorted(testFilterAds.type)"
-            :class="[`${currentFilter.sorted===testFilterAds.type?'text-primary': 'text-secondary'}`]"
-            flat
-          >
-            {{ testFilterAds.name }}
-          </q-btn>
+        Сортировать по:
+        <div class="col-12 col-sm-10">
+            <q-btn
+                v-for="testFilterAds in testFiltersAds"
+                :key="testFilterAds.type"
+                :variant="currentFilter.sorted===testFilterAds.type?'secondary active':'secondary'"
+                @click="changeCurrentSorted(testFilterAds.type)"
+                :class="[`${currentFilter.sorted===testFilterAds.type?'text-primary': 'text-secondary'}`]"
+                flat
+            >
+                {{ testFilterAds.name }}
+            </q-btn>
+        </div>
         </div>
     <div class="q-mb-xl">
-      <q-input borderless class="tests__search" label="Поиск">
+      <q-input class="tests__search" label="Поиск">
         <template v-slot:append>
-          <q-btn round icon="search">
+          <q-btn round icon="search" size="10px">
           </q-btn>
         </template>
       </q-input>
     </div>
   </div>
-  <q-circular-progress
-    v-if="showLoaderTests"
-    indeterminate
-    rounded
-    size="50px"
-    color="primary"
-    class="q-ma-md"
-  />
+    <div
+        v-if="showLoaderTests"
+        class="loader"
+    >
+        <q-circular-progress
+            indeterminate
+            rounded
+            size="50px"
+            color="primary"
+            class="q-ma-md"
+        />
+    </div>
   <div v-else class="row">
     <q-card
-      class="card col-3"
+      class="card col-6 col-sm-4 col-lg-3"
       v-for="category in testsCategory"
       :key="`category-${category.id}`"
     >
@@ -59,7 +66,7 @@
         <div class="text-white">{{category.name}}</div>
       </q-card-section>
 
-      <q-card-actions vertical>
+      <q-card-actions vertical class="q-pa-none">
         <q-btn
           class="card__item full-width"
           align="between"
@@ -79,8 +86,10 @@
 <script>
 
 import app from 'src/services/app'
+import BreadcrumbsMenu from 'components/breadcrumb.vue'
 export default {
   name: 'all-test',
+  components: { BreadcrumbsMenu },
   data () {
     return {
       testFilters: [
@@ -140,7 +149,6 @@ export default {
       this.currentFilter = { ...this.currentFilter, sorted }
     },
     next (name, params) {
-      console.log()
       this.$store.dispatch('addTest', params)
       this.$router.push({ name: name || '' })
     }

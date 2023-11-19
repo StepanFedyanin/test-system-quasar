@@ -1,12 +1,20 @@
 <template>
-  <q-circular-progress
-    v-if="showLoaderTest"
-    indeterminate
-    rounded
-    size="50px"
-    color="primary"
-    class="q-ma-md"
-  />
+  <div class="row justify-between items-center">
+    <breadcrumbs-menu/>
+    <div class="card text-primary text-bold q-py-sm q-px-lg">6:15</div>
+  </div>
+    <div
+        class="loader"
+        v-if="showLoaderTest"
+    >
+        <q-circular-progress
+            indeterminate
+            rounded
+            size="50px"
+            color="primary"
+            class="q-ma-md"
+        />
+    </div>
   <div v-else class="test">
     <div v-if="!isStartTest" class="test__shadow">
       <div class="description description__point q-mb-lg">
@@ -32,56 +40,58 @@
       </div>
       <q-btn class="full-width" color="primary" @click="startTest">Начать</q-btn>
     </div>
-    <template v-else>
-      <Splide
-        class="test__shadow q-mb-xl"
-        ref="reviews"
-        :options="slideOptions"
-      >
-        <SplideSlide
-          v-for="question in test.select_subtest.question"
-          :key="`question-${question.id}`"
+    <div v-else class="row">
+      <div class="col-12 col-sm-11 col-md-10">
+        <Splide
+          class="test__shadow q-mb-xl"
+          ref="reviews"
+          :options="slideOptions"
         >
-          <div class="text-h2 text-bold text-center q-mb-xl">
-            {{question.name}}
-          </div>
-          <div class="test__cover" v-if="question.question_img">
-            <img :src="question.question_img" alt="">
-          </div>
-          <template v-if="question.type_question">
-            <q-checkbox
-              v-for="ans in question.answer"
-              :key="`answer-${ans.id}`"
-              :val="ans.id"
-              v-model="selectAnswer"
-              class="full-width q-mb-sm"
-            >
-              {{ans.name}}
-            </q-checkbox>
-          </template>
-          <template v-else>
-            <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="selectAnswer">radio
-            </q-radio>
-          </template>
-        </SplideSlide>
-      </Splide>
-      <div class="row justify-between">
-        <q-btn
-          :disable="activeSlide < 1"
-          class="q-px-xl q-py-sm"
-          color="primary"
-          outline
-          @click="changeQuestion('prev')"
-        >
-          Назад
-        </q-btn>
-        <q-btn
-          class="q-px-xl q-py-sm" color="primary" @click="activeSlide >= $refs.reviews?.splide?.length - 1? onSubmit(): changeQuestion('next')"
-        >
-          Далее
-        </q-btn>
+          <SplideSlide
+            v-for="question in test.select_subtest.question"
+            :key="`question-${question.id}`"
+          >
+            <div class="text-h2 text-bold text-center q-mb-xl">
+              {{question.name}}
+            </div>
+            <div class="test__cover" v-if="question.question_img">
+              <img :src="question.question_img" alt="">
+            </div>
+            <template v-if="question.type_question">
+              <q-checkbox
+                v-for="ans in question.answer"
+                :key="`answer-${ans.id}`"
+                :val="ans.id"
+                v-model="test.answers"
+                class="full-width q-mb-sm"
+              >
+                {{ans.name}}
+              </q-checkbox>
+            </template>
+            <template v-else>
+              <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="test.answers">radio
+              </q-radio>
+            </template>
+          </SplideSlide>
+        </Splide>
+        <div class="row justify-between">
+          <q-btn
+            :disable="activeSlide < 1"
+            class="q-px-xl q-py-sm"
+            color="primary"
+            outline
+            @click="changeQuestion('prev')"
+          >
+            Назад
+          </q-btn>
+          <q-btn
+            class="q-px-xl q-py-sm" color="primary" @click="activeSlide >= $refs.reviews?.splide?.length - 1? onSubmit(): changeQuestion('next')"
+          >
+            Далее
+          </q-btn>
+        </div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -89,10 +99,11 @@
 
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import { app } from 'src/services'
+import BreadcrumbsMenu from 'components/breadcrumb.vue'
 
 export default {
   name: 'test-response',
-  components: { Splide, SplideSlide },
+  components: { BreadcrumbsMenu, Splide, SplideSlide },
   data () {
     return {
       showLoaderTest: false,
@@ -121,15 +132,7 @@ export default {
         // isNavigation: true,
         cloneStatus: false,
         // arrowPath: '0',
-        arrows: false,
-        breakpoints: {
-          1199: {
-            perPage: 2
-          },
-          761: {
-            perPage: 1
-          }
-        }
+        arrows: false
       },
       selectAnswer: [],
       activeSlide: 0
@@ -166,7 +169,6 @@ export default {
       }
       this.$refs.reviews.go(this.activeSlide)
     },
-    changeAnswer () {},
     onSubmit () {
       app.pushAnswer(this.test).then((data) => {
         this.$store.dispatch('updateTest', { ...this.test, active_subtest: this.test.active_subtest + 1, attempt: data.id })
@@ -186,7 +188,7 @@ export default {
       })
     },
     next (name) {
-      this.$router.push({ name: name || 'testFinale' })
+      this.$router.push(this.$route.path.replace('response', 'finale'))
     }
   }
 }

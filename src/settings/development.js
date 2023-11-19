@@ -17,6 +17,11 @@ const accountMenu = {
     link: '/all_tests', name: 'allTests', title: 'Все тесты'
   }]
 }
+const logger = {
+  url: `${serviceUrl.url}/logger`,
+  level: 'debug',
+  token: 'c7d63a2e58d186ae3760a5f7c690293e973c08c4'
+}
 export {
-  ajax, app, accountMenu
+  ajax, app, accountMenu, logger
 }

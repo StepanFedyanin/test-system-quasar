@@ -1,21 +1,22 @@
 <template>
-  <q-circular-progress
-    v-if="showLoaderTest"
-    indeterminate
-    rounded
-    size="50px"
-    color="primary"
-    class="q-ma-md"
-  />
+    <div
+        class="loader"
+        v-if="showLoaderTest"
+    >
+        <q-circular-progress
+            indeterminate
+            rounded
+            size="50px"
+            color="primary"
+            class="q-ma-md"
+        />
+    </div>
   <template v-else>
-    <router-view/>
+    <router-view class="q-pb-lg"/>
   </template>
 </template>
 
 <script>
-
-// import HistoryPage from '@/components/history-page.vue'
-// import app from '@/services/app'
 
 import { app } from 'src/services'
 
