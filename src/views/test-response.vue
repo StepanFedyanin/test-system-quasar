@@ -38,7 +38,7 @@
         личностной
         тревожности (как устойчивая характеристика человека).
       </div>
-      <q-btn class="full-width" color="primary" @click="startTest">Начать</q-btn>
+      <q-btn class="full-width" color="primary" @click="startTest()">Начать</q-btn>
     </div>
     <div v-else class="row">
       <div class="col-12 col-sm-11 col-md-10">
@@ -58,6 +58,17 @@
               <img :src="question.question_img" alt="">
             </div>
             <template v-if="question.type_question">
+              <q-radio
+                v-for="ans in question.answer"
+                :key="`answer-${ans.id}`"
+                :val="ans.id"
+                v-model="test.answers[question.id]"
+                class="full-width q-mb-sm"
+              >
+                {{ans.name}}
+              </q-radio>
+            </template>
+            <template v-else>
               <q-checkbox
                 v-for="ans in question.answer"
                 :key="`answer-${ans.id}`"
@@ -67,10 +78,6 @@
               >
                 {{ans.name}}
               </q-checkbox>
-            </template>
-            <template v-else>
-              <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="test.answers">radio
-              </q-radio>
             </template>
           </SplideSlide>
         </Splide>
@@ -107,11 +114,12 @@ export default {
   data () {
     return {
       showLoaderTest: false,
-      isStartTest: true,
+      isStartTest: false,
       tools: { prevBtn: null, nextBtn: null },
       test: null,
       slideOptions: {
         hasTrack: false,
+        drag: false,
         // type: 'loop',
         // rewind      : true,
         start: 0,
@@ -157,6 +165,10 @@ export default {
     startTest () {
       this.isStartTest = true
     },
+    changeAnswers (e) {
+      console.log(e)
+      this.test.answers.push()
+    },
     changeQuestion (type, meaning = false) {
       if (meaning) {
         this.activeSlide = type
@@ -170,7 +182,7 @@ export default {
       this.$refs.reviews.go(this.activeSlide)
     },
     onSubmit () {
-      app.pushAnswer(this.test).then((data) => {
+      app.pushAnswer({ ...this.test, answers: this.test.answers.filter(item => item) }).then((data) => {
         this.$store.dispatch('updateTest', { ...this.test, active_subtest: this.test.active_subtest + 1, attempt: data.id })
         this.activeSlide = 0
         this.test = this.$store.state.test

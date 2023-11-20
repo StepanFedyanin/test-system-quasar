@@ -58,49 +58,24 @@
         }
     }
 
-    &__mark{
-        width: 23px;
-        height: 35px;
-        border-radius: var(--b-radius);
-        border: 1px solid rgba(71, 71, 71, 0.6);
-        &--full{
-            border: 1px solid transparent;
-            background: var(--q-primary);
-        }
-        &--half{
-            position: relative;
-            border: 1px solid transparent;
-            background: none;
-            overflow: hidden;
-            &:before{
-                content: "";
-                position: absolute;
-                z-index: 2;
-                left: 0;
-                top: 0;
-                bottom: 0;
-                width: calc(50% + 1px);
-                background: var(--q-primary);
-            }
-            &:after{
-                content: "";
-                position: absolute;
-                z-index: 1;
-                right: 0;
-                top: 0;
-                bottom: 0;
-                width: 50%;
-                border-bottom-right-radius: var(--b-radius);
-                border-top-right-radius: var(--b-radius);
-                border: 1px solid rgba(71, 71, 71, 0.6);
-            }
-        }
-    }
     &__point {
         width: 23px;
         height: 35px;
         border-radius: var(--b-radius);
         background: var(--q-primary);
+    }
+
+    &__progress{
+        height: 35px !important;
+        background: var(--color-bg);
+        overflow: hidden;
+        span{
+            display: block;
+            background: var(--q-primary);
+            height: 100%;
+            border-bottom-right-radius: var(--b-radius-more);
+            border-top-right-radius: var(--b-radius-more);
+        }
     }
 }
 

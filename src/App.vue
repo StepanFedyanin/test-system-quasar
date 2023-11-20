@@ -1,6 +1,8 @@
 <template>
-  <div class="container full-height">
-    <router-view/>
+  <div class="wrapper">
+    <div class="container full-height">
+      <router-view/>
+    </div>
   </div>
 </template>
 
