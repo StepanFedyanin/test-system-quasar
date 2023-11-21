@@ -70,6 +70,9 @@ export default {
     if (this.test || this.$route.params?.id) {
       this.getConclusion(this.$route.params?.id || this.test.attempt)
     }
+    if (this.$route.params?.id) {
+      this.offerToRegister = false
+    }
   },
   computed: {},
   methods: {
