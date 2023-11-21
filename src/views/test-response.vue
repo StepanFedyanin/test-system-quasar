@@ -56,7 +56,7 @@
             <div class="text-h2 text-bold text-center q-mb-xl">
               {{question.name}}
             </div>
-            <div class="test__cover" v-if="question.question_img">
+            <div class="test__cover q-mb-md" v-if="question.question_img">
               <img :src="question.question_img" alt="">
             </div>
             <template v-if="question.type_question">
@@ -144,7 +144,7 @@ export default {
         // arrowPath: '0',
         arrows: false
       },
-      timerOption: 10,
+      timerOption: 182,
       selectAnswer: [],
       activeSlide: 0
     }
