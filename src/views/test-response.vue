@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-between items-center">
     <breadcrumbs-menu/>
-    <test-timer v-if="isStartTest" :timer-value="timerOption"/>
+    <test-timer v-if="isStartTest" :timer-value="timerOption" @end="next()"/>
   </div>
     <div
         class="loader"
@@ -144,7 +144,7 @@ export default {
         // arrowPath: '0',
         arrows: false
       },
-      timerOption: 180,
+      timerOption: 10,
       selectAnswer: [],
       activeSlide: 0
     }
@@ -202,14 +202,6 @@ export default {
     next (name) {
       this.$router.push(this.$route.path.replace('response', 'finale'))
     }
-  },
-  beforeRouteLeave (to, from, next) {
-    if (!to.fullPath.includes('/test/')) {
-      this.$store.dispatch('clearTest')
-    } else {
-      this.$store.dispatch('clearTimer')
-    }
-    next()
   }
 }
 </script>

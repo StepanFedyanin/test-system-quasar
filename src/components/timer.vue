@@ -35,10 +35,19 @@ export default {
     this.timer = setInterval(() => {
       const date = new Date(this.date - new Date(new Date().getTime() - (this.timerValue * 1000)))
       this.currentTime = date.toLocaleTimeString('ru', { minute: '2-digit', second: '2-digit' })
+      if (this.currentTime === '00:00') {
+        this.timeIsOver()
+      }
     }, 1000)
   },
   unmounted () {
     clearTimeout(this.timer)
+  },
+  methods: {
+    timeIsOver () {
+      clearTimeout(this.timer)
+      this.$emit('end')
+    }
   }
 }
 </script>
