@@ -1,18 +1,35 @@
 <template>
   <breadcrumbs-menu/>
-  <div></div>
+  <div ref="alertUser" class="test__message text-h5 text-secondary">
+    ссылка скопирована!<br/>
+    теперь вы можете поделиться с друзьями
+  </div>
+  <q-dialog v-model="offerToRegister" position="top">
+    <q-card class="card q-pa-md">
+      <q-card-section>
+
+        <div class="text-h3 q-mb-lg">Сохранить результат ?</div>
+
+        <q-space />
+        <div class="row q-gutter-lg">
+          <q-btn color="primary" @click="next()">Сохранить</q-btn>
+          <q-btn color="primary" outline @click="offerToRegister=false">Увидеть результат</q-btn>
+        </div>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
   <div class="test q-pb-xl">
     <div class="description q-mb-lg">
       Внимание! Результаты и интерпретации, полученные без участия специалистов, не следует воспринимать слишком
       серьезно. Диагностическую ценность имеют только исследования, проведенные <span
       class="description__selected">профессиональным психологом</span>.
     </div>
-    <div class="description description__point text-bold q-py-xs row items-center">
-      "Ссылка на результаты теста": <span class="q-px-sm">{{test.attempt}}</span>
+    <div class="description description__point text-bold q-py-xs cursor-pointer" @click="copyUrl()">
+      "Ссылка на результаты теста": <span class="q-px-sm text-weight-light" ref="attemptUrl"> ссылка</span>
     </div>
   </div>
   <div class="card card__border q-px-xl q-py-lg q-mb-xl">
-    <div v-for="(conclusion,index) in conclusions" :key="`conclusion_${index}`">
+    <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_${index}`">
       <div class="text-bold text-h2 q-mb-lg">{{ conclusion.title }}</div>
       <div v-for="(data,index) in conclusion.result" :key="`data_${data+index}`"
            class="row justify-between text-secondary items-center q-mb-lg">
@@ -24,7 +41,7 @@
       </div>
     </div>
   </div>
-  <div v-for="(conclusion,index) in conclusions" :key="`conclusion_description_${index}`">
+  <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_description_${index}`">
     <div class="text-bold text-h2 q-mb-lg">{{ conclusion.title }}</div>
     <div class="description description__point q-mb-xl">
       <span class="description__paragraph" v-for="(data,index2) in conclusion.result"
@@ -44,7 +61,8 @@ export default {
   data () {
     return {
       test: null,
-      conclusions: []
+      conclusions: {},
+      offerToRegister: true
     }
   },
   created () {
@@ -59,6 +77,17 @@ export default {
       app.getAttempById(id).then((data) => {
         this.conclusions = data
       })
+    },
+    copyUrl () {
+      navigator.clipboard.writeText(this.conclusions.url).then(() => {
+        this.$refs.alertUser.style.transform = 'translateX(0)'
+        setTimeout(() => {
+          this.$refs.alertUser.style.transform = 'translateX(-100vw)'
+        }, 4000)
+      })
+    },
+    next () {
+      this.$router.push({ name: 'auth' })
     }
   }
 }

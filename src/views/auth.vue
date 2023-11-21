@@ -90,8 +90,12 @@ export default {
         email: '',
         password: '',
         hiddenPassword: true
-      }
+      },
+      test: null
     }
+  },
+  created () {
+    this.test = this.$store.state.test
   },
   computed: {
     disabledLogin () {
@@ -108,6 +112,9 @@ export default {
   },
   methods: {
     next (params) {
+      if (this.test.attempt) {
+        this.$router.go(-1)
+      }
       this.$router.push({ name: params || 'allTests' })
     },
     onLogin () {

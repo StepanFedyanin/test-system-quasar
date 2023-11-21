@@ -8,8 +8,8 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    font-family: var(--font-family-base) ;
-    font-size: var(--font-family-size) ;
+    font-family: var(--font-family-base);
+    font-size: var(--font-family-size);
     color: rgba(var(--bs-dark-rgb), 1);
     background-color: var(--color-bg);
 }
@@ -172,6 +172,11 @@ body {
         border: 2px solid transparent;
         padding: 3px 20px;
         border-radius: var(--b-radius);
+        transition: border .1s;
+
+        &:hover {
+            border: 2px solid var(--q-primary);
+        }
 
         &[aria-checked="true"] {
             border: 2px solid var(--q-primary);
@@ -253,6 +258,12 @@ body {
 
         &__label {
             top: 10px;
+        }
+    }
+
+    &-dialog {
+        &__inner {
+            top: 5vh;
         }
     }
 }

@@ -28,7 +28,13 @@
             {{ item.title }}
           </router-link>
           <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm" v-if="user">Выйти</span>
-          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm" v-else>вход / регистрация</span>
+          <router-link
+            v-else
+            class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm"
+            to="/auth"
+          >
+            вход / регистрация
+          </router-link>
         </div>
       </div>
       <div v-if="user" class="topbar__user row">

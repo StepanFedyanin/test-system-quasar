@@ -3,7 +3,7 @@
       <breadcrumbs-menu/>
         <div class="q-mb-md">
             <q-btn
-                class="card card__border--small full-width description__point"
+                class="card card__border full-width description__point"
                 align="between"
                 flat
                 @click="next()"

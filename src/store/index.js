@@ -14,7 +14,8 @@ const templateTest = (id) => {
     answers: [],
     subtest: [],
     active_subtest: 0,
-    select_subtest: {}
+    select_subtest: {},
+    start_timer: null
   }
 }
 
@@ -42,6 +43,15 @@ const store = createStore({
     },
     UPDATE_TEST (state, data) {
       state.test = data
+    },
+    INIT_TIMER (state) {
+      state.test = { ...state.test, start_timer: new Date() }
+    },
+    CLEAR_TIMER (state) {
+      state.test = { ...state.test, start_timer: null }
+    },
+    CLEAR_TEST (state) {
+      state.user = null
     }
   },
   actions: {
@@ -53,6 +63,15 @@ const store = createStore({
     },
     updateTest (context, payload) {
       context.commit('UPDATE_TEST', payload)
+    },
+    initTimer (context) {
+      context.commit('INIT_TIMER')
+    },
+    clearTimer (context) {
+      context.commit('CLEAR_TEST')
+    },
+    clearTest (context) {
+      context.commit('CLEAR_TEST')
     }
   }
 })

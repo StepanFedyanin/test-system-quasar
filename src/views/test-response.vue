@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-between items-center">
     <breadcrumbs-menu/>
-    <div class="card text-primary text-bold q-py-sm q-px-lg">6:15</div>
+    <test-timer v-if="isStartTest" :timer-value="timerOption"/>
   </div>
     <div
         class="loader"
@@ -38,7 +38,9 @@
         личностной
         тревожности (как устойчивая характеристика человека).
       </div>
-      <q-btn class="full-width" color="primary" @click="startTest()">Начать</q-btn>
+      <div class="row justify-end">
+        <q-btn class="q-px-xl" color="primary" @click="startTest()">Начать</q-btn>
+      </div>
     </div>
     <div v-else class="row">
       <div class="col-12 col-sm-11 col-md-10">
@@ -107,15 +109,15 @@
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import { app } from 'src/services'
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
+import TestTimer from 'components/timer.vue'
 
 export default {
   name: 'test-response',
-  components: { BreadcrumbsMenu, Splide, SplideSlide },
+  components: { TestTimer, BreadcrumbsMenu, Splide, SplideSlide },
   data () {
     return {
       showLoaderTest: false,
       isStartTest: false,
-      tools: { prevBtn: null, nextBtn: null },
       test: null,
       slideOptions: {
         hasTrack: false,
@@ -142,6 +144,7 @@ export default {
         // arrowPath: '0',
         arrows: false
       },
+      timerOption: 180,
       selectAnswer: [],
       activeSlide: 0
     }
@@ -149,6 +152,7 @@ export default {
   created () {
     this.test = this.$store.state.test
     this.$nextTick(() => {
+      this.isStartTest = this.test.start_timer !== null
       this.getSubTest()
     })
   },
@@ -164,10 +168,6 @@ export default {
     },
     startTest () {
       this.isStartTest = true
-    },
-    changeAnswers (e) {
-      console.log(e)
-      this.test.answers.push()
     },
     changeQuestion (type, meaning = false) {
       if (meaning) {
@@ -202,6 +202,14 @@ export default {
     next (name) {
       this.$router.push(this.$route.path.replace('response', 'finale'))
     }
+  },
+  beforeRouteLeave (to, from, next) {
+    if (!to.fullPath.includes('/test/')) {
+      this.$store.dispatch('clearTest')
+    } else {
+      this.$store.dispatch('clearTimer')
+    }
+    next()
   }
 }
 </script>

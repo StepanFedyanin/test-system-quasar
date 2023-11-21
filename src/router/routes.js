@@ -39,7 +39,7 @@ const routes = [
           breadcrumb () {
             return {
               label: 'Все тесты',
-              link: 'all_tests',
+              link: 'allTests',
               current: false
             }
           }
