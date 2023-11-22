@@ -19,12 +19,6 @@ const templateTest = (id) => {
   }
 }
 
-const templateUser = (token) => {
-  return {
-    token
-  }
-}
-
 const store = createStore({
   namespaced: true,
   state: () => ({
@@ -34,8 +28,7 @@ const store = createStore({
   plugins: [vuexPersist.plugin],
   mutations: {
     INIT_USER (state, data) {
-      state.user = null
-      state.user = templateUser(data)
+      state.user = data
     },
     ADD_TEST (state, data) {
       state.test = null
@@ -68,7 +61,7 @@ const store = createStore({
       context.commit('INIT_TIMER')
     },
     clearTimer (context) {
-      context.commit('CLEAR_TEST')
+      context.commit('CLEAR_TIMER')
     },
     clearTest (context) {
       context.commit('CLEAR_TEST')

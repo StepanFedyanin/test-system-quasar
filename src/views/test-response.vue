@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-between items-center">
     <breadcrumbs-menu/>
-    <test-timer v-if="isStartTest" :timer-value="timerOption" @end="next()"/>
+    <test-timer v-if="isStartTest" :timer-value="test.select_subtest.necessary_time" @end="next()" class="q-mb-lg"/>
   </div>
     <div
         class="loader"
@@ -18,25 +18,7 @@
   <div v-else class="test">
     <div v-if="!isStartTest" class="test__shadow">
       <div class="description description__point q-mb-lg">
-        Авторы: Арнольд Басс, Энн Дарки (1957)<br/>
-        Адаптация: А. К. Осницкий (1998); А. А. Хван и др. (2005)<br/>
-        смотрите замечания по методике<br/>
-      </div>
-      <div class="description description__point q-mb-lg">
-        Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является
-        информативным способом
-        самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние),
-        так и
-        личностной
-        тревожности (как устойчивая характеристика человека).
-        <br/>
-        <br/>
-        Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является
-        информативным способом
-        самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние),
-        так и
-        личностной
-        тревожности (как устойчивая характеристика человека).
+        {{test.select_subtest.sdescription}}
       </div>
       <div class="row justify-end">
         <q-btn class="q-px-xl" color="primary" @click="startTest()">Начать</q-btn>
@@ -59,31 +41,59 @@
             <div class="test__cover q-mb-md" v-if="question.question_img">
               <img :src="question.question_img" alt="">
             </div>
-            <template v-if="question.type_question">
-              <q-radio
-                v-for="ans in question.answer"
+            <div v-if="question.type_question" class="row">
+              <div
+                v-for="(ans, index) in question.answer"
                 :key="`answer-${ans.id}`"
-                :val="ans.id"
-                v-model="test.answers[question.id]"
-                class="full-width q-mb-sm"
+                :class="[ans.answer_img?'col-12 col-sm-6 col-md-4 q-pa-sm':'full-width q-mb-sm' ]"
               >
-                {{ans.name}}
-              </q-radio>
-            </template>
-            <template v-else>
-              <q-checkbox
-                v-for="ans in question.answer"
+                <q-radio
+                  :val="ans.id"
+                  v-model="test.answers[question.id]"
+                  class="full-width"
+                >
+                  <template v-if="ans.answer_img">
+                    <div class="row items-center justify-between">
+                      <div class="col-6 col-sm-5">{{ans.name || index + 1}}</div>
+                      <div class="col-6 col-sm-5 q-cover">
+                        <img :src="ans.answer_img" alt=""/>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-else>
+                    {{ans.name}}
+                  </template>
+                </q-radio>
+              </div>
+            </div>
+            <div  v-else class="row">
+              <div
+                v-for="(ans, index) in question.answer"
                 :key="`answer-${ans.id}`"
-                :val="ans.id"
-                v-model="test.answers"
-                class="full-width q-mb-sm"
+                :class="[ans.answer_img?'col-12 col-sm-6 col-md-4 q-pa-sm':'full-width q-mb-sm' ]"
               >
-                {{ans.name}}
-              </q-checkbox>
-            </template>
+                <q-checkbox
+                  :val="ans.id"
+                  v-model="test.answers"
+                  class="full-width"
+                >
+                  <template v-if="ans.answer_img">
+                    <div class="row items-center justify-between">
+                      <div class="col-6 col-sm-5">{{ans.name || index + 1}}</div>
+                      <div class="col-6 col-sm-5 q-cover">
+                        <img :src="ans.answer_img" alt=""/>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-else>
+                    {{ans.name}}
+                  </template>
+                </q-checkbox>
+              </div>
+            </div>
           </SplideSlide>
         </Splide>
-        <div class="row justify-between">
+        <div class="row justify-between q-pb-lg">
           <q-btn
             :disable="activeSlide < 1"
             class="q-px-xl q-py-sm"
@@ -144,7 +154,6 @@ export default {
         // arrowPath: '0',
         arrows: false
       },
-      timerOption: 182,
       selectAnswer: [],
       activeSlide: 0
     }

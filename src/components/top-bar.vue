@@ -27,7 +27,7 @@
           >
             {{ item.title }}
           </router-link>
-          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm" v-if="user">Выйти</span>
+          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm cursor-pointer" v-if="user"  @click="exit()">Выйти</span>
           <router-link
             v-else
             class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm"
@@ -48,7 +48,7 @@
                 <q-item-section>Личный кабинет</q-item-section>
               </q-item>
               <q-separator/>
-              <q-item clickable @click="exit()">
+              <q-item clickable  class="cursor-pointer" @click="exit()">
                 <q-item-section>Выход</q-item-section>
               </q-item>
             </q-list>
@@ -94,7 +94,8 @@ export default {
       this.showMenu = !this.showMenu
     },
     exit () {
-
+      this.next('auth')
+      this.$store.dispatch('initUser', null)
     }
   }
 }

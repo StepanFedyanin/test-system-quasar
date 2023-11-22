@@ -101,7 +101,6 @@ body {
     &__point {
         padding-left: 30px;
         position: relative;
-
         &:before {
             content: '';
             position: absolute;
@@ -125,6 +124,13 @@ body {
             padding-right: 5px;
         }
     }
+
+    &__bg{
+        display: flex;
+        align-items: center;
+        background: var(--color-white);
+        border-radius: var(--b-radius);
+    }
 }
 
 .q {
@@ -134,6 +140,11 @@ body {
         border: 2px solid transparent;
         padding: 3px 20px;
         border-radius: var(--b-radius);
+        transition: border .1s;
+
+        &:hover {
+            border: 2px solid var(--q-primary);
+        }
 
         &[aria-checked="true"] {
             border: 2px solid var(--q-primary);
@@ -202,7 +213,7 @@ body {
         }
 
         &__inner {
-            display: block;
+            display: flex;
             &:before {
                 content: "";
                 width: 20px;
@@ -266,6 +277,11 @@ body {
         &__inner {
             top: 5vh;
         }
+    }
+
+    &-cover{
+        border-radius: var(--b-radius);
+        overflow: hidden;
     }
 }
 

@@ -27,7 +27,9 @@
     &__border {
         border-radius: var(--b-radius-more);
     }
-
+    &__unshadow{
+        box-shadow: none;
+    }
     &__header {
         background: var(--q-primary);
         border-bottom-left-radius: var(--b-radius) !important;
@@ -90,19 +92,13 @@
     &__message{
         background: var(--color-white);
         border-radius: var(--b-radius);
-        box-shadow: var(--box-shadow-volume);
         z-index: 10;
         min-width: 200px;
         width: fit-content;
         height: fit-content;
         padding: 5px 15px;
-        position: fixed;
-        left: 0;
-        bottom: 5vh;
-        right: 0;
-        margin: 0 auto;
-        transition: transform .4s;
-        transform: translateX(-100vw);
+        transform: scale(0);
+        transition: transform .2s;
     }
 
 

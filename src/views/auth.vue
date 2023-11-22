@@ -39,11 +39,11 @@
           <q-input class="q-mb-md" borderless v-model="register.name" label="Имя"/>
           <q-input class="q-mb-md" borderless v-model="register.surname" label="Фамилия"/>
           <q-input class="q-mb-md" borderless v-model="register.gender" label="Пол"/>
-          <q-input class="q-mb-md" borderless v-model="register.birthday" mask="##.##.####" label="Дата рождения">
+          <q-input class="q-mb-md" borderless v-model="register.age" label="Дата рождения">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="date">
+                  <q-date  mask="YYYY-MM-DD" v-model="register.age">
                   </q-date>
                 </q-popup-proxy>
               </q-icon>
@@ -86,7 +86,7 @@ export default {
         name: '',
         surname: '',
         gender: '',
-        birthday: '',
+        age: '',
         email: '',
         password: '',
         hiddenPassword: true
@@ -105,25 +105,29 @@ export default {
       return this.register.name.trim().length === 0 ||
         this.register.surname.trim().length === 0 ||
         this.register.gender.trim().length === 0 ||
-        this.register.birthday.trim().length === 0 ||
+        this.register.age.trim().length === 0 ||
         this.register.email.trim().length === 0 ||
         this.register.password.trim().length === 0
     }
   },
   methods: {
     next (params) {
-      if (this.test.attempt) {
-        this.$router.go(-1)
-      }
+      // if (this.test.attempt) {
+      //   this.$router.go(-1)
+      // }
       this.$router.push({ name: params || 'allTests' })
     },
     onLogin () {
-      app.obtainToken(this.$helpers.removeKeys(this.login, ['hiddenPassword'])).then(() => {
+      app.obtainToken(this.$helpers.removeKeys(this.login, ['hiddenPassword'])).then((data) => {
+        this.$store.dispatch('initUser', data)
+        this.next('profile')
       }).catch(() => {
       })
     },
     onRegister () {
-      app.createUser(this.$helpers.removeKeys(this.register, ['hiddenPassword'])).then(() => {
+      app.createUser(this.$helpers.removeKeys(this.register, ['hiddenPassword'])).then((data) => {
+        this.$store.dispatch('initUser', data)
+        this.next('profile')
       }).catch(() => {
       })
     }

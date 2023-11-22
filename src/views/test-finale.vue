@@ -1,11 +1,7 @@
 <template>
   <breadcrumbs-menu/>
-  <div ref="alertUser" class="test__message text-h5 text-secondary">
-    ссылка скопирована!<br/>
-    теперь вы можете поделиться с друзьями
-  </div>
   <q-dialog v-model="offerToRegister" position="top">
-    <q-card class="card q-pa-md">
+    <q-card class="card card__unshadow q-pa-md">
       <q-card-section>
 
         <div class="text-h3 q-mb-lg">Сохранить результат ?</div>
@@ -24,8 +20,13 @@
       серьезно. Диагностическую ценность имеют только исследования, проведенные <span
       class="description__selected">профессиональным психологом</span>.
     </div>
-    <div class="description description__point text-bold q-py-xs cursor-pointer" @click="copyUrl()">
-      "Ссылка на результаты теста": <span class="q-px-sm text-weight-light" ref="attemptUrl"> ссылка</span>
+    <div v-if="!$route.params?.id" class="row items-center q-gutter-md">
+      <div class="description description__bg description__point text-bold q-py-xs q-px-lg cursor-pointer" @click="copyUrl()">
+        "Ссылка на результаты теста": <span class="q-px-sm text-primary text-weight-light" ref="attemptUrl"> ссылка</span>
+      </div>
+      <div ref="alertUser" class="test__message text-h5 text-secondary">
+        Ваша ссылка скопирована!
+      </div>
     </div>
   </div>
   <div class="card card__border q-px-xl q-py-lg q-mb-xl">
@@ -42,8 +43,8 @@
     </div>
   </div>
   <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_description_${index}`">
-    <div class="text-bold text-h2 q-mb-lg">{{ conclusion.title }}</div>
     <div class="description description__point q-mb-xl">
+      <div class="text-bold text-h2 q-mb-lg">{{ conclusion.title }}</div>
       <span class="description__paragraph" v-for="(data,index2) in conclusion.result"
             :key="`data_description${data+index+index2}`">
          {{ data.description }}
@@ -83,9 +84,9 @@ export default {
     },
     copyUrl () {
       navigator.clipboard.writeText(this.conclusions.url).then(() => {
-        this.$refs.alertUser.style.transform = 'translateX(0)'
+        this.$refs.alertUser.style.transform = 'scale(1)'
         setTimeout(() => {
-          this.$refs.alertUser.style.transform = 'translateX(-100vw)'
+          this.$refs.alertUser.style.transform = 'scale(0)'
         }, 4000)
       })
     },

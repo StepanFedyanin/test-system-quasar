@@ -1,6 +1,6 @@
 <template>
   <div class="card text-primary text-bold q-py-sm q-px-lg">
-    {{currentTime}}
+    {{ currentTime }}
   </div>
 </template>
 
@@ -33,14 +33,15 @@ export default {
   },
   mounted () {
     this.timer = setInterval(() => {
-      const date = new Date(this.date - new Date(new Date().getTime() - (this.timerValue * 1000)))
+      const date = new Date(this.date - new Date(new Date().getTime() - ((this.timerValue + 2) * 1000)))
       this.currentTime = date.toLocaleTimeString('ru', { minute: '2-digit', second: '2-digit' })
       if (this.currentTime === '00:00') {
         this.timeIsOver()
       }
     }, 1000)
   },
-  unmounted () {
+  beforeUnmount () {
+    this.$store.dispatch('clearTimer')
     clearTimeout(this.timer)
   },
   methods: {

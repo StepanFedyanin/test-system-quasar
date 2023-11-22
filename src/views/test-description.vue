@@ -28,15 +28,13 @@
           <!--        </table>-->
           <div class="">
             <div class="description description__point q-mb-lg">
-              Авторы: Арнольд Басс, Энн Дарки (1957)<br/>
-              Адаптация: А. К. Осницкий (1998); А. А. Хван и др. (2005)<br/>
-              смотрите замечания по методике<br/>
+              {{test.author}}
             </div>
             <div class="description description__point q-mb-lg">
               {{test.sdescription}}
             </div>
             <div class="row justify-between items-center">
-              <span class="text-primary">75 вопросов</span>
+              <span class="text-primary">{{test.count}} вопросов</span>
               <q-btn color="primary" class="q-px-xl" @click="next">Пройти тест</q-btn>
             </div>
           </div>
@@ -47,21 +45,10 @@
           <q-btn color="primary">Пройти тест</q-btn>
         </div>
         <div class="description description__point q-mb-lg">
-          Авторы: Арнольд Басс, Энн Дарки (1957)<br/>
-          Адаптация: А. К. Осницкий (1998); А. А. Хван и др. (2005)<br/>
-          смотрите замечания по методике<br/>
+          {{test.author}}
         </div>
         <div class="description description__point q-mb-lg">
-          Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным способом
-          самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-          личностной
-          тревожности (как устойчивая характеристика человека).
-          <br/>
-          <br/>
-          Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным способом
-          самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-          личностной
-          тревожности (как устойчивая характеристика человека).
+          {{test.sdescription}}
         </div>
         <div class="row justify-between">
           <!--        <table class="attempts mb-4 w-100">-->
