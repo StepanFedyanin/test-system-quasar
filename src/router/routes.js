@@ -249,6 +249,57 @@ const routes = [
         component: () => import('src/views/test-finale.vue')
       }
     ]
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    redirect: { name: 'adminContent' },
+    meta: {
+      title: 'Панель администрирования',
+      requiresAuth: false,
+      breadcrumb () {
+        return {
+          label: 'Администрирование',
+          link: 'admin',
+          current: false
+        }
+      }
+    },
+    component: () => import('src/views/admin.vue'),
+    children: [
+      {
+        path: '',
+        name: 'adminContent',
+        meta: {
+          title: 'Администрирование',
+          requiresAuth: false,
+          breadcrumb () {
+            return {
+              label: 'Администрирование',
+              link: 'adminTest',
+              current: false
+            }
+          }
+        },
+        component: () => import('src/views/admin-main.vue')
+      },
+      {
+        path: 'create_test',
+        name: 'adminTest',
+        meta: {
+          title: 'Добавление теста',
+          requiresAuth: false,
+          breadcrumb () {
+            return {
+              label: 'Добавление теста',
+              link: 'adminTest',
+              current: false
+            }
+          }
+        },
+        component: () => import('src/views/admin-test.vue')
+      }
+    ]
   }
 ]
 

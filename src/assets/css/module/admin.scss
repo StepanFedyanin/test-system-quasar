@@ -1,0 +1,33 @@
+.admin{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex-grow: 1;
+  &__content{
+    flex-grow: 1;
+  }
+  &__important{
+    box-shadow: var(--box-shadow-volume);
+    border-radius: var(--b-radius);
+    padding: 10px 15px;
+  }
+  &__test{
+    cursor: pointer;
+    border-radius: var(--b-radius);
+    padding: 5px 15px;
+    border: 1px solid transparent;
+    transition: all .3s;
+    &:hover{
+      border: 1px solid var(--q-primary);
+    }
+    &--posted{
+      color: var(--q-positive);
+    }
+    &--edited{
+      color: var(--q-warning);
+    }
+    &--hidden{
+      color: var(--q-negative);
+    }
+  }
+}

@@ -18,23 +18,26 @@ const templateTest = (id) => {
   }
 }
 
-const templateUser = (token) => {
-  return {
-    token
-  }
-}
-
 const store = createStore({
   namespaced: true,
   state: () => ({
     test: null,
-    user: null
+    user: null,
+    access: null,
+    refresh: null
   }),
   plugins: [vuexPersist.plugin],
   mutations: {
     INIT_USER (state, data) {
-      state.user = null
-      state.user = templateUser(data)
+      state.user = data
+    },
+    CLEAR_TOKENS (state) {
+      state.access = null
+      state.refresh = null
+    },
+    TOKENS (state, tokens) {
+      state.access = tokens.access
+      state.refresh = tokens.refresh
     },
     ADD_TEST (state, data) {
       state.test = null
@@ -53,6 +56,12 @@ const store = createStore({
     },
     updateTest (context, payload) {
       context.commit('UPDATE_TEST', payload)
+    },
+    token (context, payload) {
+      context.commit('TOKENS', payload)
+    },
+    clearToken (context) {
+      context.commit('CLEAR_TOKENS')
     }
   }
 })
