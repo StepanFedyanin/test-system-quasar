@@ -30,8 +30,13 @@ export default route(function (/* { store, ssrContext } */) {
   router.beforeEach((to, from, next) => {
     document.title = to.meta.title + ' - ProTest' || 'ProTest'
     if (to.matched.some(record => record.meta.requiresAuth)) {
+<<<<<<< HEAD
       if (store.state.user && store.state.access) {
         const jwt = helpers.parseJwt(store.state.access)
+=======
+      if (store.state.user) {
+        const jwt = helpers.parseJwt(store.state.user.access)
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
         const expDate = new Date(jwt.exp * 1000)
         if (expDate < new Date()) {
           next({ name: 'auth' })

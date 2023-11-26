@@ -14,7 +14,12 @@ const templateTest = (id) => {
     answers: [],
     subtest: [],
     active_subtest: 0,
+<<<<<<< HEAD
     select_subtest: {}
+=======
+    select_subtest: {},
+    start_timer: null
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
   }
 }
 
@@ -30,6 +35,7 @@ const store = createStore({
   mutations: {
     INIT_USER (state, data) {
       state.user = data
+<<<<<<< HEAD
     },
     CLEAR_TOKENS (state) {
       state.access = null
@@ -38,6 +44,8 @@ const store = createStore({
     TOKENS (state, tokens) {
       state.access = tokens.access
       state.refresh = tokens.refresh
+=======
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
     },
     ADD_TEST (state, data) {
       state.test = null
@@ -45,6 +53,15 @@ const store = createStore({
     },
     UPDATE_TEST (state, data) {
       state.test = data
+    },
+    INIT_TIMER (state) {
+      state.test = { ...state.test, start_timer: new Date() }
+    },
+    CLEAR_TIMER (state) {
+      state.test = { ...state.test, start_timer: null }
+    },
+    CLEAR_TEST (state) {
+      state.user = null
     }
   },
   actions: {
@@ -57,11 +74,22 @@ const store = createStore({
     updateTest (context, payload) {
       context.commit('UPDATE_TEST', payload)
     },
+<<<<<<< HEAD
     token (context, payload) {
       context.commit('TOKENS', payload)
     },
     clearToken (context) {
       context.commit('CLEAR_TOKENS')
+=======
+    initTimer (context) {
+      context.commit('INIT_TIMER')
+    },
+    clearTimer (context) {
+      context.commit('CLEAR_TIMER')
+    },
+    clearTest (context) {
+      context.commit('CLEAR_TEST')
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
     }
   }
 })

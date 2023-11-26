@@ -27,8 +27,19 @@
           >
             {{ item.title }}
           </router-link>
+<<<<<<< HEAD
           <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm" v-if="access">Выйти</span>
           <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm" v-else>вход / регистрация</span>
+=======
+          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm cursor-pointer" v-if="user"  @click="exit()">Выйти</span>
+          <router-link
+            v-else
+            class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm"
+            to="/auth"
+          >
+            вход / регистрация
+          </router-link>
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
         </div>
       </div>
       <div v-if="access" class="topbar__user row">
@@ -42,7 +53,7 @@
                 <q-item-section>Личный кабинет</q-item-section>
               </q-item>
               <q-separator/>
-              <q-item clickable @click="exit()">
+              <q-item clickable  class="cursor-pointer" @click="exit()">
                 <q-item-section>Выход</q-item-section>
               </q-item>
             </q-list>
@@ -88,8 +99,13 @@ export default {
       this.showMenu = !this.showMenu
     },
     exit () {
+<<<<<<< HEAD
       this.$store.dispatch('clearToken')
       this.next('auth')
+=======
+      this.next('auth')
+      this.$store.dispatch('initUser', null)
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
     }
   }
 }

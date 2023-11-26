@@ -14,6 +14,73 @@
     }
 }
 
+<<<<<<< HEAD
+=======
+.card {
+    box-shadow: var(--box-shadow-volume);
+    border-radius: var(--b-radius) !important;
+    background: var(--color-white);
+    &__wrapper{
+        padding: 35px 40px;
+        @media (max-width: 600px) {
+            padding: 15px 20px;
+        }
+    }
+    &__border {
+        border-radius: var(--b-radius-more);
+    }
+    &__unshadow{
+        box-shadow: none;
+    }
+    &__header {
+        background: var(--q-primary);
+        border-bottom-left-radius: var(--b-radius) !important;
+        border-bottom-right-radius: var(--b-radius) !important;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 5px;
+        &:before {
+            content: url("assets/img/icon/info.svg");
+            height: 20px;
+        }
+    }
+
+    &__item {
+        border-radius: 0;
+        padding: 0 20px !important;
+        &:first-child{
+            border-top-left-radius: var(--b-radius);
+            border-top-right-radius: var(--b-radius);
+        }
+        &:last-child{
+            border-bottom-left-radius: var(--b-radius);
+            border-bottom-right-radius: var(--b-radius);
+        }
+    }
+
+    &__point {
+        width: 23px;
+        height: 35px;
+        border-radius: var(--b-radius);
+        background: var(--q-primary);
+    }
+
+    &__progress{
+        height: 35px !important;
+        background: var(--color-bg);
+        overflow: hidden;
+        span{
+            display: block;
+            background: var(--q-primary);
+            height: 100%;
+            border-bottom-right-radius: var(--b-radius-more);
+            border-top-right-radius: var(--b-radius-more);
+        }
+    }
+}
+
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
 .test {
     &__shadow {
         box-shadow: var(--box-shadow-volume);
@@ -25,4 +92,17 @@
     &__cover {
         max-width: 300px;
     }
+    &__message{
+        background: var(--color-white);
+        border-radius: var(--b-radius);
+        z-index: 10;
+        min-width: 200px;
+        width: fit-content;
+        height: fit-content;
+        padding: 5px 15px;
+        transform: scale(0);
+        transition: transform .2s;
+    }
+
+
 }
