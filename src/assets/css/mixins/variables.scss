@@ -1,6 +1,6 @@
 :root {
     --color-menu: rgba(71, 71, 71, 0.53);
-    --color-loader: rgba(255, 255, 255, 0.75);
+    --color-transparent: rgba(255, 255, 255, 0.75);
     --color-bg: #F5F3FF;
     --q-primary: #8D6EEF;
     --q-secondary: #474747FF;
@@ -11,5 +11,5 @@
     --b-radius-more: 30px;
     --color-white:#FFFFFF;
     --box-shadow-inside: -5px -5px 10px 0px #FFF inset, 5px 5px 10px 0px rgba(170, 170, 204, 0.50) inset, 2px 2px 4px 0px rgba(170, 170, 204, 0.25) inset, -2px -2px 4px 0px rgba(255, 255, 255, 0.50) inset;
-    --box-shadow-volume: 10px 10px 20px 0px rgba(170, 170, 204, 0.50), 5px 5px 10px 0px rgba(170, 170, 204, 0.25), -5px -5px 10px 0px rgba(255, 255, 255, 0.50);
+    --box-shadow-volume: 0px 10px 25px 0px rgba(170, 170, 204, 0.40);;
 }

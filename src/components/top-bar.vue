@@ -43,7 +43,7 @@
               </q-item>
               <q-separator/>
               <q-item clickable @click="exit()">
-                <q-item-section>Выход</q-item-section>
+                <q-item-section class="cursor-pointer">Выход</q-item-section>
               </q-item>
             </q-list>
           </q-menu>

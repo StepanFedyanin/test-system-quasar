@@ -74,9 +74,11 @@
             bottom: 0;
             background: var(--color-menu);
             transition: all .3s;
+            visibility: hidden;
             z-index: -10;
             width: 100% !important;
             &--active{
+                visibility: visible;
                 z-index: 10;
             }
         }

@@ -1,6 +1,6 @@
 <template>
   <div class="auth">
-    <q-card class="card card__border card__wrapper">
+    <q-card class="card card__shadow card__border card__wrapper">
       <div
         class="loader"
         v-if="showLoader"
@@ -76,25 +76,45 @@
           <q-btn color="primary" class="full-width q-mb-lg" :disable="disabledRegister" @click="onRegister()">
             Регистрация
           </q-btn>
-          <div class="description text-h6 text-center">
+          <div class="description text-h6 text-center cursor-pointer" @click="showAgreementModal()">
             Регистрируясь, вы соглашаетесь с <span class="description__selected">пользовательским соглашением</span> и
             даете согласие на обработку <span class="description__selected">персональных данных</span>
           </div>
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
+    <modal-wrapper title="Пользовательское соглашение" v-model="isShowAgreement">
+      <div class="description text-secondary">
+        <span class="description__selected">1. Предмет</span><br/>
+        1.1. Администрация предоставляет неисключительную лицензию на использование Платформы и элементов Библиотеки и оказывает сопутствующие услуги самостоятельно, а также через аффилированные и/или дочерние компании.<br/>
+        1.2. Пользователь использует Платформу и элементы Библиотеки согласно условиям Соглашения и выбранного Тарифа, а также уплачивает вознаграждение, если иное не предусмотрено Тарифом.<br/>
+        <br/>
+        <span class="description__selected">2. Общие положения</span><br/>
+        2.1. Для использования Платформы Пользователь проходит регистрацию по адресу https://tilda.cc/registration/.<br/>
+        2.2. После регистрации Пользователь получает уникальный Аккаунт и доступ в Личный кабинет.<br/>
+        2.3. Все действия, совершаемые в Личном кабинете, считаются совершенными Пользователем лично.<br/>
+        2.4. Пользователь самостоятельно несет ответственность за:<br/>
+        a) Сохранность своего логина и пароля.<br/>
+        b) Последствия в случае утери и/или разглашения логина и пароля третьим лицам.<br/>
+        2.5. Администрация не рекомендует Пользователю передавать третьим лицам данные своего Аккаунта. В случае передачи данных Аккаунта Пользователь должен ознакомить третьих лиц с Соглашением и несет всю ответственность за их действия.<br/>
+        2.6. Платформа не предназначена и не может использоваться детьми в возрасте до 16 лет. Проходя регистрацию, Пользователь гарантирует, что ему исполнилось 16 лет. Кроме того, если возраст Пользователя меньше 18 лет, он гарантирует, что у него есть согласие родителя или официального опекуна с условиями Соглашения.<br/>
+      </div>
+    </modal-wrapper>
   </div>
 </template>
 
 <script>
 import app from 'src/services/app'
+import ModalWrapper from 'components/modal.vue'
 
 export default {
   name: 'auth-page',
+  components: { ModalWrapper },
   data () {
     return {
       tab: 'auth',
       showLoader: false,
+      token: null,
       gender: [
         'мужской',
         'женский'
@@ -112,7 +132,14 @@ export default {
         email: '',
         password: '',
         hiddenPassword: true
-      }
+      },
+      isShowAgreement: true
+    }
+  },
+  created () {
+    this.token = this.$store.state.access
+    if (this.token) {
+      this.next('profile')
     }
   },
   computed: {
@@ -129,6 +156,9 @@ export default {
     }
   },
   methods: {
+    showAgreementModal () {
+      this.isShowAgreement = true
+    },
     next (params) {
       this.$router.push({ name: params || 'allTests' })
     },
@@ -139,6 +169,7 @@ export default {
         this.showLoader = false
         this.next('profile')
       }).catch(() => {
+        this.showLoader = false
       })
     },
     onRegister () {
@@ -148,6 +179,7 @@ export default {
         this.showLoader = false
         this.next('profile')
       }).catch(() => {
+        this.showLoader = false
       })
     }
   }

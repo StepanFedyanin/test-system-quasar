@@ -6,7 +6,21 @@
           <q-icon name="search"/>
         </template>
       </q-input>
-      <q-btn color="primary" class="q-px-lg" @click="next()">Добавить тест</q-btn>
+      <q-btn color="primary" class="q-px-lg">
+        Добавить тест
+        <q-menu
+          anchor="bottom right"
+          self="bottom left"
+        >
+          <q-list style="min-width: 100px">
+            <q-item clickable v-close-popup>
+              <q-item-section @click="next()">Добавить тест</q-item-section>
+            </q-item>
+            <q-item clickable v-close-popup>
+              <q-item-section>Загрузить файлом</q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu></q-btn>
     </div>
   </div>
   <div class="admin__content row justify-between">

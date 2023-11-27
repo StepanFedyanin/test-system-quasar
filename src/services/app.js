@@ -63,4 +63,12 @@ export default class extends REST {
       throw new RESTError(error, 'Не удалось получить попытку')
     })
   }
+
+  static getAttempForUser () {
+    return this._get('test/attempt_list/by_attempt_id/', {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить попытки пользователя')
+    })
+  }
 }

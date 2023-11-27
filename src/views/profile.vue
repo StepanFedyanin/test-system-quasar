@@ -23,12 +23,15 @@
                     <q-icon class="cursor-pointer" name="border_color" @click="focusInput('surname')" size="17px"/>
                 </template>
             </q-input>
-            <q-input ref="gender" :readonly="userForm.gender" @blur="blurInput('gender')" rounded standout="bg-primary text-white" v-model="user.gender" label="Пол"
+
+            <q-select v-if="!userForm.gender" class="col-6 col-sm-12 q-mb-md q-px-sm" bg-color="primary" ref="gender" @blur="blurInput('gender')" v-model="user.gender" borderless :options="gender" label-color="white" label="Пол"/>
+            <q-input v-else :readonly="userForm.gender" @blur="blurInput('gender')" rounded standout="bg-primary text-white" v-model="user.gender" label="Пол"
                      class="col-6 col-sm-12 q-mb-md q-px-sm">
-                <template v-slot:append>
-                    <q-icon class="cursor-pointer" name="border_color" @click="focusInput('gender')" size="17px"/>
-                </template>
+              <template v-slot:append>
+                <q-icon class="cursor-pointer" name="border_color" @click="focusInput('gender')" size="17px"/>
+              </template>
             </q-input>
+
             <q-input ref="birthday" :readonly="userForm.birthday" @blur="blurInput('birthday')" rounded standout="bg-primary text-white" v-model="user.birthday" mask="YYYY-MM-DD" label="Дата рождения"
                      class="col-6 col-sm-12 q-mb-md q-px-sm">
                 <template v-slot:append>
@@ -99,6 +102,10 @@ export default {
   name: 'profile-page',
   data () {
     return {
+      gender: [
+        'мужской',
+        'женский'
+      ],
       user: {
         name: '',
         surname: '',

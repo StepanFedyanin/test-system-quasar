@@ -276,7 +276,7 @@ const routes = [
           breadcrumb () {
             return {
               label: 'Администрирование',
-              link: 'adminTest',
+              link: 'admin',
               current: false
             }
           }
@@ -292,7 +292,7 @@ const routes = [
           breadcrumb () {
             return {
               label: 'Добавление теста',
-              link: 'adminTest',
+              link: 'admin',
               current: false
             }
           }
