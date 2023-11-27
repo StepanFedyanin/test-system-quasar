@@ -6,7 +6,7 @@
           Pro<span class="text-secondary">Test</span>
         </button>
       </div>
-      <div :class="['topbar__menu', user?'col-12 col-sm-8 col-lg-9':'col-6 col-md-7 col-lg-9', showMenu&&'topbar__menu--active']" @click="handleShowMenu()">
+      <div :class="['topbar__menu', access?'col-12 col-sm-8 col-lg-9':'col-6 col-md-7 col-lg-9', showMenu&&'topbar__menu--active']" @click="handleShowMenu()">
         <div :class="['topbar__content',showMenu&&'topbar__content--active']" @click.stop>
           <div class="topbar__content--burger topbar__burger topbar__burger--active" @click="handleShowMenu()">
             <span/>
@@ -14,7 +14,7 @@
           <router-link
             class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm"
             to="/profile"
-            v-if="user"
+            v-if="access"
           >
             Личный кабинет
           </router-link>
@@ -27,6 +27,10 @@
           >
             {{ item.title }}
           </router-link>
+<<<<<<< HEAD
+          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm" v-if="access">Выйти</span>
+          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm" v-else>вход / регистрация</span>
+=======
           <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm cursor-pointer" v-if="user"  @click="exit()">Выйти</span>
           <router-link
             v-else
@@ -35,9 +39,10 @@
           >
             вход / регистрация
           </router-link>
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
         </div>
       </div>
-      <div v-if="user" class="topbar__user row">
+      <div v-if="access" class="topbar__user row">
         <q-btn flat color="primary" label="name@mail.ru">
           <q-menu class="topbar__dropdown text-primary">
             <q-list dense style="min-width: 100px">
@@ -73,14 +78,14 @@ export default {
   name: 'TopBar',
   data () {
     return {
-      user: null,
+      access: null,
       accountMenu: [],
       showMenu: false
     }
   },
   created () {
-    this.user = this.$store.state.user
-    if (this.user) {
+    this.access = this.$store.state.access
+    if (this.access) {
       this.accountMenu = accountMenu.authorized
     } else {
       this.accountMenu = accountMenu.notAuthorized
@@ -94,8 +99,13 @@ export default {
       this.showMenu = !this.showMenu
     },
     exit () {
+<<<<<<< HEAD
+      this.$store.dispatch('clearToken')
+      this.next('auth')
+=======
       this.next('auth')
       this.$store.dispatch('initUser', null)
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
     }
   }
 }

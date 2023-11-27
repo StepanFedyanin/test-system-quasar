@@ -1,6 +1,18 @@
 <template>
   <div class="auth">
     <q-card class="card card__border card__wrapper">
+      <div
+        class="loader"
+        v-if="showLoader"
+      >
+        <q-circular-progress
+          indeterminate
+          rounded
+          size="50px"
+          color="primary"
+          class="q-ma-md"
+        />
+      </div>
       <q-tabs
         v-model="tab"
         dense
@@ -17,29 +29,35 @@
         <q-tab-panel name="auth">
           <q-input borderless v-model="login.email" label="Email" class="q-mb-lg">
             <template v-slot:append>
-                <q-icon name="person"/>
+              <q-icon name="person"/>
             </template>
           </q-input>
-            <q-input class="q-mb-lg" borderless v-model="login.password" label="Пароль" :type="login.hiddenPassword ? 'password' : 'text'">
-                <template v-slot:append>
-                    <q-icon
-                        :name="login.hiddenPassword ? 'visibility_off' : 'visibility'"
-                        class="cursor-pointer"
-                        @click="login.hiddenPassword = !login.hiddenPassword"
-                    />
-                </template>
-            </q-input>
-          <q-btn color="primary" class="full-width q-py-sm q-my-sm" :disable="disabledLogin" @click="onLogin()">Войти</q-btn>
+          <q-input class="q-mb-lg" borderless v-model="login.password" label="Пароль"
+                   :type="login.hiddenPassword ? 'password' : 'text'">
+            <template v-slot:append>
+              <q-icon
+                :name="login.hiddenPassword ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="login.hiddenPassword = !login.hiddenPassword"
+              />
+            </template>
+          </q-input>
+          <q-btn color="primary" class="full-width q-py-sm q-my-sm" :disable="disabledLogin" @click="onLogin()">Войти
+          </q-btn>
           <q-btn flat class="full-width q-py-sm q-mb-sm">Забыли пароль?</q-btn>
           <q-separator class='q-mb-md'/>
           <q-btn color="primary" outline class="full-width q-py-sm" @click="next()">Войти без регистрации</q-btn>
         </q-tab-panel>
-
         <q-tab-panel name="registration">
           <q-input class="q-mb-md" borderless v-model="register.name" label="Имя"/>
           <q-input class="q-mb-md" borderless v-model="register.surname" label="Фамилия"/>
+<<<<<<< HEAD
+          <q-select class="q-mb-md" v-model="register.gender" borderless :options="gender" label="Пол"/>
+          <q-input class="q-mb-md" borderless v-model="register.age" mask="####-##-##" label="Дата рождения">
+=======
           <q-input class="q-mb-md" borderless v-model="register.gender" label="Пол"/>
           <q-input class="q-mb-md" borderless v-model="register.age" label="Дата рождения">
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -50,7 +68,8 @@
             </template>
           </q-input>
           <q-input class="q-mb-md" borderless v-model="register.email" label="Email"/>
-          <q-input class="q-mb-lg" borderless v-model="register.password" label="Пароль" :type="register.hiddenPassword ? 'password' : 'text'">
+          <q-input class="q-mb-lg" borderless v-model="register.password" label="Пароль"
+                   :type="register.hiddenPassword ? 'password' : 'text'">
             <template v-slot:append>
               <q-icon
                 :name="register.hiddenPassword ? 'visibility_off' : 'visibility'"
@@ -59,9 +78,12 @@
               />
             </template>
           </q-input>
-          <q-btn color="primary" class="full-width q-mb-lg" :disable="disabledRegister" @click="onRegister()">Регистрация</q-btn>
+          <q-btn color="primary" class="full-width q-mb-lg" :disable="disabledRegister" @click="onRegister()">
+            Регистрация
+          </q-btn>
           <div class="description text-h6 text-center">
-            Регистрируясь, вы соглашаетесь с <span class="description__selected">пользовательским соглашением</span> и даете согласие на обработку <span class="description__selected">персональных данных</span>
+            Регистрируясь, вы соглашаетесь с <span class="description__selected">пользовательским соглашением</span> и
+            даете согласие на обработку <span class="description__selected">персональных данных</span>
           </div>
         </q-tab-panel>
       </q-tab-panels>
@@ -77,6 +99,11 @@ export default {
   data () {
     return {
       tab: 'auth',
+      showLoader: false,
+      gender: [
+        'мужской',
+        'женский'
+      ],
       login: {
         email: '',
         password: '',
@@ -118,15 +145,29 @@ export default {
       this.$router.push({ name: params || 'allTests' })
     },
     onLogin () {
+<<<<<<< HEAD
+      this.showLoader = true
+      app.obtainToken(this.$helpers.removeKeys(this.login, ['hiddenPassword'])).then((user) => {
+        this.$store.dispatch('token', user)
+        this.showLoader = false
+=======
       app.obtainToken(this.$helpers.removeKeys(this.login, ['hiddenPassword'])).then((data) => {
         this.$store.dispatch('initUser', data)
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
         this.next('profile')
       }).catch(() => {
       })
     },
     onRegister () {
+<<<<<<< HEAD
+      this.showLoader = true
+      app.createUser(this.$helpers.removeKeys(this.register, ['hiddenPassword'])).then((user) => {
+        this.$store.dispatch('token', user)
+        this.showLoader = false
+=======
       app.createUser(this.$helpers.removeKeys(this.register, ['hiddenPassword'])).then((data) => {
         this.$store.dispatch('initUser', data)
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
         this.next('profile')
       }).catch(() => {
       })

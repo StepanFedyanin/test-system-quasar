@@ -241,9 +241,16 @@ body {
         &__inner {
             height: 100%;
         }
+<<<<<<< HEAD
+        &--auto-height &__control-container{
+            padding-top: 10px !important;
+        }
+=======
 
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
         &__control {
             border-radius: var(--b-radius) !important;
+            min-height: auto !important;
             max-height: 40px;
             background: var(--color-bg);
             padding: 0 10px;
@@ -257,8 +264,15 @@ body {
                 height: 40px;
             }
         }
+<<<<<<< HEAD
+        &--auto-height{
+            padding-top: 10px !important;
+        }
+        &__marginal{
+=======
 
         &__marginal {
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
             line-height: 40px;
             height: 40px;
         }
@@ -272,6 +286,36 @@ body {
             top: 10px;
         }
     }
+<<<<<<< HEAD
+    &-tabs {
+        border-radius: 0 !important;
+    }
+    &-textarea &-field__control {
+        max-height: none;
+        height: auto;
+        &-container{
+            height: auto;
+            textarea{
+                max-height: 100px;
+                overflow-y: scroll !important;
+                &::-webkit-scrollbar {
+                    width: 5px;
+                }
+                &::-webkit-scrollbar-track {
+                    background: transparent;
+                    margin: 5px 0;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background-color: var(--q-primary);
+                    border-radius: var(--b-radius);
+                }
+            }
+        }
+    }
+    &-uploader__list{
+        min-height: auto !important;
+        padding: 0 !important;
+=======
 
     &-dialog {
         &__inner {
@@ -282,6 +326,7 @@ body {
     &-cover{
         border-radius: var(--b-radius);
         overflow: hidden;
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
     }
 }
 
@@ -304,9 +349,115 @@ body {
 
 .loader {
     margin: auto;
+    position: absolute;
+    z-index: 1000;
+    background: var(--color-loader);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+<<<<<<< HEAD
+.card {
+    overflow: hidden;
+    box-shadow: var(--box-shadow-volume);
+    border-radius: var(--b-radius);
+    background: var(--color-white);
+    &__wrapper{
+        padding: 35px 40px;
+        @media (max-width: 600px) {
+            padding: 15px 20px;
+        }
+    }
+    &__border {
+        border-radius: var(--b-radius-more);
+        &--small{
+            border-radius: var(--b-radius);
+        }
+    }
+
+    &__header {
+        background: var(--q-primary);
+        border-bottom-left-radius: var(--b-radius) !important;
+        border-bottom-right-radius: var(--b-radius) !important;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 5px;
+        &:before {
+            content: url("assets/img/icon/info.svg");
+            height: 20px;
+        }
+    }
+
+    &__item {
+        border-radius: 0;
+        padding: 0 20px !important;
+        &:first-child{
+            border-top-left-radius: var(--b-radius);
+            border-top-right-radius: var(--b-radius);
+        }
+        &:last-child{
+            border-bottom-left-radius: var(--b-radius);
+            border-bottom-right-radius: var(--b-radius);
+        }
+    }
+
+    &__mark{
+        width: 23px;
+        height: 35px;
+        border-radius: var(--b-radius);
+        border: 1px solid rgba(71, 71, 71, 0.6);
+        &--full{
+            border: 1px solid transparent;
+            background: var(--q-primary);
+        }
+        &--half{
+            position: relative;
+            border: 1px solid transparent;
+            background: none;
+            overflow: hidden;
+            &:before{
+                content: "";
+                position: absolute;
+                z-index: 2;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: calc(50% + 1px);
+                background: var(--q-primary);
+            }
+            &:after{
+                content: "";
+                position: absolute;
+                z-index: 1;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                width: 50%;
+                border-bottom-right-radius: var(--b-radius);
+                border-top-right-radius: var(--b-radius);
+                border: 1px solid rgba(71, 71, 71, 0.6);
+            }
+        }
+    }
+    &__point {
+        width: 23px;
+        height: 35px;
+        border-radius: var(--b-radius);
+        background: var(--q-primary);
+    }
+}
+
+
+.cover{
+=======
 .cover {
+>>>>>>> d6bd2f8ba8b753f85da3066a46f570b11fb9940e
     width: 60px;
     height: 60px;
     border-radius: 50%;
