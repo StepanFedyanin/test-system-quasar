@@ -5,7 +5,8 @@ const serviceUrl = {
   url: '//tests.flexidev.ru', localPath: '//localhost', protocol: 'http', port: '8000', api: '/api', onLocal: false
 }
 const app = {
-  url: `${serviceUrl.url}${serviceUrl.api}`, token: 'c7d63a2e58d186ae3760a5f7c690293e973c08c4'
+  url: `${serviceUrl.url}${serviceUrl.api}`,
+  token: 'c7d63a2e58d186ae3760a5f7c690293e973c08c4'
 }
 const accountMenu = {
   authorized: [{

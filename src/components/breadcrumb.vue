@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     next (params) {
-      this.$router.push({ name: params || 'tests' })
+      this.$router.push({ name: params || 'allTests' })
     },
     initBreadcrumbs () {
       this.$nextTick(() => {
