@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-between items-center">
     <breadcrumbs-menu/>
-    <div class="card text-primary text-bold q-py-sm q-px-lg">6:15</div>
+    <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time" @stop="onSubmit()"/>
   </div>
     <div
         class="loader"
@@ -18,27 +18,11 @@
   <div v-else class="test">
     <div v-if="!isStartTest" class="test__shadow">
       <div class="description description__point q-mb-lg">
-        Авторы: Арнольд Басс, Энн Дарки (1957)<br/>
-        Адаптация: А. К. Осницкий (1998); А. А. Хван и др. (2005)<br/>
-        смотрите замечания по методике<br/>
+        {{test.select_subtest.description}}
       </div>
-      <div class="description description__point q-mb-lg">
-        Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является
-        информативным способом
-        самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние),
-        так и
-        личностной
-        тревожности (как устойчивая характеристика человека).
-        <br/>
-        <br/>
-        Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является
-        информативным способом
-        самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние),
-        так и
-        личностной
-        тревожности (как устойчивая характеристика человека).
+      <div class="flex justify-end">
+        <q-btn class="q-px-xl" color="primary" @click="startTest">Начать</q-btn>
       </div>
-      <q-btn class="full-width" color="primary" @click="startTest">Начать</q-btn>
     </div>
     <div v-else class="row">
       <div class="col-12 col-sm-11 col-md-10">
@@ -48,7 +32,7 @@
           :options="slideOptions"
         >
           <SplideSlide
-            v-for="question in test.select_subtest.question"
+            v-for="(question, index) in test.select_subtest.question"
             :key="`question-${question.id}`"
           >
             <div class="text-h2 text-bold text-center q-mb-xl">
@@ -60,7 +44,7 @@
             <template v-if="question.type_question">
               <q-checkbox
                 v-for="ans in question.answer"
-                :key="`answer-${ans.id}`"
+                :key="`answer-${ans.id+index}`"
                 :val="ans.id"
                 v-model="test.answers"
                 class="full-width q-mb-sm"
@@ -100,10 +84,11 @@
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import { app } from 'src/services'
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
+import TestTimer from 'components/timer.vue'
 
 export default {
   name: 'test-response',
-  components: { BreadcrumbsMenu, Splide, SplideSlide },
+  components: { TestTimer, BreadcrumbsMenu, Splide, SplideSlide },
   data () {
     return {
       showLoaderTest: false,
@@ -140,9 +125,11 @@ export default {
   },
   created () {
     this.test = this.$store.state.test
-    this.$nextTick(() => {
+    if (this.test.subtest[this.test.active_subtest]?.id) {
       this.getSubTest()
-    })
+    } else {
+      this.next('allTests')
+    }
   },
   computed: {},
   methods: {
@@ -151,6 +138,7 @@ export default {
         this.$store.dispatch('updateTest', { ...this.test, select_subtest: data })
         this.$nextTick(() => {
           this.test = this.$store.state.test
+          this.isStartTest = this.test.select_subtest.description === ''
         })
       })
     },
@@ -167,7 +155,7 @@ export default {
           this.activeSlide += 1
         }
       }
-      this.$refs.reviews.go(this.activeSlide)
+      this.$refs.reviews?.go(this.activeSlide)
     },
     onSubmit () {
       app.pushAnswer(this.test).then((data) => {
@@ -188,7 +176,11 @@ export default {
       })
     },
     next (name) {
-      this.$router.push(this.$route.path.replace('response', 'finale'))
+      if (name) {
+        this.$router.push({ name })
+      } else {
+        this.$router.push(this.$route.path.replace('response', 'finale'))
+      }
     }
   }
 }

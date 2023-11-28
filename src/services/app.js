@@ -24,6 +24,22 @@ export default class extends REST {
     })
   }
 
+  static getUser () {
+    return this._get('user', {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить пользователя')
+    })
+  }
+
+  static updateUser (params) {
+    return this._post('user/update_user', {}, params).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось обновить данные пользователя')
+    })
+  }
+
   static getCategory () {
     return this._get('test/category', {}, {}).then((data) => {
       return data
@@ -56,7 +72,7 @@ export default class extends REST {
     })
   }
 
-  static getAttempById (id) {
+  static getAttemptById (id) {
     return this._get(`test/attempt_list/by_attempt_id/${id}`, {}, {}).then((data) => {
       return data
     }).catch((error) => {
@@ -64,7 +80,15 @@ export default class extends REST {
     })
   }
 
-  static getAttempForUser () {
+  static getAttemptForTest (id) {
+    return this._get(`test/attempt_list/user_attempt_by_id/${id}`, {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить попытки пользователя по определенному тесту')
+    })
+  }
+
+  static getAttemptForUser () {
     return this._get('test/attempt_list/by_attempt_id/', {}).then((data) => {
       return data
     }).catch((error) => {

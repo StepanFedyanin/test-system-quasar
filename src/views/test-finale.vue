@@ -6,24 +6,20 @@
       серьезно. Диагностическую ценность имеют только исследования, проведенные <span
       class="description__selected">профессиональным психологом</span>.
     </div>
-    <div class="description description__point text-bold q-py-xs row items-center">
-      "Ссылка на результаты теста": <span class="text-">Ссылка</span>
+    <div v-if="!$route.params?.id" class="row items-center q-gutter-md">
+      <div class="description description__bg description__point text-bold q-py-xs q-px-lg cursor-pointer" @click="copyUrl()">
+        "Ссылка на результаты теста": <span class="q-px-sm text-primary text-weight-light" ref="attemptUrl"> ссылка</span>
+      </div>
+      <div ref="alertUser" class="test__message text-h5 text-secondary">
+        Ваша ссылка скопирована!
+      </div>
     </div>
   </div>
   <div class="card card__border q-px-xl q-py-lg q-mb-xl">
-    <div v-for="(conclusion,index) in conclusions" :key="`conclusion_${index}`">
+    <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_${index}`">
       <div class="text-bold text-h2 q-mb-lg">{{ conclusion.title }}</div>
-      <div v-for="(data,index) in conclusion.result" :key="`data_${data+index}`"
-           class="row justify-between text-secondary items-center q-mb-lg">
-        <div class="col-auto">{{ data.interp_name }}</div>
-        <div class="col-auto row q-gutter-sm">
-          <span
-            v-for="(index) in 10"
-            :key="`point_${index+conclusion.title}`"
-            :class="['card__mark', data.percent % 10 > 0&&'card__mark--half' , data.percent  % 10 === 0&&'card__mark--full']"
-          />
-        </div>
-        <div class="col-auto text-bold text-h3">{{ data.percent }}%</div>
+      <div class="card__progress">
+        <span/>
       </div>
     </div>
   </div>
@@ -60,8 +56,16 @@ export default {
   },
   methods: {
     getConclusion (id) {
-      app.getAttempById(id).then((data) => {
+      app.getAttemptById(id).then((data) => {
         this.conclusions = data
+      })
+    },
+    copyUrl () {
+      navigator.clipboard.writeText(this.conclusions.url).then(() => {
+        this.$refs.alertUser.style.transform = 'scale(1)'
+        setTimeout(() => {
+          this.$refs.alertUser.style.transform = 'scale(0)'
+        }, 4000)
       })
     }
   }

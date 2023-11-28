@@ -25,4 +25,15 @@
     &__cover {
         max-width: 300px;
     }
+    &__message{
+        background: var(--color-white);
+        border-radius: var(--b-radius);
+        z-index: 10;
+        min-width: 200px;
+        width: fit-content;
+        height: fit-content;
+        padding: 5px 15px;
+        transform: scale(0);
+        transition: transform .2s;
+    }
 }

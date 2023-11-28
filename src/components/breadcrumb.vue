@@ -7,7 +7,7 @@
       <li
         v-for="(item, index) in $breadcrumbs.value"
         :key="`breadcrumbs-${index}`"
-        class="breadcrumb__item text-secondary"
+        class="breadcrumb__item cursor-pointer text-secondary"
         @click="next(item.link)"
       >
         {{ item.label }}

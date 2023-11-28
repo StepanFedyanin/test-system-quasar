@@ -6,7 +6,7 @@
           Pro<span class="text-secondary">Test</span>
         </button>
       </div>
-      <div :class="['topbar__menu', access?'col-12 col-sm-8 col-lg-9':'col-6 col-md-7 col-lg-9', showMenu&&'topbar__menu--active']" @click="handleShowMenu()">
+      <div :class="['topbar__menu', user?.id?'col-12 col-sm-6 col-md-6 col-lg-9':'col-6 col-md-7 col-lg-9', showMenu&&'topbar__menu--active']" @click="handleShowMenu()">
         <div :class="['topbar__content',showMenu&&'topbar__content--active']" @click.stop>
           <div class="topbar__content--burger topbar__burger topbar__burger--active" @click="handleShowMenu()">
             <span/>
@@ -14,7 +14,7 @@
           <router-link
             class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm"
             to="/profile"
-            v-if="access"
+            v-if="user?.id"
           >
             Личный кабинет
           </router-link>
@@ -27,16 +27,16 @@
           >
             {{ item.title }}
           </router-link>
-          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm" v-if="access">Выйти</span>
-          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm" v-else>вход / регистрация</span>
+          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm cursor-pointer" v-if="user.id" @click="exit()">Выход</span>
+          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm cursor-pointer" @click="exit()" v-else>вход / регистрация</span>
         </div>
       </div>
-      <div v-if="access" class="topbar__user row">
-        <q-btn flat color="primary" label="name@mail.ru">
+      <div v-if="user?.id" class="topbar__user row">
+        <q-btn flat color="primary" :label="user.email">
           <q-menu class="topbar__dropdown text-primary">
             <q-list dense style="min-width: 100px">
               <q-item clickable class="text-weight-bold">
-                <q-item-section>Имя Фамилия</q-item-section>
+                <q-item-section>{{user.name}} {{user.surname}}</q-item-section>
               </q-item>
               <q-item clickable @click="next('profile')">
                 <q-item-section>Личный кабинет</q-item-section>
@@ -67,14 +67,14 @@ export default {
   name: 'TopBar',
   data () {
     return {
-      access: null,
+      user: {},
       accountMenu: [],
       showMenu: false
     }
   },
   created () {
-    this.access = this.$store.state.access
-    if (this.access) {
+    this.user = this.$store.state.user
+    if (this.user.id) {
       this.accountMenu = accountMenu.authorized
     } else {
       this.accountMenu = accountMenu.notAuthorized
@@ -88,6 +88,7 @@ export default {
       this.showMenu = !this.showMenu
     },
     exit () {
+      this.$store.dispatch('initUser', {})
       this.$store.dispatch('clearToken')
       this.next('auth')
     }

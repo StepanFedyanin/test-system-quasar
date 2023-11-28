@@ -7,8 +7,8 @@
                     <span/>
                 </div>
                 <div class="col-8 col-sm-6 text-primary text-bold text-h3 q-mb-sm">
-                    Фамилия<br/>
-                    Имя
+                    {{user.name}}<br/>
+                    {{user.surname}}
                 </div>
             </div>
             <q-input ref="name" :readonly="userForm.name" @blur="blurInput('name')" rounded standout="bg-primary text-white" v-model="user.name" label="Имя"
@@ -24,7 +24,7 @@
                 </template>
             </q-input>
 
-            <q-select v-if="!userForm.gender" class="col-6 col-sm-12 q-mb-md q-px-sm" bg-color="primary" ref="gender" @blur="blurInput('gender')" v-model="user.gender" borderless :options="gender" label-color="white" label="Пол"/>
+            <q-select v-if="!userForm.gender" class="col-6 col-sm-12 q-mb-md q-px-sm" bg-color="primary" ref="gender"  v-model="user.gender" borderless :options="gender" label-color="white" label="Пол"/>
             <q-input v-else :readonly="userForm.gender" @blur="blurInput('gender')" rounded standout="bg-primary text-white" v-model="user.gender" label="Пол"
                      class="col-6 col-sm-12 q-mb-md q-px-sm">
               <template v-slot:append>
@@ -32,10 +32,10 @@
               </template>
             </q-input>
 
-            <q-input ref="birthday" :readonly="userForm.birthday" @blur="blurInput('birthday')" rounded standout="bg-primary text-white" v-model="user.birthday" mask="YYYY-MM-DD" label="Дата рождения"
+            <q-input ref="age" :readonly="userForm.birthday" @blur="blurInput('age')" rounded standout="bg-primary text-white" v-model="user.age" mask="####-##-##" label="Дата рождения"
                      class="col-6 col-sm-12 q-mb-md q-px-sm">
                 <template v-slot:append>
-                    <q-icon class="cursor-pointer" name="border_color" @click="focusInput('birthday')" size="17px"/>
+                    <q-icon class="cursor-pointer" name="border_color" @click="focusInput('age')" size="17px"/>
                 </template>
             </q-input>
             <q-input ref="email" :readonly="userForm.email" @blur="blurInput('email')" rounded standout="bg-primary text-white" v-model="user.email" label="Email" class="col-12 q-mb-md q-px-sm">
@@ -69,7 +69,9 @@
                     </template>
                 </q-input>
             </div>
-            <q-btn class="full-width q-py-sm" color="primary">Сохранить</q-btn>
+          <div class="full-width">
+            <q-btn class="full-width q-py-sm" color="primary" @click="updateUser()">Сохранить</q-btn>
+          </div>
         </div>
         <div class="profile__tests col-12 col-sm-6 col-lg-8">
             <breadcrumbs-menu/>
@@ -97,6 +99,7 @@
 <script>
 import TopBar from 'components/top-bar.vue'
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
+import { app } from 'src/services'
 
 export default {
   name: 'profile-page',
@@ -106,15 +109,7 @@ export default {
         'мужской',
         'женский'
       ],
-      user: {
-        name: '',
-        surname: '',
-        gender: '',
-        birthday: '',
-        email: '',
-        password: '',
-        old_password: ''
-      },
+      user: {},
       userForm: {
         name: true,
         surname: true,
@@ -126,8 +121,19 @@ export default {
       }
     }
   },
+  created () {
+    this.user = {
+      ...this.$store.state.user,
+      password: '',
+      old_password: ''
+    }
+  },
   components: { BreadcrumbsMenu, TopBar },
   methods: {
+    updateUser () {
+      app.updateUser(this.user).then(() => {
+      })
+    },
     blurInput (key) {
       this.userForm[key] = true
     },

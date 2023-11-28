@@ -52,11 +52,11 @@
           <q-input class="q-mb-md" borderless v-model="register.name" label="Имя"/>
           <q-input class="q-mb-md" borderless v-model="register.surname" label="Фамилия"/>
           <q-select class="q-mb-md" v-model="register.gender" borderless :options="gender" label="Пол"/>
-          <q-input class="q-mb-md" borderless v-model="register.age" mask="####-##-##" label="Дата рождения">
+          <q-input class="q-mb-md" borderless v-model="register.age" mask="##-##-####" label="Дата рождения">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="date">
+                  <q-date mask="DD-MM-YYYY" v-model="register.age" landscape>
                   </q-date>
                 </q-popup-proxy>
               </q-icon>
@@ -133,7 +133,7 @@ export default {
         password: '',
         hiddenPassword: true
       },
-      isShowAgreement: true
+      isShowAgreement: false
     }
   },
   created () {
@@ -164,20 +164,36 @@ export default {
     },
     onLogin () {
       this.showLoader = true
-      app.obtainToken(this.$helpers.removeKeys(this.login, ['hiddenPassword'])).then((user) => {
-        this.$store.dispatch('token', user)
+      app.obtainToken(this.$helpers.removeKeys(this.login, ['hiddenPassword'])).then((res) => {
+        if (res.access && res.refresh) {
+          this.$store.dispatch('token', res)
+          app.getUser().then(user => {
+            this.showLoader = false
+            this.$store.dispatch('initUser', user)
+            this.next('profile')
+          }).catch(() => {
+            this.showLoader = false
+          })
+        }
         this.showLoader = false
-        this.next('profile')
       }).catch(() => {
         this.showLoader = false
       })
     },
     onRegister () {
       this.showLoader = true
-      app.createUser(this.$helpers.removeKeys(this.register, ['hiddenPassword'])).then((user) => {
-        this.$store.dispatch('token', user)
+      app.createUser(this.$helpers.removeKeys(this.register, ['hiddenPassword'])).then((res) => {
+        if (res.access && res.refresh) {
+          this.$store.dispatch('token', res)
+          app.getUser().then(user => {
+            this.showLoader = false
+            this.$store.dispatch('initUser', user)
+            this.next('profile')
+          }).catch(() => {
+            this.showLoader = false
+          })
+        }
         this.showLoader = false
-        this.next('profile')
       }).catch(() => {
         this.showLoader = false
       })

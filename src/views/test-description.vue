@@ -1,138 +1,57 @@
 <template>
   <div>
-    <breadcrumbs-menu/>
     <div>
-      <template v-if="longDescription">
-        <div class="row flex-sm-column flex-md-row align-items-start">
-          <!--        <table class="attempts col-8 col-md-4 col-lg-3 mb-4">-->
-          <!--          <thead>-->
-          <!--          <tr>-->
-          <!--            <td>-->
-          <!--              Попытка-->
-          <!--            </td>-->
-          <!--            <td>-->
-          <!--              Дата-->
-          <!--            </td>-->
-          <!--          </tr>-->
-          <!--          </thead>-->
-          <!--          <tbody>-->
-          <!--          <tr v-for="(attempt,index) in attempts" :key="attempt+Date.now()">-->
-          <!--            <td>-->
-          <!--              {{ index + 1 }} Попытка-->
-          <!--            </td>-->
-          <!--            <td>-->
-          <!--              {{ attempt }}-->
-          <!--            </td>-->
-          <!--          </tr>-->
-          <!--          </tbody>-->
-          <!--        </table>-->
-          <div class="">
+      <template v-if="user.id">
+        <breadcrumbs-menu/>
+        <div class="row q-gutter-md items-start justify-between">
+          <table v-if="attempts.attempt_id?.length!==0" class="card card__shadow col-8 col-md-3 mb-4">
+            <thead class="text-primary text-weight-medium bg-grey-1">
+            <tr class="row">
+              <td class="col-6 q-px-md q-py-sm">
+                Попытка
+              </td>
+              <td class="col-6 q-px-md q-py-sm">
+                Дата
+              </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="row cursor-pointer" v-for="(attempt,index) in attempts.attempt_id" :key="attempt+Date.now()">
+              <td class="col-6 q-px-md q-py-sm">
+                {{ index + 1 }} Попытка
+              </td>
+              <td class="col-6 q-px-md q-py-sm">
+                24.07.2023
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div :class="[attempts.attempt_id?.length===0?'col-12': 'col-12 col-md-7 col-lg-8']">
             <div class="description description__point q-mb-lg">
-              Авторы: Арнольд Басс, Энн Дарки (1957)<br/>
-              Адаптация: А. К. Осницкий (1998); А. А. Хван и др. (2005)<br/>
-              смотрите замечания по методике<br/>
+              {{ test.author }}
             </div>
             <div class="description description__point q-mb-lg">
-              Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным
-              способом
-              самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-              личностной
-              тревожности (как устойчивая характеристика человека).
-              <br/>
-              <br/>
-              Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным
-              способом
-              самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-              личностной
-              тревожности (как устойчивая характеристика человека).
-              <br/>
-              <br/>
-              Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным
-              способом
-              самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-              личностной
-              тревожности (как устойчивая характеристика человека).
-              <br/>
-              <br/>
-              Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным
-              способом
-              самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-              личностной
-              тревожности (как устойчивая характеристика человека).
-              <br/>
-              <br/>
-              Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным
-              способом
-              самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-              личностной
-              тревожности (как устойчивая характеристика человека).
-              <br/>
-              <br/>
-              Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным
-              способом
-              самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-              личностной
-              тревожности (как устойчивая характеристика человека).
-              <br/>
-              <br/>
-              Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным
-              способом
-              самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-              личностной
-              тревожности (как устойчивая характеристика человека).
+              {{ test.sdescription }}
             </div>
             <div class="row justify-between">
-              <q-btn outline color="primary">75 вопросов</q-btn>
+              <div class="text-primary text-bold text-h3">
+                {{ $helpers.stringForNumber(test.count, ['вопрос', 'вопроса', 'вопросов']) }}
+              </div>
               <q-btn color="primary" @click="next">Пройти тест</q-btn>
             </div>
           </div>
         </div>
       </template>
       <template v-else>
-        <div class="row justify-end q-mb-lg">
-          <q-btn color="primary">Пройти тест</q-btn>
+        <div class="row justify-between items-center q-mb-lg">
+          <breadcrumbs-menu/>
+          <q-btn color="primary" @click="next">Пройти тест</q-btn>
         </div>
         <div class="description description__point q-mb-lg">
-          Авторы: Арнольд Басс, Энн Дарки (1957)<br/>
-          Адаптация: А. К. Осницкий (1998); А. А. Хван и др. (2005)<br/>
-          смотрите замечания по методике<br/>
+          {{ test.author }}
         </div>
         <div class="description description__point q-mb-lg">
-          Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным способом
-          самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-          личностной
-          тревожности (как устойчивая характеристика человека).
-          <br/>
-          <br/>
-          Шкала тревоги Спилбергера-Ханина (State-Trait Anxiety Inventory, STAI) является информативным способом
-          самооценки как уровня тревожности в данный момент (реактивная тревожность, как состояние), так и
-          личностной
-          тревожности (как устойчивая характеристика человека).
-        </div>
-        <div class="row justify-between">
-          <!--        <table class="attempts mb-4 w-100">-->
-          <!--          <thead>-->
-          <!--          <tr>-->
-          <!--            <td>-->
-          <!--              Попытка-->
-          <!--            </td>-->
-          <!--            <td>-->
-          <!--              Дата-->
-          <!--            </td>-->
-          <!--          </tr>-->
-          <!--          </thead>-->
-          <!--          <tbody>-->
-          <!--          <tr v-for="(attempt,index) in attempts" :key="attempt+Date.now()">-->
-          <!--            <td>-->
-          <!--              {{ index + 1 }} Попытка-->
-          <!--            </td>-->
-          <!--            <td>-->
-          <!--              {{ attempt }}-->
-          <!--            </td>-->
-          <!--          </tr>-->
-          <!--          </tbody>-->
-          <!--        </table>-->
-          <q-btn color="primary">Все результаты</q-btn>
+          {{ test.sdescription }}
         </div>
       </template>
     </div>
@@ -141,6 +60,7 @@
 
 <script>
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
+import { app } from 'src/services'
 
 export default {
   name: 'test-description',
@@ -149,13 +69,24 @@ export default {
     return {
       test: null,
       attempts: ['24.07.2023', '24.07.2023', '24.07.2023', '24.07.2023', '24.07.2023'],
-      longDescription: true
+      longDescription: true,
+      user: null
     }
   },
   created () {
+    this.user = this.$store.state.user
     this.test = this.$store.state.test
+    if (this.user.id) {
+      this.getAttempt()
+    }
   },
   methods: {
+    getAttempt () {
+      app.getAttemptForTest(this.test.test).then(data => {
+        this.attempts = data
+      }).catch(() => {
+      })
+    },
     next () {
       this.$router.push({ name: this.$route.path.includes('all_tests') ? 'testResponse' : 'testResponsePassed' })
     }

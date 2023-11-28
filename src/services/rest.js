@@ -1,4 +1,5 @@
 import ajax from '../utils/ajax'
+import store from 'src/store'
 // import store from '../store/store'
 
 class RESTError extends Error {
@@ -69,11 +70,11 @@ class REST {
   }
 
   static _getAuthHeaders () {
-    // if (store.state.access) {
-    //   return { Authorization: `Bearer ${store.state.access}` }
-    // } else {
-    //   return {}
-    // }
+    if (store.state.access) {
+      return { Authorization: `Bearer ${store.state.access}` }
+    } else {
+      return {}
+    }
   }
 }
 

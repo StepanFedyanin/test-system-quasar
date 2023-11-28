@@ -1,4 +1,29 @@
+import { parse, format } from 'fecha'
 const helpers = {
+  parseDate: (value, template) => {
+    return parse(value, template)
+  },
+
+  formatDate: (value, template) => {
+    console.log(format(value, template))
+    return format(value, template)
+  },
+  stringForNumber: (value, strings) => {
+    let idx = 2
+    let num = value
+    if (num > 100) {
+      num = num % 100
+    }
+    if ((num < 10) || (num > 19)) {
+      const z = num % 10
+      if (z === 1) {
+        idx = 0
+      } else if ((z > 1) && (z < 5)) {
+        idx = 1
+      }
+    }
+    return value + ' ' + strings[idx]
+  },
   parseJwt: (token) => {
     const base64Url = token.split('.')[1]
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
