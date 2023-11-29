@@ -30,18 +30,25 @@ export default route(function (/* { store, ssrContext } */) {
   })
   router.beforeEach((to, from, next) => {
     document.title = to.meta.title + ' - ProTest' || 'ProTest'
+    if (store.state.refresh) {
+      const jwt = helpers.parseJwt(store.state.access)
+      const expDate = new Date(jwt.exp * 1000)
+      if (expDate - new Date() < 60 * 60 * 1000) {
+        const tokens = {
+          access: store.state.access,
+          refresh: store.state.refresh
+        }
+        app.refreshToken(tokens.refresh).then((token) => {
+          tokens.access = token.access
+          store.dispatch('token', tokens)
+        })
+      }
+    }
     if (to.matched.some(record => record.meta.requiresAuth)) {
       if (store.state.user && store.state.user.id) {
         const jwt = helpers.parseJwt(store.state.access)
         const expDate = new Date(jwt.exp * 1000)
-        if (expDate - new Date() < 0.5 * 60 * 60 * 1000 && store.state.refresh) {
-          console.log('refresh token')
-          app.refreshToken(store.state.refresh).then((token) => {
-            store.dispatch('token', token)
-          }).finally(() => {
-            next()
-          })
-        } else if (expDate < new Date()) {
+        if (expDate < new Date()) {
           next({ name: 'auth' })
         } else {
           next()
