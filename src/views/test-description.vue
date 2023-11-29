@@ -4,7 +4,19 @@
       <template v-if="user.id">
         <breadcrumbs-menu/>
         <div class="row q-gutter-md items-start justify-between">
-          <table v-if="attempts.attempt_id?.length!==0" class="card card__shadow col-8 col-md-3 mb-4">
+          <div
+            class="loader"
+            v-if="showLoaderTest"
+          >
+            <q-circular-progress
+              indeterminate
+              rounded
+              size="50px"
+              color="primary"
+              class="q-ma-md"
+            />
+          </div>
+          <table v-else-if="attempts.length!==0" class="card card__shadow col-8 col-md-3 mb-4">
             <thead class="text-primary text-weight-medium bg-grey-1">
             <tr class="row">
               <td class="col-6 q-px-md q-py-sm">
@@ -16,17 +28,17 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="row cursor-pointer" v-for="(attempt,index) in attempts.attempt_id" :key="attempt+Date.now()">
+            <tr class="row cursor-pointer" v-for="(attempt,index) in attempts" :key="`attempt_${attempt.id}`" @click="next('attempt', attempt.id)">
               <td class="col-6 q-px-md q-py-sm">
                 {{ index + 1 }} Попытка
               </td>
               <td class="col-6 q-px-md q-py-sm">
-                24.07.2023
+                {{attempt.date}}
               </td>
             </tr>
             </tbody>
           </table>
-          <div :class="[attempts.attempt_id?.length===0?'col-12': 'col-12 col-md-7 col-lg-8']">
+          <div :class="[attempts.length===0?'col-12': 'col-12 col-md-7 col-lg-8']">
             <div class="description description__point q-mb-lg">
               {{ test.author }}
             </div>
@@ -45,7 +57,7 @@
       <template v-else>
         <div class="row justify-between items-center q-mb-lg">
           <breadcrumbs-menu/>
-          <q-btn color="primary" @click="next">Пройти тест</q-btn>
+          <q-btn color="primary" @click="next()">Пройти тест</q-btn>
         </div>
         <div class="description description__point q-mb-lg">
           {{ test.author }}
@@ -68,9 +80,10 @@ export default {
   data () {
     return {
       test: null,
-      attempts: ['24.07.2023', '24.07.2023', '24.07.2023', '24.07.2023', '24.07.2023'],
+      attempts: [],
       longDescription: true,
-      user: null
+      user: null,
+      showLoaderTest: false
     }
   },
   created () {
@@ -82,13 +95,20 @@ export default {
   },
   methods: {
     getAttempt () {
+      this.showLoaderTest = true
       app.getAttemptForTest(this.test.test).then(data => {
         this.attempts = data
+        this.showLoaderTest = false
       }).catch(() => {
+        this.showLoaderTest = false
       })
     },
-    next () {
-      this.$router.push({ name: this.$route.path.includes('all_tests') ? 'testResponse' : 'testResponsePassed' })
+    next (name, params) {
+      if (params) {
+        this.$router.push({ name, params: { id: params } })
+      } else {
+        this.$router.push({ name: this.$route.path.includes('all_tests') ? 'testResponse' : 'testResponsePassed' })
+      }
     }
   }
 }

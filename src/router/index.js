@@ -3,6 +3,7 @@ import { createRouter, createMemoryHistory, createWebHistory, createWebHashHisto
 import routes from './routes'
 import store from 'src/store'
 import { helpers } from 'src/utils/helpers'
+import { app } from 'src/services'
 
 /*
  * If not building with SSR mode, you can
@@ -32,9 +33,15 @@ export default route(function (/* { store, ssrContext } */) {
     if (to.matched.some(record => record.meta.requiresAuth)) {
       if (store.state.user && store.state.user.id) {
         const jwt = helpers.parseJwt(store.state.access)
-        console.log('Check token')
         const expDate = new Date(jwt.exp * 1000)
-        if (expDate < new Date()) {
+        if (expDate - new Date() < 0.5 * 60 * 60 * 1000) {
+          console.log('refresh token')
+          app.refreshToken(store.state.refresh).then((token) => {
+            store.dispatch('token', token)
+          }).finally(() => {
+            next()
+          })
+        } else if (expDate < new Date()) {
           next({ name: 'auth' })
         } else {
           next()

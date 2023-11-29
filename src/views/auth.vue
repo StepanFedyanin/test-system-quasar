@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import app from 'src/services/app'
+import { app } from 'src/services'
 import ModalWrapper from 'components/modal.vue'
 
 export default {

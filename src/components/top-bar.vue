@@ -6,7 +6,7 @@
           Pro<span class="text-secondary">Test</span>
         </button>
       </div>
-      <div :class="['topbar__menu', user?.id?'col-12 col-sm-6 col-md-6 col-lg-9':'col-6 col-md-7 col-lg-9', showMenu&&'topbar__menu--active']" @click="handleShowMenu()">
+      <div :class="['topbar__menu', user?.id?'col-12 col-sm-7 col-lg-9':'col-6 col-md-7 col-lg-9', showMenu&&'topbar__menu--active']" @click="handleShowMenu()">
         <div :class="['topbar__content',showMenu&&'topbar__content--active']" @click.stop>
           <div class="topbar__content--burger topbar__burger topbar__burger--active" @click="handleShowMenu()">
             <span/>

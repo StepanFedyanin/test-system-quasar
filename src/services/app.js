@@ -6,6 +6,14 @@ export default class extends REST {
     return settings
   }
 
+  static refreshToken (token) {
+    return this._post('token/refresh', {}, { refresh: token }).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось обновит токен')
+    })
+  }
+
   static obtainToken (params) {
     return this._post('token/create', {}, params).then((data) => {
       const tokens = data
@@ -89,7 +97,7 @@ export default class extends REST {
   }
 
   static getAttemptForUser () {
-    return this._get('test/attempt_list/by_attempt_id/', {}).then((data) => {
+    return this._get('test/attempt_list', {}).then((data) => {
       return data
     }).catch((error) => {
       throw new RESTError(error, 'Не удалось получить попытки пользователя')

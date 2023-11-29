@@ -11,34 +11,34 @@
                     {{user.surname}}
                 </div>
             </div>
-            <q-input ref="name" :readonly="userForm.name" @blur="blurInput('name')" rounded standout="bg-primary text-white" v-model="user.name" label="Имя"
+            <q-input ref="name" :readonly="userForm.name" @blur="blurInput('name')"  borderless v-model="user.name" label="Имя"
                      class="col-6 col-sm-12 q-mb-md q-px-sm">
                 <template v-slot:append>
                     <q-icon class="cursor-pointer" name="border_color" @click="focusInput('name')" size="17px"/>
                 </template>
             </q-input>
-            <q-input ref="surname" :readonly="userForm.surname" @blur="blurInput('surname')" rounded standout="bg-primary text-white" v-model="user.surname" label="Фамилия"
+            <q-input ref="surname" :readonly="userForm.surname" @blur="blurInput('surname')" borderless v-model="user.surname" label="Фамилия"
                      class="col-6 col-sm-12 q-mb-md q-px-sm">
                 <template v-slot:append>
                     <q-icon class="cursor-pointer" name="border_color" @click="focusInput('surname')" size="17px"/>
                 </template>
             </q-input>
 
-            <q-select v-if="!userForm.gender" class="col-6 col-sm-12 q-mb-md q-px-sm" bg-color="primary" ref="gender"  v-model="user.gender" borderless :options="gender" label-color="white" label="Пол"/>
-            <q-input v-else :readonly="userForm.gender" @blur="blurInput('gender')" rounded standout="bg-primary text-white" v-model="user.gender" label="Пол"
+            <q-select v-if="!userForm.gender" @blur="blurInput('gender')"  class="col-6 col-sm-12 q-mb-md q-px-sm"  ref="gender" clearable="done"  v-model="user.gender" borderless :options="gender" label="Пол"/>
+            <q-input v-else :readonly="userForm.gender" @blur="blurInput('gender')" borderless v-model="user.gender" label="Пол"
                      class="col-6 col-sm-12 q-mb-md q-px-sm">
               <template v-slot:append>
                 <q-icon class="cursor-pointer" name="border_color" @click="focusInput('gender')" size="17px"/>
               </template>
             </q-input>
 
-            <q-input ref="age" :readonly="userForm.birthday" @blur="blurInput('age')" rounded standout="bg-primary text-white" v-model="user.age" mask="####-##-##" label="Дата рождения"
+            <q-input ref="age" :readonly="userForm.age" @blur="blurInput('age')" borderless v-model="user.age" mask="####-##-##" label="Дата рождения"
                      class="col-6 col-sm-12 q-mb-md q-px-sm">
                 <template v-slot:append>
                     <q-icon class="cursor-pointer" name="border_color" @click="focusInput('age')" size="17px"/>
                 </template>
             </q-input>
-            <q-input ref="email" :readonly="userForm.email" @blur="blurInput('email')" rounded standout="bg-primary text-white" v-model="user.email" label="Email" class="col-12 q-mb-md q-px-sm">
+            <q-input ref="email" :readonly="userForm.email" @blur="blurInput('email')" borderless v-model="user.email" label="Email" class="col-12 q-mb-md q-px-sm">
                 <template v-slot:append>
                     <q-icon class="cursor-pointer" name="border_color" @click="focusInput('email')" size="17px"/>
                 </template>
@@ -75,23 +75,37 @@
         </div>
         <div class="profile__tests col-12 col-sm-6 col-lg-8">
             <breadcrumbs-menu/>
-            <div class="profile__list">
-                <div class="full-width q-mb-md">
+          <div
+            v-if="showLoaderTests"
+            class="loader"
+          >
+            <q-circular-progress
+              indeterminate
+              rounded
+              size="50px"
+              color="primary"
+              class="q-ma-md"
+            />
+          </div>
+          <div v-else class="profile__list">
+                <div v-for="attempt in attempts" :key="`attempt_${attempt.test_id}`" class="full-width q-mb-md">
                     <q-btn
-                        class="card card__border full-width description__point"
+                        class="card full-width description__point"
                         align="between"
                         flat
-                        @click="next()"
+                        @click="next('test', attempt.test_id)"
                     >
-                        12312
+                        {{attempt.test}}
                         <div class="text-primary row items-center">
-                            14 попыток
+                            {{$helpers.stringForNumber(attempt.count, ['попытка','попытки', 'попыток'])}}
                             <q-icon color="primary" name="chevron_right"/>
                         </div>
                     </q-btn>
                 </div>
-                <q-btn color="primary" class="q-px-lg q-mb-xl">Все тесты</q-btn>
             </div>
+          <div class="flex justify-end">
+            <q-btn color="primary" class="q-px-lg q-mb-xl">Все тесты</q-btn>
+          </div>
         </div>
     </div>
 </template>
@@ -114,11 +128,13 @@ export default {
         name: true,
         surname: true,
         gender: true,
-        birthday: true,
+        age: true,
         email: true,
         password: true,
         old_password: true
-      }
+      },
+      attempts: [],
+      showLoaderTests: false
     }
   },
   created () {
@@ -127,9 +143,19 @@ export default {
       password: '',
       old_password: ''
     }
+    this.getAttempt()
   },
   components: { BreadcrumbsMenu, TopBar },
   methods: {
+    getAttempt () {
+      this.showLoaderTests = true
+      app.getAttemptForUser().then((data) => {
+        this.showLoaderTests = false
+        this.attempts = data
+      }).catch(() => {
+        this.showLoaderTests = false
+      })
+    },
     updateUser () {
       app.updateUser(this.user).then(() => {
       })
@@ -143,8 +169,11 @@ export default {
         this.$refs[key].focus()
       })
     },
-    next () {
-      this.$router.push({ name: name || 'passedTests' })
+    next (name, params) {
+      if (params) {
+        this.$store.dispatch('addTest', params)
+      }
+      this.$router.push({ name: name || '' })
     }
   }
 }

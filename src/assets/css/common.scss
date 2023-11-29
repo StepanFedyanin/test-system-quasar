@@ -111,7 +111,7 @@ body {
             height: 100%;
             width: 15px;
             background: var(--q-primary);
-            border-radius: var(--b-radius-more);
+            border-radius: var(--b-radius);
         }
     }
 
@@ -128,6 +128,7 @@ body {
         }
     }
 }
+
 
 .q {
     &-checkbox {
@@ -174,12 +175,13 @@ body {
     }
 
     &-field {
+        height: 40px;
         &__inner {
             height: 100%;
         }
 
         &--auto-height &__control-container {
-            padding-top: 10px !important;
+            padding-top: 0 !important;
         }
 
         &__control {
@@ -188,7 +190,7 @@ body {
             max-height: 40px;
             background: var(--color-bg);
             padding: 0 10px;
-
+            transition: background-color .3s;
             &:before {
                 border: 1px solid transparent !important;
             }
@@ -199,22 +201,25 @@ body {
             }
         }
 
-        &--auto-height {
-            padding-top: 10px !important;
-        }
-
         &__marginal {
             line-height: 40px;
             height: 40px;
         }
 
         &__native {
-            line-height: 40px;
-            height: 40px;
+            line-height: 24px !important;
+            padding-top: 15px !important;
+            padding-bottom: 0 !important;
+            align-items: center;
+            min-height: 40px !important;
         }
 
         &__label {
             top: 10px;
+        }
+
+        &--readonly &__control{
+            background: var(--color-readonly);
         }
     }
 
@@ -256,6 +261,7 @@ body {
     }
 }
 
+
 .breadcrumb {
     display: flex;
     margin: 0;
@@ -288,7 +294,6 @@ body {
 }
 
 .card {
-    overflow: hidden;
     border-radius: var(--b-radius);
     background: var(--color-white);
 
