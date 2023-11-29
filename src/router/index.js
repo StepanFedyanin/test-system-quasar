@@ -34,7 +34,7 @@ export default route(function (/* { store, ssrContext } */) {
       if (store.state.user && store.state.user.id) {
         const jwt = helpers.parseJwt(store.state.access)
         const expDate = new Date(jwt.exp * 1000)
-        if (expDate - new Date() < 0.5 * 60 * 60 * 1000) {
+        if (expDate - new Date() < 0.5 * 60 * 60 * 1000 && store.state.refresh) {
           console.log('refresh token')
           app.refreshToken(store.state.refresh).then((token) => {
             store.dispatch('token', token)

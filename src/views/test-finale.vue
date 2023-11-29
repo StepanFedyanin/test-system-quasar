@@ -61,12 +61,27 @@ export default {
       })
     },
     copyUrl () {
-      navigator.clipboard.writeText(this.conclusions.url).then(() => {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(this.conclusions.url)
+          .then(() => {
+            this.$refs.alertUser.style.transform = 'scale(1)'
+            setTimeout(() => {
+              this.$refs.alertUser.style.transform = 'scale(0)'
+            }
+            )
+          })
+      } else {
+        const input = document.createElement('input')
+        input.value = this.conclusions.url
+        document.body.appendChild(input)
+        input.select()
+        document.execCommand('copy')
+        document.body.removeChild(input)
         this.$refs.alertUser.style.transform = 'scale(1)'
         setTimeout(() => {
           this.$refs.alertUser.style.transform = 'scale(0)'
-        }, 4000)
-      })
+        })
+      }
     }
   }
 }
