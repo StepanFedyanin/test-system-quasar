@@ -2,7 +2,7 @@
   <div>
     <div class="row justify-between items-center">
       <breadcrumbs-menu/>
-      <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time"/>
+      <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time" @stop="onSubmit()"/>
     </div>
     <div
       class="loader"
@@ -96,10 +96,10 @@ export default {
     return {
       showLoaderTest: false,
       isStartTest: true,
-      tools: { prevBtn: null, nextBtn: null },
       test: null,
       slideOptions: {
         hasTrack: false,
+        drag: false,
         // type: 'loop',
         // rewind      : true,
         start: 0,
@@ -135,10 +135,11 @@ export default {
   },
   computed: {
     disableButton () {
-      // if (!this.test.select_subtest.question[this.activeSlide].obligatory) {
-      //   return false
-      // }
-      return !Object.values(this.test.answers)[this.activeSlide].answers.length
+      const question = this.test?.select_subtest?.question
+      if (question && !question[this.activeSlide]?.obligatory) {
+        return false
+      }
+      return question && !this.test.answers[this.test.select_subtest?.question[this.activeSlide].id].answers.length
     }
   },
   methods: {

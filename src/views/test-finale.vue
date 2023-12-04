@@ -7,8 +7,10 @@
       class="description__selected">профессиональным психологом</span>.
     </div>
     <div v-if="!$route.params?.id" class="row items-center q-gutter-md">
-      <div class="description description__bg description__point text-bold q-py-xs q-px-lg cursor-pointer" @click="copyUrl()">
-        "Ссылка на результаты теста": <span class="q-px-sm text-primary text-weight-light" ref="attemptUrl"> ссылка</span>
+      <div class="description description__bg description__point text-bold q-py-xs q-px-lg cursor-pointer"
+           @click="copyUrl()">
+        "Ссылка на результаты теста": <span class="q-px-sm text-primary text-weight-light"
+                                            ref="attemptUrl"> ссылка</span>
       </div>
       <div ref="alertUser" class="test__message text-h5 text-secondary">
         Ваша ссылка скопирована!
@@ -16,20 +18,21 @@
     </div>
   </div>
   <div class="card card__border q-px-xl q-py-lg q-mb-xl">
-    <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_${index}`">
-      <div class="text-bold text-h2 q-mb-lg">{{ conclusion.title }}</div>
-      <div class="card__progress">
-        <span/>
+    <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_${index}`"
+         class="row text-secondary q-mb-lg q-gutter-md items-center">
+      <div class="col-sm-3 col-md-2">{{ conclusion.title }}</div>
+      <div class="card__progress col-10 col-sm-grow">
+        <span :style="{width: `${conclusion.fin_scores / conclusion.max_score * 100}%`}"/>
       </div>
+      <div class="text-bold text-h3 col-sm-auto">{{ conclusion.fin_scores }}</div>
     </div>
   </div>
-  <div v-for="(conclusion,index) in conclusions" :key="`conclusion_description_${index}`">
-    <div class="text-bold text-h2 q-mb-lg">{{conclusion.title}}</div>
-    <div class="description description__point q-mb-xl">
-      <span class="description__paragraph" v-for="(data,index2) in conclusion.result" :key="`data_description${data+index+index2}`">
-         {{ data.description }}
+  <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_description_${index}`"
+       class="description description__point q-mb-lg">
+    <div class="text-bold text-h2 q-mb-md">{{ conclusion.title }}</div>
+    <span class="description__paragraph">
+         {{ conclusion.description }}
       </span>
-    </div>
   </div>
 </template>
 
@@ -52,8 +55,7 @@ export default {
       this.getConclusion(this.$route.params?.id || this.test.attempt)
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     getConclusion (id) {
       app.getAttemptById(id).then((data) => {
@@ -67,8 +69,7 @@ export default {
             this.$refs.alertUser.style.transform = 'scale(1)'
             setTimeout(() => {
               this.$refs.alertUser.style.transform = 'scale(0)'
-            }
-            )
+            }, 3000)
           })
       } else {
         const input = document.createElement('input')
@@ -80,7 +81,7 @@ export default {
         this.$refs.alertUser.style.transform = 'scale(1)'
         setTimeout(() => {
           this.$refs.alertUser.style.transform = 'scale(0)'
-        })
+        }, 3000)
       }
     }
   }

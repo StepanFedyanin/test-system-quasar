@@ -45,7 +45,7 @@ export default route(function (/* { store, ssrContext } */) {
       }
     }
     if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (store.state.user && store.state.user.id) {
+      if (store.state.access) {
         const jwt = helpers.parseJwt(store.state.access)
         const expDate = new Date(jwt.exp * 1000)
         if (expDate < new Date()) {

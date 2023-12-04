@@ -350,6 +350,8 @@ body {
         height: 35px !important;
         background: var(--color-bg);
         overflow: hidden;
+        border-bottom-right-radius: var(--b-radius-more);
+        border-top-right-radius: var(--b-radius-more);
         span{
             display: block;
             background: var(--q-primary);
