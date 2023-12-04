@@ -1,7 +1,8 @@
 <template>
   <div class="row justify-between items-center">
     <breadcrumbs-menu/>
-    <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time" @stop="onSubmit()"/>
+<!--    <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time" @stop="onSubmit()"/>-->
+    <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time"/>
   </div>
     <div
         class="loader"
@@ -45,15 +46,35 @@
               <q-checkbox
                 v-for="ans in question.answer"
                 :key="`answer-${ans.id+index}`"
-                :val="ans.id"
-                v-model="test.answers"
+                @change="changeAnswer"
                 class="full-width q-mb-sm"
               >
-                {{ans.name}}
+                <template v-if="ans.answer_img">
+                  <div class="row items-center justify-between">
+                    <div class="col-6 col-sm-5">{{ans.name || index + 1}}</div>
+                    <div class="col-6 col-sm-5 q-cover">
+                      <img :src="ans.answer_img" alt=""/>
+                    </div>
+                  </div>
+                </template>
+                <template v-else>
+                  {{ans.name}}
+                </template>
               </q-checkbox>
             </template>
             <template v-else>
-              <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="test.answers">radio
+              <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="test.answers[activeSlide]">
+                <template v-if="ans.answer_img">
+                  <div class="row items-center justify-between">
+                    <div class="col-6 col-sm-5">{{ans.name || index + 1}}</div>
+                    <div class="col-6 col-sm-5 q-cover">
+                      <img :src="ans.answer_img" alt=""/>
+                    </div>
+                  </div>
+                </template>
+                <template v-else>
+                  {{ans.name}}
+                </template>
               </q-radio>
             </template>
           </SplideSlide>
@@ -69,7 +90,7 @@
             Назад
           </q-btn>
           <q-btn
-            class="q-px-xl q-py-sm" color="primary" @click="activeSlide >= $refs.reviews?.splide?.length - 1? onSubmit(): changeQuestion('next')"
+            class="q-px-xl q-py-sm" :disable="this.activeSlide" color="primary" @click="activeSlide >= $refs.reviews?.splide?.length - 1? onSubmit(): changeQuestion('next')"
           >
             Далее
           </q-btn>
@@ -93,7 +114,6 @@ export default {
     return {
       showLoaderTest: false,
       isStartTest: true,
-      tools: { prevBtn: null, nextBtn: null },
       test: null,
       slideOptions: {
         hasTrack: false,
@@ -119,7 +139,6 @@ export default {
         // arrowPath: '0',
         arrows: false
       },
-      selectAnswer: [],
       activeSlide: 0
     }
   },
@@ -156,6 +175,9 @@ export default {
         }
       }
       this.$refs.reviews?.go(this.activeSlide)
+    },
+    changeAnswer () {
+
     },
     onSubmit () {
       app.pushAnswer(this.test).then((data) => {

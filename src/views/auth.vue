@@ -167,13 +167,8 @@ export default {
       app.obtainToken(this.$helpers.removeKeys(this.login, ['hiddenPassword'])).then((res) => {
         if (res.access && res.refresh) {
           this.$store.dispatch('token', res)
-          app.getUser().then(user => {
-            this.showLoader = false
-            this.$store.dispatch('initUser', user)
-            this.next('profile')
-          }).catch(() => {
-            this.showLoader = false
-          })
+          this.showLoader = false
+          this.next('profile')
         }
         this.showLoader = false
       }).catch(() => {

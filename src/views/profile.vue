@@ -134,7 +134,8 @@ export default {
         old_password: true
       },
       attempts: [],
-      showLoaderTests: false
+      showLoaderTests: false,
+      showLoaderUser: false
     }
   },
   created () {
@@ -144,6 +145,7 @@ export default {
       old_password: ''
     }
     this.getAttempt()
+    this.getUser()
   },
   components: { BreadcrumbsMenu, TopBar },
   methods: {
@@ -158,6 +160,15 @@ export default {
     },
     updateUser () {
       app.updateUser(this.user).then(() => {
+      })
+    },
+    getUser () {
+      this.showLoaderUser = true
+      app.getUser().then(user => {
+        this.$store.dispatch('initUser', user)
+        this.showLoaderUser = false
+      }).catch(() => {
+        this.showLoaderUser = false
       })
     },
     blurInput (key) {
