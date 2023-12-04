@@ -1,7 +1,7 @@
 <template>
     <top-bar class="q-mb-lg"/>
-    <div class="profile row justify-between">
-        <div class="card row col-12 col-sm-5 col-lg-3 q-pa-lg q-mb-xl">
+    <div class="profile row justify-between q-pb-lg">
+        <div class="card profile__form row col-12 col-sm-5 col-lg-3 q-pa-lg">
             <div class="row col-12 justify-between items-center q-mb-lg q-px-sm">
                 <div class="cover">
                     <span/>
@@ -104,7 +104,7 @@
                 </div>
             </div>
           <div class="flex justify-end">
-            <q-btn color="primary" class="q-px-lg q-mb-xl">Все тесты</q-btn>
+            <q-btn color="primary" class="q-px-lg">Все тесты</q-btn>
           </div>
         </div>
     </div>

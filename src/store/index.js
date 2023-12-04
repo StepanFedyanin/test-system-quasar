@@ -11,7 +11,7 @@ const templateTest = (id) => {
     name: '',
     sdescription: '',
     test: id,
-    answers: [],
+    answers: {},
     subtest: [],
     active_subtest: 0,
     select_subtest: {},

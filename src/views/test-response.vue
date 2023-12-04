@@ -1,7 +1,6 @@
 <template>
   <div class="row justify-between items-center">
     <breadcrumbs-menu/>
-<!--    <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time" @stop="onSubmit()"/>-->
     <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time"/>
   </div>
     <div
@@ -46,35 +45,16 @@
               <q-checkbox
                 v-for="ans in question.answer"
                 :key="`answer-${ans.id+index}`"
-                @change="changeAnswer"
+                :val="ans.id"
+                v-model="test.answers[question.id].answers"
+                @toggle="changeAnswer(question.id, ans.id)"
                 class="full-width q-mb-sm"
               >
-                <template v-if="ans.answer_img">
-                  <div class="row items-center justify-between">
-                    <div class="col-6 col-sm-5">{{ans.name || index + 1}}</div>
-                    <div class="col-6 col-sm-5 q-cover">
-                      <img :src="ans.answer_img" alt=""/>
-                    </div>
-                  </div>
-                </template>
-                <template v-else>
-                  {{ans.name}}
-                </template>
+                {{ans.name}}
               </q-checkbox>
             </template>
             <template v-else>
-              <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="test.answers[activeSlide]">
-                <template v-if="ans.answer_img">
-                  <div class="row items-center justify-between">
-                    <div class="col-6 col-sm-5">{{ans.name || index + 1}}</div>
-                    <div class="col-6 col-sm-5 q-cover">
-                      <img :src="ans.answer_img" alt=""/>
-                    </div>
-                  </div>
-                </template>
-                <template v-else>
-                  {{ans.name}}
-                </template>
+              <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="test.answers">radio
               </q-radio>
             </template>
           </SplideSlide>
@@ -90,7 +70,7 @@
             Назад
           </q-btn>
           <q-btn
-            class="q-px-xl q-py-sm" :disable="this.activeSlide" color="primary" @click="activeSlide >= $refs.reviews?.splide?.length - 1? onSubmit(): changeQuestion('next')"
+            class="q-px-xl q-py-sm" color="primary" @click="activeSlide >= $refs.reviews?.splide?.length - 1? onSubmit(): changeQuestion('next')"
           >
             Далее
           </q-btn>
@@ -114,6 +94,7 @@ export default {
     return {
       showLoaderTest: false,
       isStartTest: true,
+      tools: { prevBtn: null, nextBtn: null },
       test: null,
       slideOptions: {
         hasTrack: false,
@@ -139,6 +120,7 @@ export default {
         // arrowPath: '0',
         arrows: false
       },
+      selectAnswer: [],
       activeSlide: 0
     }
   },
@@ -152,12 +134,18 @@ export default {
   },
   computed: {},
   methods: {
+    reinitializationResponses () {
+      this.test.select_subtest.question.forEach((question) => {
+        this.test.answers[question.id] = { id: Number(question.id), answers: [] }
+      })
+    },
     getSubTest () {
       app.getSubTest(this.test.subtest[this.test.active_subtest]?.id).then((data) => {
         this.$store.dispatch('updateTest', { ...this.test, select_subtest: data })
         this.$nextTick(() => {
           this.test = this.$store.state.test
           this.isStartTest = this.test.select_subtest.description === ''
+          this.reinitializationResponses()
         })
       })
     },
@@ -176,11 +164,23 @@ export default {
       }
       this.$refs.reviews?.go(this.activeSlide)
     },
-    changeAnswer () {
-
+    changeAnswer (question, answer) {
+      if (this.test.answers[question]) {
+        const index = this.test.answers[question].answers.findIndex((id) => id === answer)
+        if (index === -1) {
+          this.test.answers[question].answers.push(answer)
+        } else {
+          this.test.answers[question].answers.splice(index, 1)
+        }
+      } else {
+        this.test.answers[question] = {
+          id: question,
+          answers: [answer]
+        }
+      }
     },
     onSubmit () {
-      app.pushAnswer(this.test).then((data) => {
+      app.pushAnswer({ ...this.test, answers: Object.values(this.test.answers) }).then((data) => {
         this.$store.dispatch('updateTest', { ...this.test, active_subtest: this.test.active_subtest + 1, attempt: data.id })
         this.activeSlide = 0
         this.test = this.$store.state.test
