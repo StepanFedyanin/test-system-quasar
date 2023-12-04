@@ -11,4 +11,7 @@
         justify-content: space-between;
         align-items: flex-end;
     }
+    &__form{
+        height: fit-content !important;
+    }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-between items-center">
     <breadcrumbs-menu/>
-    <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time" @stop="onSubmit()"/>
+    <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time"/>
   </div>
     <div
         class="loader"
@@ -46,7 +46,8 @@
                 v-for="ans in question.answer"
                 :key="`answer-${ans.id+index}`"
                 :val="ans.id"
-                v-model="test.answers"
+                v-model="test.answers[question.id].answers"
+                @toggle="changeAnswer(question.id, ans.id)"
                 class="full-width q-mb-sm"
               >
                 {{ans.name}}
@@ -133,12 +134,18 @@ export default {
   },
   computed: {},
   methods: {
+    reinitializationResponses () {
+      this.test.select_subtest.question.forEach((question) => {
+        this.test.answers[question.id] = { id: Number(question.id), answers: [] }
+      })
+    },
     getSubTest () {
       app.getSubTest(this.test.subtest[this.test.active_subtest]?.id).then((data) => {
         this.$store.dispatch('updateTest', { ...this.test, select_subtest: data })
         this.$nextTick(() => {
           this.test = this.$store.state.test
           this.isStartTest = this.test.select_subtest.description === ''
+          this.reinitializationResponses()
         })
       })
     },
@@ -157,8 +164,23 @@ export default {
       }
       this.$refs.reviews?.go(this.activeSlide)
     },
+    changeAnswer (question, answer) {
+      if (this.test.answers[question]) {
+        const index = this.test.answers[question].answers.findIndex((id) => id === answer)
+        if (index === -1) {
+          this.test.answers[question].answers.push(answer)
+        } else {
+          this.test.answers[question].answers.splice(index, 1)
+        }
+      } else {
+        this.test.answers[question] = {
+          id: question,
+          answers: [answer]
+        }
+      }
+    },
     onSubmit () {
-      app.pushAnswer(this.test).then((data) => {
+      app.pushAnswer({ ...this.test, answers: Object.values(this.test.answers) }).then((data) => {
         this.$store.dispatch('updateTest', { ...this.test, active_subtest: this.test.active_subtest + 1, attempt: data.id })
         this.activeSlide = 0
         this.test = this.$store.state.test
