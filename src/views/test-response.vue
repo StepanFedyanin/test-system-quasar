@@ -1,79 +1,81 @@
 <template>
-  <div class="row justify-between items-center">
-    <breadcrumbs-menu/>
-    <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time"/>
-  </div>
+  <div>
+    <div class="row justify-between items-center">
+      <breadcrumbs-menu/>
+      <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time"/>
+    </div>
     <div
-        class="loader"
-        v-if="showLoaderTest"
+      class="loader"
+      v-if="showLoaderTest"
     >
-        <q-circular-progress
-            indeterminate
-            rounded
-            size="50px"
-            color="primary"
-            class="q-ma-md"
-        />
+      <q-circular-progress
+        indeterminate
+        rounded
+        size="50px"
+        color="primary"
+        class="q-ma-md"
+      />
     </div>
-  <div v-else class="test">
-    <div v-if="!isStartTest" class="test__shadow">
-      <div class="description description__point q-mb-lg">
-        {{test.select_subtest.description}}
+    <div v-else class="test">
+      <div v-if="!isStartTest" class="test__shadow">
+        <div class="description description__point q-mb-lg">
+          {{test.select_subtest.description}}
+        </div>
+        <div class="flex justify-end">
+          <q-btn class="q-px-xl" color="primary" @click="startTest">Начать</q-btn>
+        </div>
       </div>
-      <div class="flex justify-end">
-        <q-btn class="q-px-xl" color="primary" @click="startTest">Начать</q-btn>
-      </div>
-    </div>
-    <div v-else class="row">
-      <div class="col-12 col-sm-11 col-md-10">
-        <Splide
-          class="test__shadow q-mb-xl"
-          ref="reviews"
-          :options="slideOptions"
-        >
-          <SplideSlide
-            v-for="(question, index) in test.select_subtest.question"
-            :key="`question-${question.id}`"
+      <div v-else class="row">
+        <div class="col-12 col-sm-11 col-md-10">
+          <Splide
+            class="test__shadow q-mb-xl"
+            ref="reviews"
+            :options="slideOptions"
           >
-            <div class="text-h2 text-bold text-center q-mb-xl">
-              {{question.name}}
-            </div>
-            <div class="test__cover" v-if="question.question_img">
-              <img :src="question.question_img" alt="">
-            </div>
-            <template v-if="question.type_question">
-              <q-checkbox
-                v-for="ans in question.answer"
-                :key="`answer-${ans.id+index}`"
-                :val="ans.id"
-                v-model="test.answers[question.id].answers"
-                @toggle="changeAnswer(question.id, ans.id)"
-                class="full-width q-mb-sm"
-              >
-                {{ans.name}}
-              </q-checkbox>
-            </template>
-            <template v-else>
-              <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="test.answers">radio
-              </q-radio>
-            </template>
-          </SplideSlide>
-        </Splide>
-        <div class="row justify-between">
-          <q-btn
-            :disable="activeSlide < 1"
-            class="q-px-xl q-py-sm"
-            color="primary"
-            outline
-            @click="changeQuestion('prev')"
-          >
-            Назад
-          </q-btn>
-          <q-btn
-            class="q-px-xl q-py-sm" color="primary" @click="activeSlide >= $refs.reviews?.splide?.length - 1? onSubmit(): changeQuestion('next')"
-          >
-            Далее
-          </q-btn>
+            <SplideSlide
+              v-for="(question, index) in test.select_subtest.question"
+              :key="`question-${question.id}`"
+            >
+              <div class="text-h2 text-bold text-center q-mb-xl">
+                {{question.name}}
+              </div>
+              <div class="test__cover" v-if="question.question_img">
+                <img :src="question.question_img" alt="">
+              </div>
+              <template v-if="question.type_question">
+                <q-checkbox
+                  v-for="ans in question.answer"
+                  :key="`answer-${ans.id+index}`"
+                  :val="ans.id"
+                  v-model="test.answers[question.id].answers"
+                  class="full-width q-mb-sm"
+                >
+                  {{ans.name}}
+                </q-checkbox>
+              </template>
+              <template v-else>
+                <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="test.answers">radio
+                </q-radio>
+              </template>
+            </SplideSlide>
+          </Splide>
+          <div class="row justify-between">
+            <q-btn
+              :disable="activeSlide < 1"
+              class="q-px-xl q-py-sm"
+              color="primary"
+              outline
+              @click="changeQuestion('prev')"
+            >
+              Назад
+            </q-btn>
+            <q-btn
+              :disable="disableButton"
+              class="q-px-xl q-py-sm" color="primary" @click="activeSlide >= $refs.reviews?.splide?.length - 1? onSubmit(): changeQuestion('next')"
+            >
+              Далее
+            </q-btn>
+          </div>
         </div>
       </div>
     </div>
@@ -120,7 +122,6 @@ export default {
         // arrowPath: '0',
         arrows: false
       },
-      selectAnswer: [],
       activeSlide: 0
     }
   },
@@ -132,11 +133,18 @@ export default {
       this.next('allTests')
     }
   },
-  computed: {},
+  computed: {
+    disableButton () {
+      // if (!this.test.select_subtest.question[this.activeSlide].obligatory) {
+      //   return false
+      // }
+      return !Object.values(this.test.answers)[this.activeSlide].answers.length
+    }
+  },
   methods: {
     reinitializationResponses () {
       this.test.select_subtest.question.forEach((question) => {
-        this.test.answers[question.id] = { id: Number(question.id), answers: [] }
+        this.test.answers[question.id] = { id: question.id, answers: [] }
       })
     },
     getSubTest () {
@@ -164,26 +172,11 @@ export default {
       }
       this.$refs.reviews?.go(this.activeSlide)
     },
-    changeAnswer (question, answer) {
-      if (this.test.answers[question]) {
-        const index = this.test.answers[question].answers.findIndex((id) => id === answer)
-        if (index === -1) {
-          this.test.answers[question].answers.push(answer)
-        } else {
-          this.test.answers[question].answers.splice(index, 1)
-        }
-      } else {
-        this.test.answers[question] = {
-          id: question,
-          answers: [answer]
-        }
-      }
-    },
     onSubmit () {
       app.pushAnswer({ ...this.test, answers: Object.values(this.test.answers) }).then((data) => {
         this.$store.dispatch('updateTest', { ...this.test, active_subtest: this.test.active_subtest + 1, attempt: data.id })
-        this.activeSlide = 0
         this.test = this.$store.state.test
+        this.activeSlide = 0
       }).catch((err) => {
         this.$store.dispatch('showError', err)
       }).finally(() => {

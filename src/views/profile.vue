@@ -32,7 +32,7 @@
               </template>
             </q-input>
 
-            <q-input ref="age" :readonly="userForm.age" @blur="blurInput('age')" borderless v-model="user.age" mask="####-##-##" label="Дата рождения"
+            <q-input ref="age" :readonly="userForm.age" @blur="blurInput('age')" borderless v-model="user.age" mask="##-##-####" label="Дата рождения"
                      class="col-6 col-sm-12 q-mb-md q-px-sm">
                 <template v-slot:append>
                     <q-icon class="cursor-pointer" name="border_color" @click="focusInput('age')" size="17px"/>
@@ -159,7 +159,10 @@ export default {
       })
     },
     updateUser () {
-      app.updateUser(this.user).then(() => {
+      app.updateUser(this.user).then((user) => {
+        this.$store.dispatch('initUser', user)
+      }).catch(() => {
+
       })
     },
     getUser () {
