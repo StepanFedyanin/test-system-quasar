@@ -3,9 +3,9 @@
     <breadcrumbs-menu/>
     <modal-wrapper v-model="showOfferAuth">
       <div class="row">
-        <span class="text-center col-12 q-mb-md">Сохранить результат?</span>
+        <span class="text-center col-12 q-mb-md text-h3 text-primary">Сохранить результат?</span>
         <div class="col-12 row justify-between">
-          <q-btn class="col-5 col-sm-4 col-lg-3" flat>Нет</q-btn>
+          <q-btn class="col-5 col-sm-4 col-lg-3" flat @click="showOfferAuth = !showOfferAuth">Нет</q-btn>
           <q-btn class="col-5 col-sm-4 col-lg-3" color="primary" @click="next('auth')">Да</q-btn>
         </div>
       </div>
