@@ -2,7 +2,7 @@
   <div class="q-mb-xl">
     <ol
       v-if="$breadcrumbs.value && $breadcrumbs.value.length > 1"
-      class="breadcrumb"
+      class="breadcrumb row"
     >
       <li
         v-for="(item, index) in $breadcrumbs.value"

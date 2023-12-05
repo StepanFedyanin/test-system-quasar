@@ -19,7 +19,7 @@
         align="between"
         flat
         v-for="attempt in attempts" :key="`attempt_${attempt.test_id}`"
-        @click="next('test', attempt.test_id)"
+        @click="next('testPassed', attempt.test_id)"
       >
         {{ attempt.test }}
         <div class="text-primary row items-center">
@@ -62,7 +62,7 @@ export default {
       if (params) {
         this.$store.dispatch('addTest', params)
       }
-      this.$router.push({ name: name || 'testPassed' })
+      this.$router.push({ name: name || 'passed_tests' })
     }
   }
 }

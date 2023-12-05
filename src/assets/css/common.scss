@@ -88,6 +88,12 @@ body {
         letter-spacing: normal;
         font-size: calc(var(--font-family-size) * 0.75);
     }
+
+    &-pruning{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 
@@ -137,6 +143,11 @@ body {
         border: 2px solid transparent;
         padding: 3px 20px;
         border-radius: var(--b-radius);
+        transition: border .2s;
+
+        &:hover {
+            border: 2px solid var(--q-primary);
+        }
 
         &[aria-checked="true"] {
             border: 2px solid var(--q-primary);
@@ -176,6 +187,7 @@ body {
 
     &-field {
         height: 40px;
+
         &__inner {
             height: 100%;
         }
@@ -191,6 +203,7 @@ body {
             background: var(--color-bg);
             padding: 0 10px;
             transition: background-color .3s;
+
             &:before {
                 border: 1px solid transparent !important;
             }
@@ -218,46 +231,13 @@ body {
             top: 10px;
         }
 
-        &--readonly &__control{
+        &--readonly &__control {
             background: var(--color-readonly);
         }
     }
 
     &-tabs {
         border-radius: 0 !important;
-    }
-
-    &-textarea &-field__control {
-        max-height: none;
-        height: auto;
-
-        &-container {
-            height: auto;
-
-            textarea {
-                max-height: 100px;
-                overflow-y: scroll !important;
-
-                &::-webkit-scrollbar {
-                    width: 5px;
-                }
-
-                &::-webkit-scrollbar-track {
-                    background: transparent;
-                    margin: 5px 0;
-                }
-
-                &::-webkit-scrollbar-thumb {
-                    background-color: var(--q-primary);
-                    border-radius: var(--b-radius);
-                }
-            }
-        }
-    }
-
-    &-uploader__list {
-        min-height: auto !important;
-        padding: 0 !important;
     }
 }
 
@@ -310,6 +290,7 @@ body {
 
     &__border {
         border-radius: var(--b-radius-more);
+        overflow: hidden;
 
         &--small {
             border-radius: var(--b-radius);
@@ -346,13 +327,14 @@ body {
         }
     }
 
-    &__progress{
+    &__progress {
         height: 35px !important;
         background: var(--color-bg);
         overflow: hidden;
         border-bottom-right-radius: var(--b-radius-more);
         border-top-right-radius: var(--b-radius-more);
-        span{
+
+        span {
             display: block;
             background: var(--q-primary);
             height: 100%;
@@ -360,6 +342,7 @@ body {
             border-top-right-radius: var(--b-radius-more);
         }
     }
+
     &__point {
         width: 23px;
         height: 35px;
@@ -380,5 +363,23 @@ body {
     &__small {
         width: 47px;
         height: 47px;
+    }
+}
+
+.disabled, .disabled *, [disabled], [disabled] * {
+    cursor: default !important;
+}
+
+.table {
+    padding-bottom: 10px;
+    tbody {
+        tr {
+            border: 1px solid transparent;
+            transition: border .2s;
+
+            &:hover {
+                border: 1px solid var(--q-primary);
+            }
+        }
     }
 }

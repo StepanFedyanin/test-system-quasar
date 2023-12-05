@@ -50,11 +50,32 @@
                   v-model="test.answers[question.id].answers"
                   class="full-width q-mb-sm"
                 >
-                  {{ans.name}}
+                  <template v-if="ans.answer_img">
+                  <div class="row items-center justify-between">
+                    <div class="col-6 col-sm-5">{{ans.name || index + 1}}</div>
+                    <div class="col-6 col-sm-5 q-cover">
+                      <img :src="ans.answer_img" alt=""/>
+                    </div>
+                  </div>
+                </template>
+                  <template v-else>
+                    {{ans.name}}
+                  </template>
                 </q-checkbox>
               </template>
               <template v-else>
-                <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="test.answers">radio
+                <q-radio v-for="ans in question.answer" :key="`answer-${ans.id}`" :val="ans.id" v-model="test.answers">
+                  <template v-if="ans.answer_img">
+                    <div class="row items-center justify-between">
+                      <div class="col-6 col-sm-5">{{ans.name || index + 1}}</div>
+                      <div class="col-6 col-sm-5 q-cover">
+                        <img :src="ans.answer_img" alt=""/>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-else>
+                    {{ans.name}}
+                  </template>
                 </q-radio>
               </template>
             </SplideSlide>
@@ -95,7 +116,7 @@ export default {
   data () {
     return {
       showLoaderTest: false,
-      isStartTest: true,
+      isStartTest: false,
       test: null,
       slideOptions: {
         hasTrack: false,

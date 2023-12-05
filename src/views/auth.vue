@@ -52,11 +52,11 @@
           <q-input class="q-mb-md" borderless v-model="register.name" label="Имя"/>
           <q-input class="q-mb-md" borderless v-model="register.surname" label="Фамилия"/>
           <q-select class="q-mb-md" v-model="register.gender" borderless :options="gender" label="Пол"/>
-          <q-input class="q-mb-md" borderless v-model="register.age" mask="##-##-####" label="Дата рождения">
+          <q-input class="q-mb-md" borderless v-model="register.birthday" mask="##.##.####" label="Дата рождения">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date mask="DD-MM-YYYY" v-model="register.age" landscape>
+                  <q-date mask="DD-MM-YYYY" v-model="register.birthday" landscape>
                   </q-date>
                 </q-popup-proxy>
               </q-icon>
@@ -112,9 +112,10 @@ export default {
   components: { ModalWrapper },
   data () {
     return {
+      test: {},
       tab: 'auth',
       showLoader: false,
-      token: null,
+      user: null,
       gender: [
         'мужской',
         'женский'
@@ -128,7 +129,7 @@ export default {
         name: '',
         surname: '',
         gender: '',
-        age: '',
+        birthday: '',
         email: '',
         password: '',
         hiddenPassword: true
@@ -137,8 +138,9 @@ export default {
     }
   },
   created () {
-    this.token = this.$store.state.access
-    if (this.token) {
+    this.test = this.$store.state.test
+    this.user = this.$store.state.user
+    if (this.user.id) {
       this.next('profile')
     }
   },
@@ -150,7 +152,7 @@ export default {
       return this.register.name.trim().length === 0 ||
         this.register.surname.trim().length === 0 ||
         this.register.gender.trim().length === 0 ||
-        this.register.age.trim().length === 0 ||
+        this.register.birthday.trim().length === 0 ||
         this.register.email.trim().length === 0 ||
         this.register.password.trim().length === 0
     }
@@ -160,17 +162,27 @@ export default {
       this.isShowAgreement = true
     },
     next (params) {
-      this.$router.push({ name: params || 'allTests' })
+      if (this.$router.options.history.state.back.includes('final') && this.test.attempt) {
+        this.$router.go(-1)
+      } else {
+        this.$router.push({ name: params || 'allTests' })
+      }
     },
     onLogin () {
       this.showLoader = true
       app.obtainToken(this.$helpers.removeKeys(this.login, ['hiddenPassword'])).then((res) => {
         if (res.access && res.refresh) {
-          this.$store.dispatch('token', res)
-          this.showLoader = false
-          this.next('profile')
+          if (res.access && res.refresh) {
+            this.$store.dispatch('token', res)
+            app.getUser().then(user => {
+              this.showLoader = false
+              this.$store.dispatch('initUser', user)
+              this.next('profile')
+            }).catch(() => {
+              this.showLoader = false
+            })
+          }
         }
-        this.showLoader = false
       }).catch(() => {
         this.showLoader = false
       })
@@ -188,7 +200,6 @@ export default {
             this.showLoader = false
           })
         }
-        this.showLoader = false
       }).catch(() => {
         this.showLoader = false
       })

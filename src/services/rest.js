@@ -1,6 +1,5 @@
 import ajax from '../utils/ajax'
 import store from 'src/store'
-// import store from '../store/store'
 
 class RESTError extends Error {
   constructor (error, message, params = {}) {

@@ -208,7 +208,7 @@ const routes = [
               requiresAuth: true,
               breadcrumb () {
                 return {
-                  label: 'тест заключение',
+                  label: 'Заключение',
                   link: 'passedTests',
                   current: false,
                   _path: '/finale'

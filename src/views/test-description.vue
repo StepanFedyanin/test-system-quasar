@@ -3,7 +3,7 @@
     <div>
       <template v-if="user.id">
         <breadcrumbs-menu/>
-        <div class="row q-gutter-md items-start justify-between">
+        <div class="row items-start justify-between">
           <div
             class="loader"
             v-if="showLoaderTest"
@@ -16,7 +16,7 @@
               class="q-ma-md"
             />
           </div>
-          <table v-else-if="attempts.length!==0" class="card card__shadow col-8 col-md-3 mb-4">
+          <table v-else-if="attempts.length!==0" class="card table card__shadow col-8 col-md-3 mb-4 q-mb-md">
             <thead class="text-primary text-weight-medium bg-grey-1">
             <tr class="row">
               <td class="col-6 q-px-md q-py-sm">
