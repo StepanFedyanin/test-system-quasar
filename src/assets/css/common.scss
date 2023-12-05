@@ -1,8 +1,5 @@
 
 body {
-    font-family: var(--font-family-base);
-    font-size: var(--font-family-size);
-    color: rgba(var(--bs-dark-rgb), 1);
     background-color: rgba(var(--bs-light-rgb), 1);
     position: relative;
     min-width: 320px;
@@ -14,6 +11,9 @@ body {
     display: flex;
     flex-direction: column;
     background: var(--color-bg);
+    font-family: var(--font-family-base) !important;
+    font-size: var(--font-family-size) !important;
+    color: rgba(var(--bs-dark-rgb), 1)!important;
 }
 
 .container {
