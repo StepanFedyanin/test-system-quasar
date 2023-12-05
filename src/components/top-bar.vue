@@ -50,7 +50,7 @@
         </q-btn>
         <div class="cover cover__small"/>
       </div>
-      <q-btn v-else class="topbar__user col q-px-lg" outline color="primary" @click="next('auth')">
+      <q-btn v-else class="topbar__user col-auto q-px-lg" outline color="primary" @click="next('auth')">
         вход / регистрация
       </q-btn>
       <div class="topbar__burger" @click="handleShowMenu()">
