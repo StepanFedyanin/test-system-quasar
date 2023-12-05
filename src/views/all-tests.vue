@@ -21,20 +21,20 @@
       </q-btn>
     </div>
     <div class="row q-mb-md items-center">
-        Сортировать по:
-        <div class="col-12 col-sm-10">
-            <q-btn
-                v-for="testFilterAds in testFiltersAds"
-                :key="testFilterAds.type"
-                :variant="currentFilter.sorted===testFilterAds.type?'secondary active':'secondary'"
-                @click="changeCurrentSorted(testFilterAds.type)"
-                :class="[`${currentFilter.sorted===testFilterAds.type?'text-primary': 'text-secondary'}`]"
-                flat
-            >
-                {{ testFilterAds.name }}
-            </q-btn>
-        </div>
-        </div>
+      Сортировать по:
+      <div class="col-12 col-sm-10">
+        <q-btn
+          v-for="testFilterAds in testFiltersAds"
+          :key="testFilterAds.type"
+          :variant="currentFilter.sorted===testFilterAds.type?'secondary active':'secondary'"
+          @click="changeCurrentSorted(testFilterAds.type)"
+          :class="[`${currentFilter.sorted===testFilterAds.type?'text-primary': 'text-secondary'}`]"
+          flat
+        >
+          {{ testFilterAds.name }}
+        </q-btn>
+      </div>
+    </div>
     <div class="q-mb-xl">
       <q-input class="tests__search" label="Поиск">
         <template v-slot:append>
@@ -44,26 +44,26 @@
       </q-input>
     </div>
   </div>
-    <div
-        v-if="showLoaderTests"
-        class="loader"
-    >
-        <q-circular-progress
-            indeterminate
-            rounded
-            size="50px"
-            color="primary"
-            class="q-ma-md"
-        />
-    </div>
-  <div v-else class="row">
+  <div
+    v-if="showLoaderTests"
+    class="loader"
+  >
+    <q-circular-progress
+      indeterminate
+      rounded
+      size="50px"
+      color="primary"
+      class="q-ma-md"
+    />
+  </div>
+  <div v-else class="row q-pb-lg">
     <q-card
       class="card col-6 col-sm-4 col-lg-3"
       v-for="category in testsCategory"
       :key="`category-${category.id}`"
     >
       <q-card-section class="card__header q-py-sm">
-        <div class="text-white">{{category.name}}</div>
+        <div class="text-white">{{ category.name }}</div>
       </q-card-section>
 
       <q-card-actions vertical class="q-pa-none">
@@ -75,7 +75,7 @@
           v-for="test in category.test"
           :key="`test-${test.id}`"
         >
-          {{test.name}}
+          {{ test.name }}
           <q-icon color="primary" name="chevron_right"/>
         </q-btn>
       </q-card-actions>
@@ -87,6 +87,7 @@
 
 import app from 'src/services/app'
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
+
 export default {
   name: 'all-test',
   components: { BreadcrumbsMenu },

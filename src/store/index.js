@@ -74,10 +74,7 @@ const store = createStore({
       context.commit('INIT_TIMER')
     },
     clearTimer (context) {
-      context.commit('CLEAR_TEST')
-    },
-    clearTest (context) {
-      context.commit('CLEAR_TEST')
+      context.commit('CLEAR_TIMER')
     }
   }
 })

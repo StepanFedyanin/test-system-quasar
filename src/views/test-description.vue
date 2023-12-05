@@ -107,7 +107,11 @@ export default {
       if (params) {
         this.$router.push({ name, params: { id: params } })
       } else {
-        this.$router.push({ name: this.$route.path.includes('all_tests') ? 'testResponse' : 'testResponsePassed' })
+        this.$store.dispatch('clearTimer')
+        console.log('почему хуйня не работает')
+        this.$nextTick(() => {
+          this.$router.push({ name: this.$route.path.includes('all_tests') ? 'testResponse' : 'testResponsePassed' })
+        })
       }
     }
   }
