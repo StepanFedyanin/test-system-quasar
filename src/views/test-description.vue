@@ -79,7 +79,7 @@ export default {
   components: { BreadcrumbsMenu },
   data () {
     return {
-      test: null,
+      test: {},
       attempts: [],
       longDescription: true,
       user: null,

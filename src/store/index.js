@@ -2,8 +2,8 @@ import { createStore } from 'vuex'
 import VuexPersist from 'vuex-persist'
 
 const vuexPersist = new VuexPersist({
-  key: 'test-system',
-  storage: window.localStorage
+  key: 'nashel'
+  // storage: window.localStorage
 })
 
 const templateTest = (id) => {

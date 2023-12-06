@@ -1,20 +1,22 @@
 <template>
-  <div class="q-mb-xl">
-    <ol
-      v-if="$breadcrumbs.value && $breadcrumbs.value.length > 1"
-      class="breadcrumb row"
-    >
-      <li
-        v-for="(item, index) in $breadcrumbs.value"
-        :key="`breadcrumbs-${index}`"
-        class="breadcrumb__item cursor-pointer text-secondary"
-        @click="next(item.link)"
+  <q-no-ssr>
+    <div class="q-mb-xl">
+      <ol
+        v-if="$breadcrumbs.value && $breadcrumbs.value.length > 1"
+        class="breadcrumb row"
       >
-        {{ item.label }}
-      </li>
-    </ol>
-    <div class="text-h2 text-primary text-bold">{{ $breadcrumbs.value[this.$breadcrumbs.value.length - 1].label }}</div>
-  </div>
+        <li
+          v-for="(item, index) in $breadcrumbs.value"
+          :key="`breadcrumbs-${index}`"
+          class="breadcrumb__item cursor-pointer text-secondary"
+          @click="next(item.link)"
+        >
+          {{ item.label }}
+        </li>
+      </ol>
+      <div class="text-h2 text-primary text-bold">{{ $breadcrumbs.value[this.$breadcrumbs.value.length - 1].label }}</div>
+    </div>
+  </q-no-ssr>
 </template>
 
 <script>

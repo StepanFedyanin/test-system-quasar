@@ -11,7 +11,7 @@
  **/
 
 
-import { createApp } from 'vue'
+import { createSSRApp } from 'vue'
 
 
 
@@ -39,6 +39,9 @@ import quasarUserOptions from './quasar-user-options.js'
 
 
 
+console.info('[Quasar] Running SSR.')
+
+
 
 const publicPath = `/`
 
@@ -48,6 +51,14 @@ async function start ({
   router
   , store, storeKey
 }, bootFiles) {
+  
+    // prime the store with server-initialized state.
+    // the state is determined during SSR and inlined in the page markup.
+    if (window.__INITIAL_STATE__ !== void 0) {
+      store.replaceState(window.__INITIAL_STATE__)
+      // for security reasons, we'll delete this
+      delete window.__INITIAL_STATE__
+    }
   
 
   
@@ -111,20 +122,20 @@ async function start ({
   app.use(store, storeKey)
 
   
-
     
-
-    
+    // wait until router has resolved all async before hooks
+    // and async components...
+    router.isReady().then(() => {
+      
       app.mount('#q-app')
-    
-
+    })
     
 
   
 
 }
 
-createQuasarApp(createApp, quasarUserOptions)
+createQuasarApp(createSSRApp, quasarUserOptions)
 
   .then(app => {
     // eventually remove this when Cordova/Capacitor/Electron support becomes old
