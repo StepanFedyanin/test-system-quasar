@@ -20,12 +20,15 @@ module.exports = configure(function (ctx) {
     supportTS: false,
 
     // https://v2.quasar.dev/quasar-cli-webpack/prefetch-feature
-    // preFetch: true,
+    preFetch: true,
 
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-webpack/boot-files
-    boot: ['main'],
+    boot: [
+      'main',
+      { path: 'store', server: false }
+    ],
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-css
 
@@ -72,7 +75,6 @@ module.exports = configure(function (ctx) {
           .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
         chain.plugin('normal-module-replacement').use(
           new webpack.NormalModuleReplacementPlugin(/settings$/, function (resource) {
-            console.log(process.env.NODE_ENV)
             resource.request = resource.request.replace(/settings$/, `settings/${process.env.NODE_ENV}`)
           })
         )
@@ -130,9 +132,31 @@ module.exports = configure(function (ctx) {
     // https://v2.quasar.dev/quasar-cli-webpack/developing-ssr/configuring-ssr
     ssr: {
       pwa: false,
+      /**
+       * Manually serialize the store state and provide it yourself
+       * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
+       * (Requires @quasar/app-webpack v3.5+)
+       */
+      manualStoreSerialization: false,
 
-      // manualStoreHydration: true,
-      // manualPostHydrationTrigger: true,
+      /**
+       * Manually inject the store state into ssrContext.state
+       * (Requires @quasar/app-webpack v3.5+)
+       */
+      manualStoreSsrContextInjection: false,
+
+      /**
+       * Manually handle the store hydration instead of letting Quasar CLI do it.
+       * For Pinia: store.state.value = window.__INITIAL_STATE__
+       * For Vuex: store.replaceState(window.__INITIAL_STATE__)
+       */
+      manualStoreHydration: true,
+
+      /**
+       * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
+       * This announces that client-side code should takeover.
+       */
+      manualPostHydrationTrigger: false,
 
       prodPort: 3000, // The default port that the production server should use
       // (gets superseded if process.env.PORT is specified at runtime)

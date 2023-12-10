@@ -27,6 +27,7 @@ const routes = [
       requiresAuth: false,
       breadcrumb: false
     },
+    redirect: { name: 'allTests' },
     component: () => import('src/views/wrapper-all.vue'),
     children: [
       {
@@ -47,7 +48,7 @@ const routes = [
         component: () => import('src/views/all-tests.vue')
       },
       {
-        path: 'test',
+        path: 'test/:id',
         name: 'test',
         meta: {
           title: 'ProTest',
@@ -66,7 +67,7 @@ const routes = [
               requiresAuth: false,
               breadcrumb () {
                 return {
-                  label: 'решение',
+                  label: 'replace',
                   link: 'allTests',
                   current: false,
                   _path: ''
@@ -92,7 +93,7 @@ const routes = [
             component: () => import('src/views/test-response.vue')
           },
           {
-            path: 'finale',
+            path: 'finale/:attempt',
             name: 'testFinale',
             meta: {
               title: 'Описание теста',
@@ -175,7 +176,7 @@ const routes = [
               requiresAuth: true,
               breadcrumb () {
                 return {
-                  label: 'Описание',
+                  label: 'replace',
                   link: 'passedTests',
                   current: false,
                   _path: ''
@@ -201,10 +202,10 @@ const routes = [
             component: () => import('src/views/test-response.vue')
           },
           {
-            path: 'finale',
+            path: 'finale/:attempt',
             name: 'testFinalePassed',
             meta: {
-              title: 'Описание теста',
+              title: 'Заключение',
               requiresAuth: true,
               breadcrumb () {
                 return {
@@ -222,7 +223,7 @@ const routes = [
     ]
   },
   {
-    path: '/attempt/:id',
+    path: '/attempt/:attempt',
     name: 'attempt',
     redirect: { name: 'attemptTest' },
     meta: {

@@ -37,18 +37,22 @@ export default {
       }
     }
   },
+  computed: {
+    testName () {
+      return this.$store.state.test?.name || ''
+    }
+  },
   methods: {
     next (params) {
       this.$router.push({ name: params || 'allTests' })
     },
     initBreadcrumbs () {
       this.$nextTick(() => {
-        if (this.$route.fullPath.includes('/test') && !this.$route.fullPath.includes('/test/')) {
-          this.$breadcrumbs.value[this.$breadcrumbs.value.length - 1].label = this.$store.state.test.name
-        }
-        if (this.$route.fullPath.includes('/test/')) {
-          this.$breadcrumbs.value[this.$breadcrumbs.value.length - 2].label = this.$store.state.test.name
-        }
+        this.$breadcrumbs.value.forEach((breadcrumbs, index) => {
+          if (breadcrumbs.label.includes('replace')) {
+            this.$breadcrumbs.value[index].label = this.testName
+          }
+        })
       })
     }
   }

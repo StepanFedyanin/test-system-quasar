@@ -2,7 +2,9 @@
   <div>
     <div class="row justify-between items-center">
       <breadcrumbs-menu/>
-      <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="test.select_subtest.necessary_time" @stop="onSubmit()"/>
+      <q-no-ssr>
+        <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="selectSubtest.necessary_time" @stop="onSubmit()"/>
+      </q-no-ssr>
     </div>
     <div
       class="loader"
@@ -19,7 +21,7 @@
     <div v-else class="test">
       <div v-if="!isStartTest" class="test__shadow">
         <div class="description description__point q-mb-lg">
-          {{test.select_subtest.description}}
+            {{selectSubtest.description}}
         </div>
         <div class="flex justify-end">
           <q-btn class="q-px-xl" color="primary" @click="startTest">Начать</q-btn>
@@ -33,7 +35,7 @@
             :options="slideOptions"
           >
             <SplideSlide
-              v-for="(question, index) in test.select_subtest.question"
+              v-for="(question, index) in selectSubtest.question"
               :key="`question-${question.id}`"
             >
               <div class="text-h2 text-bold text-center q-mb-xl">
@@ -107,17 +109,34 @@
 
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import { app } from 'src/services'
+import { helpers } from 'src/utils/helpers'
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
 import TestTimer from 'components/timer.vue'
 
 export default {
   name: 'test-response',
+  async preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
+    if (!process.env.SERVER) { return null }
+    const test = store.state.test
+    app.getSubTest(test.subtest[test.active_subtest]?.id).then((data) => {
+      const answers = {}
+      data.question.forEach(question => {
+        answers[question.id] = { id: question.id, answers: [] }
+      })
+      store.dispatch('updateTest', helpers.removeKeys({
+        ...test,
+        answers,
+        select_subtest: data
+      }, ['id']))
+    }).catch((error) => {
+      store.dispatch('showError', error)
+    })
+  },
   components: { TestTimer, BreadcrumbsMenu, Splide, SplideSlide },
   data () {
     return {
       showLoaderTest: false,
       isStartTest: false,
-      test: null,
       slideOptions: {
         hasTrack: false,
         drag: false,
@@ -146,37 +165,47 @@ export default {
       activeSlide: 0
     }
   },
-  created () {
-    this.test = this.$store.state.test
-    if (this.test.subtest[this.test.active_subtest]?.id) {
-      this.getSubTest()
-    } else {
-      this.next('allTests')
-    }
-  },
+  created () {},
   computed: {
+    test () {
+      return this.$store.state.test
+    },
+    selectSubtest () {
+      return this.$store.state.test.select_subtest || {}
+    },
     disableButton () {
-      const question = this.test?.select_subtest?.question
+      const question = this.selectSubtest?.question
       if (question && !question[this.activeSlide]?.obligatory) {
         return false
       }
-      return question && !this.test.answers[this.test.select_subtest?.question[this.activeSlide].id].answers.length
+      return question && !this.test.answers[this.selectSubtest?.question[this.activeSlide].id].answers.length
+    }
+  },
+  watch: {
+    '$route.name': {
+      immediate: true,
+      handler (to) {
+        if (process.env.CLIENT && to === 'testResponse') this.getSubTest()
+      }
     }
   },
   methods: {
-    reinitializationResponses () {
-      this.test.select_subtest.question.forEach((question) => {
-        this.test.answers[question.id] = { id: question.id, answers: [] }
-      })
-    },
     getSubTest () {
+      this.showLoaderTest = true
       app.getSubTest(this.test.subtest[this.test.active_subtest]?.id).then((data) => {
-        this.$store.dispatch('updateTest', { ...this.test, select_subtest: data })
+        const answers = {}
+        data.question.forEach(question => {
+          answers[question.id] = { id: question.id, answers: [] }
+        })
+        this.$store.dispatch('updateTest', { ...this.test, answers, select_subtest: data })
         this.$nextTick(() => {
           this.test = this.$store.state.test
           this.isStartTest = this.test.select_subtest.description === ''
-          this.reinitializationResponses()
         })
+        this.showLoaderTest = false
+      }).catch((error) => {
+        this.showLoaderTest = true
+        this.$store.dispatch('showError', error)
       })
     },
     startTest () {
@@ -216,7 +245,7 @@ export default {
       if (name) {
         this.$router.push({ name })
       } else {
-        this.$router.push(this.$route.path.replace('response', 'finale'))
+        this.$router.push(this.$route.path.replace('response', `finale/${this.test.attempt}`))
       }
     }
   }

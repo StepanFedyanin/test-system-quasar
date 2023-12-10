@@ -1,7 +1,8 @@
 <template>
     <top-bar class="q-mb-lg"/>
     <div class="profile row justify-between q-pb-lg">
-        <div class="card profile__form row col-12 col-sm-5 col-lg-3 q-pa-lg " >
+      <q-no-ssr>
+      <form class="card profile__form row col-12 col-sm-5 col-lg-3 q-pa-lg " >
             <div class="flex col-12 items-center q-mb-lg q-px-sm">
                 <div class="cover q-mr-md">
                     <span/>
@@ -72,8 +73,9 @@
           <div class="full-width">
             <q-btn :disable="changeDisabledUpdate" class="full-width q-py-sm" color="primary" @click="updateUser()">Сохранить</q-btn>
           </div>
-        </div>
-        <div class="profile__tests col-12 col-sm-6 col-lg-8">
+        </form>
+      </q-no-ssr>
+      <div class="profile__tests col-12 col-sm-6 col-lg-8">
             <breadcrumbs-menu/>
           <div
             v-if="showLoaderTests"
@@ -182,8 +184,8 @@ export default {
       app.updateUser(this.getUpdateData()).then((user) => {
         this.$store.dispatch('initUser', user)
         this.user = this.$store.state.user
-      }).catch(() => {
-
+      }).catch((err) => {
+        this.$store.dispatch('showError', err)
       })
     },
     blurInput (key) {

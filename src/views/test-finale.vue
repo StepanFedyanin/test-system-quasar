@@ -32,9 +32,11 @@
            class="row text-secondary q-mb-lg q-gutter-md items-center">
         <div class="col-sm-3 col-md-2">{{ conclusion.title }}</div>
         <div class="card__progress col-10 col-sm-grow">
-          <span :style="{width: `${conclusion.fin_scores / conclusion.max_score * 100}%`}"/>
+          <span :style="{width: `${conclusion.fin_scores / conclusion.max_score * 100}%`}">
+            {{ conclusion.fin_scores }}
+          </span>
         </div>
-        <div class="text-bold text-h3 col-sm-auto">{{ conclusion.fin_scores }}</div>
+        <div class="text-bold text-h3 col-sm-auto">{{ conclusion.max_score }}</div>
       </div>
     </div>
     <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_description_${index}`"
@@ -54,50 +56,73 @@ import ModalWrapper from 'components/modal.vue'
 
 export default {
   name: 'test-finale',
+  async preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
+    if (!process.env.SERVER) { return null }
+    app.getAttemptById(currentRoute.params.attempt).then((data) => {
+      store.dispatch('data', { key: 'conclusions', data })
+    }).catch(error => {
+      store.dispatch('showError', error)
+    })
+  },
   components: { ModalWrapper, BreadcrumbsMenu },
   data () {
     return {
-      test: null,
-      conclusions: [],
       showOfferAuth: false,
       user: {}
     }
   },
   created () {
     this.user = this.$store.state.user
-    this.test = this.$store.state.test
-    if (this.test || this.$route.params?.id) {
-      this.getConclusion(this.$route.params?.id || this.test.attempt)
-    }
-    this.showOfferAuth = !this.user.id && !this.$route.params?.id
+    this.showOfferAuth = !this.user.id
   },
-  computed: {},
+  watch: {
+    '$route.name': {
+      immediate: true,
+      handler (to) {
+        if (process.env.CLIENT && to === 'testFinale') this.getConclusion()
+      }
+    }
+  },
+  computed: {
+    test () {
+      return this.$store.state.test
+    },
+    conclusions () {
+      return this.$store.state.data?.conclusions || []
+    }
+  },
   methods: {
-    getConclusion (id) {
-      app.getAttemptById(id).then((data) => {
-        this.conclusions = data
-      })
+    getConclusion () {
+      if (this.test.attempt) {
+        app.getAttemptById(this.test.attempt).then((data) => {
+          this.$store.dispatch('data', { key: 'conclusions', data })
+        }).catch(error => {
+          this.$store.dispatch('showError', error)
+        })
+      }
     },
     copyUrl () {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(this.conclusions.url)
-          .then(() => {
-            this.$refs.alertUser.style.transform = 'scale(1)'
-            setTimeout(() => {
-              this.$refs.alertUser.style.transform = 'scale(0)'
-            }, 3000)
-          })
-      } else {
-        const input = document.createElement('input')
-        input.value = this.conclusions.url
-        document.body.appendChild(input)
-        input.select()
-        document.execCommand('copy')
-        document.body.removeChild(input)
-        this.$refs.alertUser.style.transform = 'scale(1)'
-        setTimeout(() => {
-          this.$refs.alertUser.style.transform = 'scale(0)'
-        }, 3000)
+      if (process.env.CLIENT) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(this.conclusions.url)
+            .then(() => {
+              this.$refs.alertUser.style.transform = 'scale(1)'
+              setTimeout(() => {
+                this.$refs.alertUser.style.transform = 'scale(0)'
+              }, 3000)
+            })
+        } else {
+          const input = document.createElement('input')
+          input.value = this.conclusions.url
+          document.body.appendChild(input)
+          input.select()
+          document.execCommand('copy')
+          document.body.removeChild(input)
+          this.$refs.alertUser.style.transform = 'scale(1)'
+          setTimeout(() => {
+            this.$refs.alertUser.style.transform = 'scale(0)'
+          }, 3000)
+        }
       }
     },
     next (name) {

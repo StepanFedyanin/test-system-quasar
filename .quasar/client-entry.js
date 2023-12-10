@@ -37,6 +37,8 @@ import quasarUserOptions from './quasar-user-options.js'
 
 
 
+import { addPreFetchHooks } from './client-prefetch.js'
+
 
 
 console.info('[Quasar] Running SSR.')
@@ -51,14 +53,6 @@ async function start ({
   router
   , store, storeKey
 }, bootFiles) {
-  
-    // prime the store with server-initialized state.
-    // the state is determined during SSR and inlined in the page markup.
-    if (window.__INITIAL_STATE__ !== void 0) {
-      store.replaceState(window.__INITIAL_STATE__)
-      // for security reasons, we'll delete this
-      delete window.__INITIAL_STATE__
-    }
   
 
   
@@ -127,6 +121,8 @@ async function start ({
     // and async components...
     router.isReady().then(() => {
       
+      addPreFetchHooks({ router, store, publicPath })
+      
       app.mount('#q-app')
     })
     
@@ -157,7 +153,9 @@ createQuasarApp(createSSRApp, quasarUserOptions)
 
     return Promise[ method ]([
       
-      import(/* webpackMode: "eager" */ 'boot/main')
+      import(/* webpackMode: "eager" */ 'boot/main'),
+      
+      import(/* webpackMode: "eager" */ 'boot/store')
       
     ]).then(bootFiles => {
       const boot = mapFn(bootFiles).filter(entry => typeof entry === 'function')
