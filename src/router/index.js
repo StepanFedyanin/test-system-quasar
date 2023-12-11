@@ -20,7 +20,17 @@ export default route(function (/* { store, ssrContext } */) {
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
 
   const router = createRouter({
-    scrollBehavior: () => ({ left: 0, top: 0 }),
+    scrollBehavior (to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        // document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
+        if (to.query.page) return
+        return new Promise((resolve) => {
+          resolve({ left: 0, top: 0 })
+        })
+      }
+    },
     routes,
 
     // Leave this as is and make changes in quasar.conf.js instead!
@@ -29,7 +39,6 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
   })
   router.beforeEach((to, from, next) => {
-    document.title = to.meta.title + ' - ProTest' || 'ProTest'
     if (store.state.refresh) {
       const jwt = helpers.parseJwt(store.state.access)
       const expDate = new Date(jwt.exp * 1000)
@@ -44,7 +53,7 @@ export default route(function (/* { store, ssrContext } */) {
         })
       }
     }
-    if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (to.matched.some(record => record.meta.requiresAuth) && !process.env.SERVER) {
       if (store.state.access) {
         const jwt = helpers.parseJwt(store.state.access)
         const expDate = new Date(jwt.exp * 1000)

@@ -2,7 +2,7 @@
   <div>
     <q-toolbar class="topbar q-mt-md justify-between">
       <div class="col-auto q-mr-md">
-        <button class="topbar__logo text-h2 full-width text-primary" @click="next('profile')">
+        <button class="topbar__logo text-h2 full-width text-primary" @click="next('home')">
           Pro<span class="text-secondary">Test</span>
         </button>
       </div>

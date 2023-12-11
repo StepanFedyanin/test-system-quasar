@@ -1,9 +1,10 @@
 import { createStore } from 'vuex'
 import VuexPersist from 'vuex-persist'
+import { helpers as $helpers } from 'src/utils/helpers'
 
 const vuexPersist = new VuexPersist({
-  key: 'test-system',
-  storage: window.localStorage
+  key: 'nashel'
+  // storage: !process.env.SERVER && window.localStorage
 })
 
 const templateTest = (id) => {
@@ -22,10 +23,12 @@ const templateTest = (id) => {
 const store = createStore({
   namespaced: true,
   state: () => ({
-    test: null,
+    test: {},
     user: {},
     access: null,
-    refresh: null
+    refresh: null,
+    error: null,
+    data: {}
   }),
   plugins: [vuexPersist.plugin],
   mutations: {
@@ -40,9 +43,8 @@ const store = createStore({
       state.access = tokens.access
       state.refresh = tokens.refresh
     },
-    ADD_TEST (state, data) {
-      state.test = null
-      state.test = templateTest(data)
+    INIT_TEST (state, data) {
+      state.test = { ...templateTest(data.id), ...$helpers.removeKeys(data, ['id']) }
     },
     UPDATE_TEST (state, data) {
       state.test = data
@@ -52,14 +54,20 @@ const store = createStore({
     },
     CLEAR_TIMER (state) {
       state.test = { ...state.test, start_timer: null }
+    },
+    ERROR (state, error) {
+      state.error = error
+    },
+    DATA (state, params) {
+      state.data[params.key] = params.data
     }
   },
   actions: {
     initUser (context, payload) {
       context.commit('INIT_USER', payload)
     },
-    addTest (context, payload) {
-      context.commit('ADD_TEST', payload)
+    initTest (context, payload) {
+      context.commit('INIT_TEST', payload)
     },
     updateTest (context, payload) {
       context.commit('UPDATE_TEST', payload)
@@ -75,6 +83,15 @@ const store = createStore({
     },
     clearTimer (context) {
       context.commit('CLEAR_TIMER')
+    },
+    showError (context, error) {
+      context.commit('ERROR', error)
+    },
+    hideError (context) {
+      context.commit('ERROR', null)
+    },
+    data (context, payload) {
+      context.commit('DATA', payload)
     }
   }
 })

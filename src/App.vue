@@ -2,15 +2,18 @@
   <div class="wrapper">
     <div class="container full-height">
       <router-view/>
+      <AppError />
     </div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+import AppError from 'components/app-error.vue'
 
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+  components: { AppError }
 })
 </script>
 

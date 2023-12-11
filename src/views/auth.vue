@@ -83,7 +83,7 @@
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
-    <modal-wrapper title="Пользовательское соглашение" v-model="isShowAgreement">
+    <modal-wrapper title="Пользовательское соглашение" :center="true" v-model="isShowAgreement">
       <div class="description text-secondary">
         <span class="description__selected">1. Предмет</span><br/>
         1.1. Администрация предоставляет неисключительную лицензию на использование Платформы и элементов Библиотеки и оказывает сопутствующие услуги самостоятельно, а также через аффилированные и/или дочерние компании.<br/>
@@ -178,12 +178,14 @@ export default {
               this.showLoader = false
               this.$store.dispatch('initUser', user)
               this.next('profile')
-            }).catch(() => {
+            }).catch((err) => {
+              this.$store.dispatch('showError', err)
               this.showLoader = false
             })
           }
         }
-      }).catch(() => {
+      }).catch((err) => {
+        this.$store.dispatch('showError', err)
         this.showLoader = false
       })
     },

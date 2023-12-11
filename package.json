@@ -10,6 +10,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev NODE_ENV=development",
     "build": "quasar build NODE_ENV=development",
+    "ssr": "quasar dev -m ssr",
     "build:dev": "npx cross-env NODE_ENV=development quasar build"
   },
   "dependencies": {
@@ -27,7 +28,9 @@
     "vue-breadcrumbs": "^1.2.0",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.1",
-    "vuex-persist": "^3.1.3"
+    "vuex-persist": "^3.1.3",
+    "webpack": "^5.89.0",
+    "webpack-node-externals": "^3.0.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
