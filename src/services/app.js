@@ -103,4 +103,13 @@ export default class extends REST {
       throw new RESTError(error, 'Не удалось получить попытки пользователя')
     })
   }
+
+  static addUserAttempt (params) {
+    return this._get(`test/attempt_list/${params}`, {}, {}).then((data) => {
+      const tokens = data
+      return tokens
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось создать пользователя')
+    })
+  }
 }

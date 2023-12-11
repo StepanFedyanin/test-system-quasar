@@ -14,7 +14,7 @@
           {{ item.label }}
         </li>
       </ol>
-      <div class="text-h2 text-primary text-bold">{{ $breadcrumbs.value[this.$breadcrumbs.value.length - 1].label }}</div>
+      <div class="text-h2 text-primary text-bold">{{ selectSubtest || $breadcrumbs.value[this.$breadcrumbs.value.length - 1].label }}</div>
     </div>
   </q-no-ssr>
 </template>
@@ -30,7 +30,7 @@ export default {
         this.initBreadcrumbs()
       }
     },
-    '$store.state.test': {
+    '$store.state.test.name': {
       immediate: true,
       handler () {
         this.initBreadcrumbs()
@@ -39,7 +39,10 @@ export default {
   },
   computed: {
     testName () {
-      return this.$store.state.test?.name || ''
+      return this.$store.state?.test?.name || null
+    },
+    selectSubtest () {
+      return this.$store.state.test?.select_subtest?.name || null
     }
   },
   methods: {
@@ -49,8 +52,8 @@ export default {
     initBreadcrumbs () {
       this.$nextTick(() => {
         this.$breadcrumbs.value.forEach((breadcrumbs, index) => {
-          if (breadcrumbs.label.includes('replace')) {
-            this.$breadcrumbs.value[index].label = this.testName
+          if (breadcrumbs.label.includes('replace') || breadcrumbs.label === '') {
+            this.$breadcrumbs.value[index].label = this.testName || 'Тест'
           }
         })
       })

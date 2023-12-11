@@ -33,9 +33,10 @@ export default {
   },
   mounted () {
     this.timer = setInterval(() => {
+      const currentTime = new Date().getTime() - (this.timerValue * 1000)
       const date = new Date(this.date - new Date(new Date().getTime() - (this.timerValue * 1000)))
       this.currentTime = date.toLocaleTimeString('ru', { minute: '2-digit', second: '2-digit' })
-      if (this.currentTime === '00:00') {
+      if (currentTime <= 0 || this.currentTime === '00:00') {
         this.$emit('stop')
       }
     }, 1000)

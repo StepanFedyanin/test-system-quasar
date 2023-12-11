@@ -55,8 +55,11 @@
         </div>
       </template>
       <template v-else>
+        <breadcrumbs-menu/>
         <div class="row justify-between items-center q-mb-lg">
-          <breadcrumbs-menu/>
+          <div class="text-primary text-bold text-h3">
+            {{ $helpers.stringForNumber(test.count, ['вопрос', 'вопроса', 'вопросов']) }}
+          </div>
           <q-btn color="primary" @click="next()">Пройти тест</q-btn>
         </div>
         <div class="description description__point q-mb-lg">

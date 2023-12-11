@@ -20,6 +20,16 @@ const routes = [
     component: () => import('src/views/auth.vue')
   },
   {
+    path: '/auth/:attempt',
+    name: 'authAttempt',
+    meta: {
+      title: 'Вход',
+      requiresAuth: false,
+      breadcrumb: false
+    },
+    component: () => import('src/views/auth.vue')
+  },
+  {
     path: '/all_tests',
     name: 'all_tests',
     meta: {
@@ -82,13 +92,7 @@ const routes = [
             meta: {
               title: 'Тест',
               requiresAuth: false,
-              breadcrumb () {
-                return {
-                  label: 'Решение',
-                  link: 'allTests',
-                  current: false
-                }
-              }
+              breadcrumb: false
             },
             component: () => import('src/views/test-response.vue')
           },
@@ -122,7 +126,7 @@ const routes = [
       breadcrumb () {
         return {
           label: 'Личный кабинет',
-          link: 'allTests',
+          link: 'profile',
           current: false
         }
       }

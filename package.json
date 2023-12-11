@@ -11,7 +11,9 @@
     "dev": "quasar dev NODE_ENV=development",
     "build": "quasar build NODE_ENV=development",
     "ssr": "quasar dev -m ssr",
-    "build:dev": "npx cross-env NODE_ENV=development quasar build"
+    "build:dev": "npx cross-env NODE_ENV=development quasar build",
+    "build:dev:ssr": "npx cross-env NODE_ENV=development quasar build -m ssr"
+
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",

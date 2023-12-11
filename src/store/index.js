@@ -3,7 +3,7 @@ import VuexPersist from 'vuex-persist'
 import { helpers as $helpers } from 'src/utils/helpers'
 
 const vuexPersist = new VuexPersist({
-  key: 'nashel'
+  key: 'test-system'
   // storage: !process.env.SERVER && window.localStorage
 })
 
@@ -33,6 +33,7 @@ const store = createStore({
   plugins: [vuexPersist.plugin],
   mutations: {
     INIT_USER (state, data) {
+      console.log(data, 'user')
       state.user = data
     },
     CLEAR_TOKENS (state) {

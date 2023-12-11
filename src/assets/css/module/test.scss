@@ -24,6 +24,9 @@
 
     &__cover {
         max-width: 300px;
+        border-radius: var(--b-radius);
+        width: fit-content;
+        overflow: hidden;
     }
     &__message{
         background: var(--color-white);

@@ -141,6 +141,7 @@ export default {
     this.test = this.$store.state.test
     this.user = this.$store.state.user
     if (this.user.id) {
+      console.log(this.user.id, 'this.user.id')
       this.next('profile')
     }
   },
@@ -162,11 +163,17 @@ export default {
       this.isShowAgreement = true
     },
     next (params) {
-      if (this.$router.options.history.state.back.includes('final') && this.test.attempt) {
+      if (this.$route.params.attempt) {
         this.$router.go(-1)
       } else {
         this.$router.push({ name: params || 'allTests' })
       }
+    },
+    createAttempt () {
+      app.addUserAttempt(this.$route.params.attempt).then(() => {
+      }).catch(error => {
+        this.$store.dispatch('showError', error)
+      })
     },
     onLogin () {
       this.showLoader = true
@@ -174,6 +181,9 @@ export default {
         if (res.access && res.refresh) {
           if (res.access && res.refresh) {
             this.$store.dispatch('token', res)
+            if (this.$route.params.attempt) {
+              this.createAttempt()
+            }
             app.getUser().then(user => {
               this.showLoader = false
               this.$store.dispatch('initUser', user)
@@ -194,6 +204,9 @@ export default {
       app.createUser(this.$helpers.removeKeys(this.register, ['hiddenPassword'])).then((res) => {
         if (res.access && res.refresh) {
           this.$store.dispatch('token', res)
+          if (this.$route.params.attempt) {
+            this.createAttempt()
+          }
           app.getUser().then(user => {
             this.showLoader = false
             this.$store.dispatch('initUser', user)

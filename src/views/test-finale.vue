@@ -6,7 +6,7 @@
         <span class="text-center col-12 q-mb-md text-h3 text-primary">Сохранить результат?</span>
         <div class="col-12 row justify-between">
           <q-btn class="col-5 col-sm-4 col-lg-3" flat @click="showOfferAuth = !showOfferAuth">Нет</q-btn>
-          <q-btn class="col-5 col-sm-4 col-lg-3" color="primary" @click="next('auth')">Да</q-btn>
+          <q-btn class="col-5 col-sm-4 col-lg-3" color="primary" @click="next('authAttempt', test.attempt)">Да</q-btn>
         </div>
       </div>
     </modal-wrapper>
@@ -16,7 +16,7 @@
         серьезно. Диагностическую ценность имеют только исследования, проведенные <span
         class="description__selected">профессиональным психологом</span>.
       </div>
-      <div v-if="!$route.params?.id" class="row items-center q-gutter-md">
+      <div v-if="$route.params?.id" class="row items-center q-gutter-md">
         <div class="description description__bg description__point text-bold q-py-xs q-px-lg cursor-pointer"
              @click="copyUrl()">
           "Ссылка на результаты теста": <span class="q-px-sm text-primary text-weight-light"
@@ -125,8 +125,8 @@ export default {
         }
       }
     },
-    next (name) {
-      this.$router.push({ name: name || 'allTests' })
+    next (name, attempt) {
+      this.$router.push({ name: name || 'allTests', params: { attempt } })
     }
   }
 }

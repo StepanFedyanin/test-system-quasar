@@ -39,6 +39,7 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
   })
   router.beforeEach((to, from, next) => {
+    if (process.env.SERVER) next()
     if (store.state.refresh) {
       const jwt = helpers.parseJwt(store.state.access)
       const expDate = new Date(jwt.exp * 1000)
