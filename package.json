@@ -13,7 +13,6 @@
     "ssr": "quasar dev -m ssr",
     "build:dev": "npx cross-env NODE_ENV=development quasar build",
     "build:dev:ssr": "npx cross-env NODE_ENV=development quasar build -m ssr"
-
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
@@ -22,6 +21,7 @@
     "axios": "^1.6.2",
     "core-js": "^3.6.5",
     "fecha": "^4.2.3",
+    "pm2": "^5.3.0",
     "postcss-loader": "^7.3.3",
     "postcss-nested": "^6.0.1",
     "quasar": "^2.6.0",

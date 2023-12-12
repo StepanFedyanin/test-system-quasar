@@ -1,11 +1,11 @@
 <template>
   <div :class="['modal', modelValue&&'modal--active']" @click="closeModal">
     <div :class="['modal__content',center&&'modal__center']" @click.stop>
-      <div :class="['flex items-center q-mb-sm', title?'justify-between':'justify-end']">
-        <div v-if="title" class="text-h2 text-primary">{{title}}</div>
-        <q-btn flat round @click="closeModal">
-          <q-icon name="close"/>
-        </q-btn>
+      <div :class="['flex items-center q-mb-md', title?'justify-between':'justify-end']">
+        <div v-if="title" class="text-h4 text-bold text-primary">{{title}}</div>
+        <span class="cursor-pointer" @click="closeModal">
+          <q-icon name="close" size="17px"/>
+        </span>
       </div>
       <slot></slot>
     </div>

@@ -1,106 +1,122 @@
 <template>
   <div class="admin q-pb-lg">
-    <div class="row justify-between">
-      <div class="col-2">
-        <div v-for="(subtest,index) in subtests" :key="`subtest_${index}`" class="admin__important cursor-pointer  q-px-md q-mb-md" @click="selectSubTest(subtest, index)">
-          <div class="text-primary text-bold q-mb-sm">Субтест {{index + 1}}</div>
-          <div>Описание <span class="text-primary">{{subtest.description!==''?'Есть':'Нет'}}</span></div>
-          <div>Количетсво вопросов: <span class="text-primary">{{subtest.questions.length}}</span></div>
-        </div>
-      </div>
-      <div class="col-7">
-        <div class="flex q-mb-md justify-between">
-          <q-btn color="primary" @click="changeStatusTest('add')">
-            Добавить субтест
-          </q-btn>
-          <q-btn color="primary" @click="changeStatusTest('add')">
-            Добавить интерпретацию
-          </q-btn>
-        </div>
-        <div class="card card__shadow card__border--small q-pa-md q-mb-md">
-          <q-input
-            label="Название теста"
-            v-model="text3"
-            borderless
-            class="q-mb-md"
-          />
-          <q-input
-            class="q-mb-md"
-            label="Авторство"
-            v-model="text"
-            borderless
-            type="textarea"
-            autogrow
-          />
-          <q-input
-            label="Описание"
-            v-model="text2"
-            borderless
-            type="textarea"
-            autogrow
-          />
-        </div>
-        <div class="card q-pa-md" v-if="statusTest">
-          <div class="text-primary text-bold text-center q-mb-md">{{statusTest === 'add'?'Добавление субтеста':`Субтест ${subtest.id + 1}`}}</div>
-          <q-input
-            class="q-mb-lg"
-            label="Описание субтеста"
-            v-model="subtest.description"
-            borderless
-            type="textarea"
-            autogrow
-          />
-          <div class="q-pb-lg">
-            <div v-for="(question, index) in subtest.questions" :key="`question_${index}`" class="row q-mb-sm">
-              <q-input :label="`Вопрос ${index+1}`" v-model="question.name" borderless class="col-12 q-mb-md"/>
-              <div class="row col-12 q-gutter-sm items-center q-mb-md">
-                <div v-for="(answer,index2) in showAnswerArray(index)" :key="`answer_${index2}`">
-                  {{ answer.value }}
-                </div>
-                <q-uploader v-if="question.answers[question.answers.length - 1].type === 'upload'"
-                            v-model="question.answers[question.answers.length - 1].value"
-                            label="Вопрос"
-                />
-                <q-input v-else-if="question.answers[question.answers.length - 1].type !== null" label="Ответ"
-                         v-model="question.answers[question.answers.length - 1].value" borderless class="col-2"/>
-                <q-btn v-if="question.answers[question.answers.length - 1].value!==''" color="primary"
-                       @click="addAnswer(index)" round>
-                  <q-icon name="done"/>
-                </q-btn>
-                <q-btn color="primary" round>
-                  <q-icon name="add"/>
-                  <q-menu
-                    anchor="bottom right"
-                    self="bottom left"
-                  >
-                    <q-list style="min-width: 100px">
-                      <q-item clickable v-close-popup>
-                        <q-item-section @click="changeTypeQuestion(index, 'upload')">Добавить картинку</q-item-section>
-                      </q-item>
-                      <q-item clickable v-close-popup>
-                        <q-item-section @click="changeTypeQuestion(index, 'text')">Добавить текст</q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-btn>
-              </div>
-            </div>
-            <div class="flex justify-between">
-              <q-btn class="q-mt-lg" color="primary" @click="addQuestion()">Добавить вопрос</q-btn>
-              <q-btn v-if="statusTest === 'change'" class="q-mt-lg" color="primary" @click="editSubTest()">Изменить</q-btn>
-              <q-btn v-else class="q-mt-lg" color="primary" @click="addSubTest()">Сохранить субтест</q-btn>
-            </div>
+    <q-tabs
+      v-model="tab"
+      dense
+      class="text-grey"
+      active-color="primary"
+      indicator-color="primary"
+      align="justify"
+      narrow-indicator
+    >
+      <q-tab name="test">Вопросы</q-tab>
+      <q-tab name="scale">Шкалы</q-tab>
+      <q-tab name="connection">Ключ</q-tab>
+    </q-tabs>
+    <q-tab-panels v-model="tab" class="card">
+      <q-tab-panel name="test" class="row">
+        <div v-for="test in tests" :key="`subtest_${test.id}`" class="q-mb-lg col-4 q-px-md">
+          <div class="q-mb-md text-h3 text-weight-medium">{{ test.name }}</div>
+          <div v-for="(question, index) in test.question" :key="question.id" class="q-mb-md">
+            <p class="text-h4 text-primary q-mb-sm">{{ index + 1 }}. {{ question.name }}</p>
+            <ul class="text-secondary q-pl-md">
+              <li v-for="(answer, index) in question.answers" :key="answer">{{ index + 1 }}) {{ answer }}</li>
+            </ul>
           </div>
         </div>
-      </div>
-      <div class="col-2">
-        <div v-for="(Integration,index) in Integrations" :key="`integration_${index}`" class="card cursor-pointer  q-px-md q-mb-md" @click="selectSubTest(subtest, index)">
-          <div class="text-primary text-bold q-mb-sm">Интерпретация {{index + 1}}</div>
-          <div>Описание <span class="text-primary">{{Integration.description!==''?'Есть':'Нет'}}</span></div>
-          <div>Кол-во баллов: <span class="text-primary">{{Integration.balls}}</span></div>
+      </q-tab-panel>
+      <q-tab-panel name="scale">
+        <div>
+          <div class="q-mb-md text-h3 text-weight-medium q-px-md">Шкала 1</div>
+            <ul class="text-secondary q-pl-md">
+              <li class="q-mb-md">
+                <span class="text-h4 text-primary text-weight-medium q-pr-md">1 - 3</span>
+                  застенчивый, уклончивый, держится в стороне, «тушуется». Обычно испытывает
+                чувство собственной недостаточности. Речь замедлена, затруднена, высказывается трудно.
+                Избегает профессий, связанных с личными контактами. Предпочитает иметь 1-2 близких
+                друзей, не склонен вникать во все, что происходит вокруг него.
+              </li>
+              <li class="q-mb-md">
+                <span class="text-h4 text-primary text-weight-medium q-pr-md">4</span>
+                  застенчивый, сдержанный, неуверенный, боязливый, робкий.
+              </li>
+              <li class="q-mb-md">
+                <span class="text-h4 text-primary text-weight-medium q-pr-md">7</span>
+                  авантюрный, социально-смелый, незаторможенный, спонтанный.
+              </li>
+              <li class="q-mb-md">
+                <span class="text-h4 text-primary text-weight-medium q-pr-md">8-10</span>
+                  бщительный, смелый, испытывает новые вещи; спонтанный и живой в эмо-
+циональной сфере. Его «толстокожесть» позволяет ему переносить жалобы и слезы, трудно-
+сти в общении с людьми в эмоционально напряженных ситуациях. Может небрежно отно-
+ситься к деталям, не реагировать на сигналы об опасности.
+              </li>
+            </ul>
         </div>
-      </div>
-    </div>
+      </q-tab-panel>
+      <q-tab-panel name="connection">
+        <div class="q-mb-md">
+          <div class="q-mb-md text-h3 text-weight-medium q-px-md">Шкала 1</div>
+          <ul class="row q-gutter-x-md q-gutter-y-sm">
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">1.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">2.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">2.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">3.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">3.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">3.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2</li>
+          </ul>
+        </div>
+        <div class="q-mb-md">
+          <div class="q-mb-md text-h3 text-weight-medium q-px-md">Шкала 2</div>
+          <ul class="row q-gutter-x-md q-gutter-y-sm">
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">1.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">2.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">2.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">3.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">3.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">3.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+          </ul>
+        </div>
+        <div class="q-mb-md">
+          <div class="q-mb-md text-h3 text-weight-medium q-px-md">Шкала 3</div>
+          <ul class="row q-gutter-x-md q-gutter-y-sm">
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">1.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">2.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">2.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">3.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">3.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">3.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+            <li class="col-auto text-no-wrap"><span class="text-primary text-weight-medium">4.1</span> - 2 балла</li>
+          </ul>
+        </div>
+      </q-tab-panel>
+    </q-tab-panels>
   </div>
 </template>
 
@@ -110,82 +126,59 @@ export default {
   name: 'admin-test',
   data () {
     return {
-      text: '',
-      text2: '',
-      text3: '',
-      subtests: [],
-      addSubtest: false,
-      statusTest: null,
-      subtest: {
-        description: '',
-        questions: []
-      },
-      Integrations: [
+      tab: 'connection',
+      tests: [
         {
-          name: 'Интерпретация',
-          description: '',
-          balls: '1 - 3'
+          id: 1,
+          name: 'Субтест 1',
+          question: [
+            {
+              id: 1,
+              name: ' Вы считаете себя умным? 1',
+              answers: ['да', 'нет', 'не уверен', ' не уверен']
+            },
+            {
+              id: 2,
+              name: ' Вы считаете себя умным? 2',
+              answers: ['да', 'нет', 'не уверен', ' не уверен']
+            },
+            {
+              id: 3,
+              name: ' Вы считаете себя умным? 3',
+              answers: ['да', 'нет', 'не уверен', ' не уверен']
+            }
+          ]
+        },
+        {
+          id: 2,
+          name: 'Субтест 2',
+          question: [
+            {
+              id: 4,
+              name: ' Вы считаете себя умным?',
+              answers: ['да', 'нет', 'не уверен', ' не уверен']
+            }
+          ]
+        },
+        {
+          id: 3,
+          name: 'Субтест 3',
+          question: [
+            {
+              id: 5,
+              name: ' Вы считаете себя умным? 1',
+              answers: ['да', 'нет', 'не уверен', ' не уверен']
+            },
+            {
+              id: 6,
+              name: ' Вы считаете себя умным? 2',
+              answers: ['да', 'нет', 'не уверен', ' не уверен']
+            }
+          ]
         }
       ]
     }
   },
-  methods: {
-    uploader (file) {
-      console.log(file)
-    },
-    changeStatusTest (value) {
-      this.subtest = {
-        description: '',
-        questions: []
-      }
-      this.statusTest = value
-    },
-    changeTypeQuestion (index, type) {
-      this.subtest.questions[index].answers[this.subtest.questions[index].answers.length - 1].type = type
-    },
-    showAnswerArray (index) {
-      return [...this.subtest.questions][index].answers.slice(0, this.subtest.questions[index].answers.length - 1)
-    },
-    addAnswer (index) {
-      this.subtest.questions[index] = {
-        ...this.subtest.questions[index],
-        answers:
-          [
-            ...this.subtest.questions[index].answers,
-            {
-              value: '',
-              type: null
-            }
-          ]
-      }
-    },
-    addQuestion () {
-      this.subtest.questions = [
-        ...this.subtest.questions,
-        {
-          name: '',
-          answers: [{
-            value: '',
-            type: null
-          }]
-        }
-      ]
-    },
-    addSubTest () {
-      this.subtests = [...this.subtests, this.subtest]
-      this.subtest = {
-        description: '',
-        questions: []
-      }
-      this.changeStatusTest(null)
-    },
-    selectSubTest (subtest, index) {
-      this.changeStatusTest('change')
-      this.subtest = { ...subtest, id: index }
-    },
-    editSubTest () {
-      this.subtests[this.subtest.id] = this.subtest
-    }
-  }
+  methods: {}
 }
 </script>

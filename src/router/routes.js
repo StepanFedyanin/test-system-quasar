@@ -1,14 +1,14 @@
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    meta: {
-      title: 'Приветствие',
-      requiresAuth: false,
-      breadcrumb: false
-    },
-    component: () => import('src/views/home.vue')
-  },
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   meta: {
+  //     title: 'Приветствие',
+  //     requiresAuth: false,
+  //     breadcrumb: false
+  //   },
+  //   component: () => import('src/views/home.vue')
+  // },
   {
     path: '/auth',
     name: 'auth',
@@ -30,30 +30,24 @@ const routes = [
     component: () => import('src/views/auth.vue')
   },
   {
-    path: '/all_tests',
-    name: 'all_tests',
+    path: '/',
+    name: 'tests',
     meta: {
       title: 'Все тесты',
       requiresAuth: false,
       breadcrumb: false
     },
-    redirect: { name: 'allTests' },
+    redirect: { name: 'tests' },
     component: () => import('src/views/wrapper-all.vue'),
     children: [
       {
         path: '',
-        name: 'allTests',
+        name: 'tests',
         meta: {
-          title: 'ProTest',
+          title: 'Все тесты',
           requiresAuth: false,
           current: false,
-          breadcrumb () {
-            return {
-              label: 'Все тесты',
-              link: 'allTests',
-              current: false
-            }
-          }
+          breadcrumb: false
         },
         component: () => import('src/views/all-tests.vue')
       },
@@ -99,6 +93,191 @@ const routes = [
           {
             path: 'finale/:attempt',
             name: 'testFinale',
+            meta: {
+              title: 'Описание теста',
+              requiresAuth: false,
+              breadcrumb () {
+                return {
+                  label: 'Заключение',
+                  link: 'allTests',
+                  current: false,
+                  _path: '/finale'
+                }
+              }
+            },
+            component: () => import('src/views/test-finale.vue')
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/topic',
+    name: 'topic',
+    meta: {
+      title: 'Темы',
+      requiresAuth: false,
+      breadcrumb () {
+        return {
+          label: 'Темы',
+          link: 'allTests',
+          current: false,
+          _path: ''
+        }
+      }
+    },
+    redirect: { name: 'topicTests' },
+    component: () => import('src/views/wrapper-all.vue'),
+    children: [
+      {
+        path: '',
+        name: 'topicTests',
+        meta: {
+          title: 'Темы',
+          requiresAuth: false,
+          current: false,
+          breadcrumb () {
+            return {
+              label: 'Темы',
+              link: 'allTests',
+              current: false,
+              _path: ''
+            }
+          }
+        },
+        component: () => import('src/views/all-tests.vue')
+      },
+      {
+        path: 'test/:id',
+        name: 'topicTest',
+        meta: {
+          title: 'ProTest',
+          requiresAuth: false,
+          current: false,
+          breadcrumb: false
+        },
+        component: () => import('src/views/test.vue'),
+        redirect: { name: 'topicTestDescription' },
+        children: [
+          {
+            path: '',
+            name: 'topicTestDescription',
+            meta: {
+              title: 'Описание',
+              requiresAuth: false,
+              breadcrumb () {
+                return {
+                  label: 'replace',
+                  link: 'allTests',
+                  current: false,
+                  _path: ''
+                }
+              }
+            },
+            component: () => import('src/views/test-description.vue')
+          },
+          {
+            path: 'response',
+            name: 'topicTestResponse',
+            meta: {
+              title: 'Тест',
+              requiresAuth: false,
+              breadcrumb: false
+            },
+            component: () => import('src/views/test-response.vue')
+          },
+          {
+            path: 'finale/:attempt',
+            name: 'topicTestFinale',
+            meta: {
+              title: 'Описание теста',
+              requiresAuth: false,
+              breadcrumb () {
+                return {
+                  label: 'Заключение',
+                  link: 'allTests',
+                  current: false,
+                  _path: '/finale'
+                }
+              }
+            },
+            component: () => import('src/views/test-finale.vue')
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/authors',
+    name: 'authors',
+    meta: {
+      title: 'Авторы',
+      requiresAuth: false,
+      breadcrumb () {
+        return {
+          label: 'Темы',
+          link: 'allTests',
+          current: false,
+          _path: ''
+        }
+      }
+    },
+    redirect: { name: 'authorsTests' },
+    component: () => import('src/views/wrapper-all.vue'),
+    children: [
+      {
+        path: '',
+        name: 'authorsTests',
+        meta: {
+          title: 'Авторы',
+          requiresAuth: false,
+          current: false,
+          breadcrumb: false
+        },
+        component: () => import('src/views/all-tests.vue')
+      },
+      {
+        path: 'test/:id',
+        name: 'authorsTest',
+        meta: {
+          title: 'ProTest',
+          requiresAuth: false,
+          current: false,
+          breadcrumb: false
+        },
+        component: () => import('src/views/test.vue'),
+        redirect: { name: 'testDescription' },
+        children: [
+          {
+            path: '',
+            name: 'topicTestDescription',
+            meta: {
+              title: 'Описание',
+              requiresAuth: false,
+              breadcrumb () {
+                return {
+                  label: 'replace',
+                  link: 'allTests',
+                  current: false,
+                  _path: ''
+                }
+              }
+            },
+            component: () => import('src/views/test-description.vue')
+          },
+          {
+            path: 'response',
+            name: 'topicTestResponse',
+            meta: {
+              title: 'Тест',
+              requiresAuth: false,
+              breadcrumb: false
+            },
+            component: () => import('src/views/test-response.vue')
+          },
+          {
+            path: 'finale/:attempt',
+            name: 'topicTestFinale',
             meta: {
               title: 'Описание теста',
               requiresAuth: false,
@@ -289,14 +468,14 @@ const routes = [
         component: () => import('src/views/admin-main.vue')
       },
       {
-        path: 'create_test',
+        path: 'test/:id',
         name: 'adminTest',
         meta: {
-          title: 'Добавление теста',
+          title: 'Просмотр теста',
           requiresAuth: false,
           breadcrumb () {
             return {
-              label: 'Добавление теста',
+              label: 'replace теста',
               link: 'admin',
               current: false
             }

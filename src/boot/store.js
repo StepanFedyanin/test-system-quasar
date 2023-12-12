@@ -5,5 +5,5 @@ import { boot } from 'quasar/wrappers'
 export default boot(async ({ store }) => {
   // For Vuex
   console.log('Boot Store', { ...Object.assign({}, window.__INITIAL_STATE__), ...store.state })
-  if (window.__INITIAL_STATE__) store.replaceState({ ...Object.assign({}, window.__INITIAL_STATE__), ...store.state })
+  if (window.__INITIAL_STATE__) store.replaceState({ ...store.state, ...Object.assign({}, window.__INITIAL_STATE__) })
 })

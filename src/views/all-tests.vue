@@ -8,41 +8,41 @@
         class="description__selected">поиском</span> по названию. Можно посмотреть <span
         class="description__selected">полный список</span>.
       </div>
-      <div class="row">
-        <q-btn
-          v-for="testFilter in testFilters"
-          :key="testFilter.type"
-          @click="changeCurrentType(testFilter.type)"
-          :outline="currentFilter.type!==testFilter.type"
-          color="primary"
-          class="q-px-xl q-mr-md q-mb-md"
-        >
-          {{ testFilter.name }}
-        </q-btn>
-      </div>
-      <div class="row q-mb-md items-center">
-        Сортировать по:
-        <div class="col-12 col-sm-10">
-          <q-btn
-            v-for="testFilterAds in testFiltersAds"
-            :key="testFilterAds.type"
-            :variant="currentFilter.sorted===testFilterAds.type?'secondary active':'secondary'"
-            @click="changeCurrentSorted(testFilterAds.type)"
-            :class="[`${currentFilter.sorted===testFilterAds.type?'text-primary': 'text-secondary'}`]"
-            flat
-          >
-            {{ testFilterAds.name }}
-          </q-btn>
-        </div>
-      </div>
-      <div class="q-mb-xl">
-        <q-input class="tests__search" label="Поиск">
-          <template v-slot:append>
-            <q-btn round icon="search" size="10px">
-            </q-btn>
-          </template>
-        </q-input>
-      </div>
+<!--      <div class="row">-->
+<!--        <q-btn-->
+<!--          v-for="testFilter in testFilters"-->
+<!--          :key="testFilter.type"-->
+<!--          @click="changeCurrentType(testFilter.type)"-->
+<!--          :outline="currentFilter.type!==testFilter.type"-->
+<!--          color="primary"-->
+<!--          class="q-px-xl q-mr-md q-mb-md"-->
+<!--        >-->
+<!--          {{ testFilter.name }}-->
+<!--        </q-btn>-->
+<!--      </div>-->
+<!--      <div class="row q-mb-md items-center">-->
+<!--        Сортировать по:-->
+<!--        <div class="col-12 col-sm-10">-->
+<!--          <q-btn-->
+<!--            v-for="testFilterAds in testFiltersAds"-->
+<!--            :key="testFilterAds.type"-->
+<!--            :variant="currentFilter.sorted===testFilterAds.type?'secondary active':'secondary'"-->
+<!--            @click="changeCurrentSorted(testFilterAds.type)"-->
+<!--            :class="[`${currentFilter.sorted===testFilterAds.type?'text-primary': 'text-secondary'}`]"-->
+<!--            flat-->
+<!--          >-->
+<!--            {{ testFilterAds.name }}-->
+<!--          </q-btn>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="q-mb-xl">-->
+<!--        <q-input class="tests__search" label="Поиск">-->
+<!--          <template v-slot:append>-->
+<!--            <q-btn round icon="search" size="10px">-->
+<!--            </q-btn>-->
+<!--          </template>-->
+<!--        </q-input>-->
+<!--      </div>-->
     </div>
     <div
       v-if="showLoaderTests"
@@ -71,7 +71,7 @@
             v-for="test in category.test"
             :key="`test-${test.id}`"
             class="card__item card__link flex no-wrap items-center"
-            :to="{ name: 'test', params: {id:test.id} }"
+              :to="`${this?.$route?.path}/test/${test.id}`"
           >
             <span>{{ test.name }}</span>
             <q-icon color="primary" name="chevron_right" size="20px"/>
@@ -136,7 +136,7 @@ export default {
     '$route.name': {
       immediate: true,
       handler (to) {
-        if (process.env.CLIENT && to === 'allTests') this.getCategory()
+        if (process.env.CLIENT) this.getCategory()
       }
     }
   },

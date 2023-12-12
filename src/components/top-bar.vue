@@ -2,9 +2,9 @@
   <div>
     <q-toolbar class="topbar q-mt-md justify-between">
       <div class="col-auto q-mr-md">
-        <button class="topbar__logo text-h2 full-width text-primary" @click="next('home')">
+        <h1 class="topbar__logo text-h2 full-width text-primary" @click="next('home')">
           Pro<span class="text-secondary">Test</span>
-        </button>
+        </h1>
       </div>
       <div :class="['topbar__menu', 'col-grow', showMenu&&'topbar__menu--active']" @click="handleShowMenu()">
         <div :class="['topbar__content',showMenu&&'topbar__content--active']" @click.stop>

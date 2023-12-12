@@ -1,12 +1,12 @@
 <template>
   <div>
     <breadcrumbs-menu/>
-    <modal-wrapper v-model="showOfferAuth">
-      <div class="row">
-        <span class="text-center col-12 q-mb-md text-h3 text-primary">Сохранить результат?</span>
-        <div class="col-12 row justify-between">
-          <q-btn class="col-5 col-sm-4 col-lg-3" flat @click="showOfferAuth = !showOfferAuth">Нет</q-btn>
-          <q-btn class="col-5 col-sm-4 col-lg-3" color="primary" @click="next('authAttempt', test.attempt)">Да</q-btn>
+    <modal-wrapper :center="true" v-model="showOfferAuth">
+      <div class="flex column q-px-xl">
+        <span class="text-center q-mb-md text-h3 text-primary">Сохранить результат?</span>
+        <div class="row q-gutter-x-lg">
+          <q-btn class="q-px-xl" color="primary" @click="next('authAttempt', test.attempt)">Да</q-btn>
+          <q-btn class="q-px-xl" outline color="primary" @click="showOfferAuth = !showOfferAuth">Нет</q-btn>
         </div>
       </div>
     </modal-wrapper>
@@ -73,7 +73,7 @@ export default {
   },
   created () {
     this.user = this.$store.state.user
-    this.showOfferAuth = !this.user.id
+    this.showOfferAuth = !this.user.id && this.$route.params.id
   },
   watch: {
     '$route.name': {
@@ -93,8 +93,8 @@ export default {
   },
   methods: {
     getConclusion () {
-      if (this.test.attempt) {
-        app.getAttemptById(this.test.attempt).then((data) => {
+      if (this.$route.params.attempt) {
+        app.getAttemptById(this.$route.params.attempt).then((data) => {
           this.$store.dispatch('data', { key: 'conclusions', data })
         }).catch(error => {
           this.$store.dispatch('showError', error)

@@ -13,43 +13,13 @@
         <div class="col-3 text-center">Статус</div>
         <div class="col-3 text-center">Шкалы</div>
       </div>
-      <div class="admin__test row col-12 items-center q-mb-md">
-        <div class="col-3 text-center text-bold text-primary">Тест Спилбергера</div>
-        <div class="col-3 text-center">75 вопросов</div>
-        <div :class="['col-3 text-center admin__test--posted']">Выложено</div>
-        <div class="col-3 text-center">10 шкал</div>
-      </div>
-      <div class="admin__test row col-12 items-center q-mb-md">
-        <div class="col-3 text-center text-bold text-primary">Тест Спилбергера</div>
-        <div class="col-3 text-center">75 вопросов</div>
-        <div :class="['col-3 text-center admin__test--edited']">Редактируется</div>
-        <div class="col-3 text-center">10 шкал</div>
-      </div>
-      <div class="admin__test row col-12 items-center q-mb-md">
-        <div class="col-3 text-center text-bold text-primary">Тест Спилбергера</div>
-        <div class="col-3 text-center">75 вопросов</div>
-        <div :class="['col-3 text-center admin__test--hidden']">Скрыт</div>
-        <div class="col-3 text-center">10 шкал</div>
-      </div>
-      <div class="admin__test row col-12 items-center q-mb-md">
-        <div class="col-3 text-center text-bold text-primary">Тест Спилбергера</div>
-        <div class="col-3 text-center">75 вопросов</div>
-        <div :class="['col-3 text-center admin__test--hidden']">Скрыт</div>
-        <div class="col-3 text-center">10 шкал</div>
-      </div>
-      <div class="admin__test row col-12 items-center q-mb-md">
-        <div class="col-3 text-center text-bold text-primary">Тест Спилбергера</div>
-        <div class="col-3 text-center">75 вопросов</div>
-        <div :class="['col-3 text-center admin__test--hidden']">Скрыт</div>
-        <div class="col-3 text-center">10 шкал</div>
-      </div>
-      <div class="admin__test row col-12 items-center q-mb-md">
-        <div class="col-3 text-center text-bold text-primary">Тест Спилбергера</div>
-        <div class="col-3 text-center">75 вопросов</div>
-        <div :class="['col-3 text-center admin__test--hidden']">Скрыт</div>
-        <div class="col-3 text-center">10 шкал</div>
-      </div>
-      <div class="q-mb-lg col-12">
+      <router-link v-for="test in tests" :key="test.id" :to="{ name: 'adminTest', params: {id:test.id} }" class="admin__test row col-12 items-center q-mb-md">
+        <div class="col-3 text-center text-bold text-primary">{{test.name}}</div>
+        <div class="col-3 text-center"> {{ $helpers.stringForNumber(test.count_question, ['вопрос', 'вопроса', 'вопросов']) }}</div>
+        <div :class="['col-3 text-center admin__test--posted']">{{test.status}}</div>
+        <div class="col-3 text-center">{{test.count_scale}} шкал</div>
+      </router-link>
+    <div class="q-mb-lg col-12">
         <q-pagination
           v-model="pagination"
           max="5"
@@ -67,7 +37,29 @@ export default {
   name: 'admin-content',
   data () {
     return {
-      pagination: 1
+      pagination: 1,
+      tests: [{
+        id: 1,
+        name: 'Тест спилберга',
+        count_question: 10,
+        status: 'скрыт',
+        count_scale: 10
+      },
+      {
+        id: 2,
+        name: 'Тест спилберга 2',
+        count_question: 100,
+        status: 'Выложено',
+        count_scale: 5
+      },
+      {
+        id: 3,
+        name: 'Тест спилберга 3',
+        count_question: 15,
+        status: 'Редактируется',
+        count_scale: 7
+      }
+      ]
     }
   },
   methods: {

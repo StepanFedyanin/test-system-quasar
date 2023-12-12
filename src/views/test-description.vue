@@ -142,7 +142,7 @@ export default {
       } else {
         this.$store.dispatch('clearTimer')
         this.$nextTick(() => {
-          this.$router.push({ name: this.$route.path.includes('all_tests') ? 'testResponse' : 'testResponsePassed' })
+          this.$router.push({ name: this.$route.path.includes('tests') ? 'testResponse' : 'testResponsePassed' })
         })
       }
     }
