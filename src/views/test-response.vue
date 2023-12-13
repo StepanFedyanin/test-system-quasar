@@ -50,7 +50,7 @@
                   <div
                     v-for="ans in question.answer"
                     :key="`answer-${ans.id+index}`"
-                    :class="['q-mb-sm col-12 col-sm-6  col-lg-4 q-px-sm', ans.answer_img ? 'col-4': ' col-4']"
+                    :class="['q-mb-sm', ans.answer_img ? 'col-12 col-sm-6  col-lg-4 q-px-sm': 'col-12']"
                   >
                     <template v-if="question.type_question">
                       <q-checkbox
@@ -144,6 +144,7 @@ export default {
   components: { TestTimer, BreadcrumbsMenu, Splide, SplideSlide },
   data () {
     return {
+      test: {},
       showLoaderTest: false,
       isStartTest: false,
       slideOptions: {
@@ -176,9 +177,6 @@ export default {
   },
   created () {},
   computed: {
-    test () {
-      return this.$store.state.test
-    },
     selectSubtest () {
       return this.$store.state.test.select_subtest || {}
     },
@@ -193,10 +191,16 @@ export default {
     }
   },
   watch: {
+    '$store.state.test': {
+      immediate: true,
+      handler (to) {
+        this.test = this.$store.state.test || {}
+      }
+    },
     '$route.name': {
       immediate: true,
       handler (to) {
-        if (process.env.CLIENT && to === 'testResponse') this.getSubTest()
+        if (process.env.CLIENT && to.includes('Response')) this.getSubTest()
       }
     }
   },
@@ -210,7 +214,6 @@ export default {
         })
         this.$store.dispatch('updateTest', { ...this.test, answers, select_subtest: data })
         this.$nextTick(() => {
-          this.test = this.$store.state.test
           this.isStartTest = this.test.select_subtest.description === ''
         })
         this.showLoaderTest = false
@@ -248,7 +251,6 @@ export default {
     onSubmit () {
       app.pushAnswer({ ...this.test, answers: this.destructuringResponses(this.test.answers) }).then((data) => {
         this.$store.dispatch('updateTest', { ...this.test, active_subtest: this.test.active_subtest + 1, attempt: data.id })
-        this.test = this.$store.state.test
         this.activeSlide = 0
       }).catch((err) => {
         this.$store.dispatch('showError', err)

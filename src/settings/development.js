@@ -11,16 +11,16 @@ const app = {
 const accountMenu = {
   authorized: [
     {
-      link: '/allTests', name: 'allTests', title: 'Все тесты'
+      link: '/', name: 'allTests', title: 'Все тесты'
+    },
+    {
+      link: '/topic', name: 'allTests', title: 'Темы'
+    },
+    {
+      link: '/authors', name: 'allTests', title: 'Авторы'
     },
     {
       link: '/passed_tests', name: 'passedTests', title: 'Пройденные тесты'
-    },
-    {
-      link: '/passed_tests', name: 'allTests', title: 'Темы'
-    },
-    {
-      link: '/passed_tests', name: 'allTests', title: 'Авторы'
     }
   ],
   notAuthorized: [

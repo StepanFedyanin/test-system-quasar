@@ -112,4 +112,20 @@ export default class extends REST {
       throw new RESTError(error, 'Не удалось создать пользователя')
     })
   }
+
+  static getMetas () {
+    return this._get('test/seo_scheme', {}, {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить мета')
+    })
+  }
+
+  static getAdminTest () {
+    return this._get('test/seo_scheme', {}, {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить тесты')
+    })
+  }
 }

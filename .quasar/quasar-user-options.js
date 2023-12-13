@@ -12,7 +12,9 @@
 
 
 
+import {Meta} from 'quasar'
 
 
-export default { config: {} }
+
+export default { config: {},plugins: {Meta} }
 

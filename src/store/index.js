@@ -28,7 +28,8 @@ const store = createStore({
     access: null,
     refresh: null,
     error: null,
-    data: {}
+    data: {},
+    meta: {}
   }),
   plugins: [vuexPersist.plugin],
   mutations: {
@@ -61,6 +62,9 @@ const store = createStore({
     },
     DATA (state, params) {
       state.data[params.key] = params.data
+    },
+    META (state, meta) {
+      state.meta = meta
     }
   },
   actions: {
@@ -93,6 +97,9 @@ const store = createStore({
     },
     data (context, payload) {
       context.commit('DATA', payload)
+    },
+    setMeta (context, meta) {
+      context.commit('META', meta)
     }
   }
 })

@@ -1,11 +1,11 @@
 import { parse, format } from 'fecha'
+import store from 'src/store'
 const helpers = {
   parseDate: (value, template) => {
     return parse(value, template)
   },
 
   formatDate: (value, template) => {
-    console.log(format(value, template))
     return format(value, template)
   },
   stringForNumber: (value, strings) => {
@@ -45,6 +45,38 @@ const helpers = {
       }
     }
     return newObj
+  },
+  createTitle: (obj, route) => {
+    if (obj.title) return obj.title
+    const metaTemplates = store.state.meta || {}
+    let title = (metaTemplates.commonPfx?.title || '') + (metaTemplates[route.name]?.title || obj.name || route.meta.title) + ' ' + (metaTemplates.commonSfx?.title || '')
+    Object.keys(obj).forEach((key) => {
+      title = title.replace(`%${key}%`, obj[key])
+    })
+    title = title.replace(/%.*%/, '')
+    return title
+  },
+
+  createDescription: (obj, route) => {
+    if (obj.description) return obj.description
+    const metaTemplates = store.state.meta || {}
+    let description = (metaTemplates.commonPfx?.description || '') + (metaTemplates[route.name]?.description || '') + ' ' + (metaTemplates.commonSfx?.description || '')
+    Object.keys(obj).forEach((key) => {
+      description = description.replace(`%${key}%`, obj[key])
+    })
+    description = description.replace(/%.*%/, '')
+    return description
+  },
+
+  createKeywords: (obj, route) => {
+    if (obj.keywords) return obj.keywords
+    const metaTemplates = store.state.meta || {}
+    let keywords = (metaTemplates.commonPfx?.keywords || '') + (metaTemplates[route.name]?.keywords || '') + ' ' + (metaTemplates.commonSfx?.keywords || '')
+    Object.keys(obj).forEach((key) => {
+      keywords = keywords.replace(`%${key}%`, obj[key])
+    })
+    keywords = keywords.replace(/%.*%/, '')
+    return keywords
   }
 
 }

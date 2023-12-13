@@ -71,7 +71,7 @@
             v-for="test in category.test"
             :key="`test-${test.id}`"
             class="card__item card__link flex no-wrap items-center"
-              :to="`${this?.$route?.path}/test/${test.id}`"
+            :to="`${this?.$route?.path.replace('/','')}/test/${test.id}`"
           >
             <span>{{ test.name }}</span>
             <q-icon color="primary" name="chevron_right" size="20px"/>

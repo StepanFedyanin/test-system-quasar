@@ -106,7 +106,7 @@ export default {
     '$route.name': {
       immediate: true,
       handler (to) {
-        if (process.env.CLIENT && to === 'testDescription') this.getTest()
+        if (process.env.CLIENT && to.includes('Description')) this.getTest()
       }
     }
   },
@@ -142,7 +142,7 @@ export default {
       } else {
         this.$store.dispatch('clearTimer')
         this.$nextTick(() => {
-          this.$router.push({ name: this.$route.path.includes('tests') ? 'testResponse' : 'testResponsePassed' })
+          this.$router.push(`${this.$route.path}/response`)
         })
       }
     }

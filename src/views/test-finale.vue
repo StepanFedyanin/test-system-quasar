@@ -79,7 +79,7 @@ export default {
     '$route.name': {
       immediate: true,
       handler (to) {
-        if (process.env.CLIENT && to === 'testFinale') this.getConclusion()
+        if (process.env.CLIENT && to.includes('Finale')) this.getConclusion()
       }
     }
   },
