@@ -1,6 +1,6 @@
 <template>
   <div>
-    <breadcrumbs-menu/>
+    <breadcrumbs-menu class="q-mb-xl"/>
     <div
       v-if="showLoaderTests"
       class="loader"

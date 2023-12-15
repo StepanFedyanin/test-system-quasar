@@ -14,7 +14,7 @@
     </div>
     <div v-else>
       <template v-if="user.id">
-        <breadcrumbs-menu/>
+        <breadcrumbs-menu class="q-mb-xl"/>
         <div class="row items-start justify-between">
           <table v-if="attempts.length!==0" class="card table card__shadow col-8 col-md-3 mb-4 q-mb-md">
             <thead class="text-primary text-weight-medium bg-grey-1">
@@ -55,7 +55,7 @@
         </div>
       </template>
       <template v-else>
-        <breadcrumbs-menu/>
+        <breadcrumbs-menu class="q-mb-xl"/>
         <div class="row justify-between items-center q-mb-lg">
           <div class="text-primary text-bold text-h3">
             {{ $helpers.stringForNumber(test.count, ['вопрос', 'вопроса', 'вопросов']) }}

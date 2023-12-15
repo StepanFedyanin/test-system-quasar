@@ -1,6 +1,6 @@
 <template>
   <div>
-    <breadcrumbs-menu/>
+    <breadcrumbs-menu class="q-mb-xl"/>
     <modal-wrapper :center="true" v-model="showOfferAuth">
       <div class="flex column q-px-xl">
         <span class="text-center q-mb-md text-h3 text-primary">Сохранить результат?</span>

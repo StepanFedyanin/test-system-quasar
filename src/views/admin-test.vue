@@ -1,17 +1,27 @@
 <template>
   <div class="admin q-pb-lg">
+    <div class="card card__shadow text-secondary q-pa-md q-mb-lg">
+      <div class="text-primary q-mb-sm">Статус: Черновик</div>
+      <div class="q-mb-sm">Кол-во вопросов: 100</div>
+      <div class="q-mb-sm">Кол-во шкал: 100</div>
+      <div class="q-mb-sm">Время: 3 часа</div>
+      <div class="q-mb-sm">Авторы: Арнольд Басс, Энн Дарки (1957)
+        Адаптация: А. К. Осницкий (1998); А. А. Хван и др. (2005)</div>
+      <div class="q-mb-sm">Многофакторный личностный опросник 16PF (Sixteen Personaflity Factor Questionnaire, 16PF) является одним из наиболее распространенных методов оценки индивидуально-психологических особенностей личности. Методику разработал Рэймонд Кеттелл, автор одной из влиятельных теорий личности, согласно которой люди отличаются друг от друга по набору и степени выраженности у них отдельных независимых черт. В процессе экспериментальных исследований Кеттелл выявил 16 биполярных личностных черт (факторов), степень развитости которых можно измерить с помощью опросника.<br/>
+        Стандартный опросник 16PF содержит 187 пунктов и разработан в двух параллельных формах A/B, отличающихся только формулировкой вопросов. Опросник предназначен для обследования взрослых (от 16 лет), имеющих образование не ниже 8-9 классов.</div>
+    </div>
     <q-tabs
       v-model="tab"
       dense
-      class="text-grey"
+      class="text-secondary row"
       active-color="primary"
       indicator-color="primary"
       align="justify"
       narrow-indicator
     >
-      <q-tab name="test">Вопросы</q-tab>
-      <q-tab name="scale">Шкалы</q-tab>
-      <q-tab name="connection">Ключ</q-tab>
+      <q-tab content-class="full-width text-left" class="col" name="test">Вопросы</q-tab>
+      <q-tab class="col" name="scale">Шкалы</q-tab>
+      <q-tab class="col" name="connection">Ключ</q-tab>
     </q-tabs>
     <q-tab-panels v-model="tab" class="card">
       <q-tab-panel name="test" class="row">

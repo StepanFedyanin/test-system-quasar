@@ -1,5 +1,5 @@
 <template>
-    <breadcrumbs-menu/>
+    <breadcrumbs-menu class="q-mb-xl"/>
     <div class="tests">
       <div class="description description__point q-mb-lg">
         Быстрая навигация по популярным тестам и тематикам. Всего на сайте более тысячи тестов, найти нужный можно

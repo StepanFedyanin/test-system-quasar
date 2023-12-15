@@ -85,7 +85,7 @@
       </form>
     </q-no-ssr>
     <div class="profile__tests col-12 col-sm-6 col-lg-8">
-      <breadcrumbs-menu/>
+      <breadcrumbs-menu class="q-mb-xl"/>
       <div
         v-if="showLoaderTests"
         class="loader"

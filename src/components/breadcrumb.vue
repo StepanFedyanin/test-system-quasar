@@ -1,6 +1,6 @@
 <template>
   <q-no-ssr>
-    <div class="q-mb-xl">
+    <div>
       <ol
         v-if="$breadcrumbs.value && $breadcrumbs.value[$breadcrumbs.value.length - 1]?.label !== title"
         class="breadcrumb row"

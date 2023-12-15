@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="row justify-between items-center">
-      <breadcrumbs-menu/>
+      <breadcrumbs-menu class="q-mb-xl"/>
+      <breadcrumbs-menu class="q-mb-xl"/>
       <q-no-ssr>
         <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="selectSubtest.necessary_time" />
       </q-no-ssr>

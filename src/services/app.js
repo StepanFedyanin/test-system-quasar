@@ -121,8 +121,8 @@ export default class extends REST {
     })
   }
 
-  static getAdminTest () {
-    return this._get('test/seo_scheme', {}, {}).then((data) => {
+  static getAdminTests (pagination) {
+    return this._get(`test/test/big_test/limit=${pagination.limit}/offset=${pagination.offset}`, {}, {}).then((data) => {
       return data
     }).catch((error) => {
       throw new RESTError(error, 'Не удалось получить тесты')
