@@ -58,11 +58,12 @@ export default {
         this.showLoaderTests = false
       })
     },
-    next (name, params) {
-      if (params) {
-        this.$store.dispatch('addTest', params)
+    next (name, id) {
+      if (id) {
+        this.$router.push({ name: 'testPassed', params: { id } })
+      } else {
+        this.$router.push({ name: name || 'passed_tests' })
       }
-      this.$router.push({ name: name || 'passed_tests' })
     }
   }
 }

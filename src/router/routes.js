@@ -354,7 +354,7 @@ const routes = [
         component: () => import('src/views/passed-tests.vue')
       },
       {
-        path: 'test',
+        path: 'test/:id',
         name: 'testPassed',
         meta: {
           title: 'ProTest',

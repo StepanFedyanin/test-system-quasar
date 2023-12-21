@@ -104,7 +104,7 @@
             class="card full-width description__point"
             align="between"
             flat
-            @click="next('test', attempt.test_id)"
+            @click="next('testPassed', attempt.test_id)"
           >
             {{ attempt.test }}
             <div class="text-primary row items-center">
@@ -212,9 +212,10 @@ export default {
         }
       })
     },
-    next (name, params) {
-      if (params) {
-        this.$store.dispatch('addTest', params)
+    next (name, id) {
+      if (id) {
+        this.$store.dispatch('addTest', id)
+        this.$router.push({ name: name || 'testPassed', params: { id } })
       }
       this.$router.push({ name: name || 'allTests' })
     }

@@ -138,7 +138,7 @@ export default {
     },
     next (name, params) {
       if (params) {
-        this.$router.push({ name, params: { id: params } })
+        this.$router.push({ name, params: { attempt: params } })
       } else {
         this.$store.dispatch('clearTimer')
         this.$nextTick(() => {
