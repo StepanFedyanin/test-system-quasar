@@ -2,7 +2,6 @@
   <div>
     <div class="row justify-between items-center">
       <breadcrumbs-menu class="q-mb-xl"/>
-      <breadcrumbs-menu class="q-mb-xl"/>
       <q-no-ssr>
         <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="selectSubtest.necessary_time" />
       </q-no-ssr>
@@ -20,7 +19,7 @@
       />
     </div>
     <div v-else class="test">
-      <div v-if="!isStartTest" class="test__shadow">
+      <div v-if="!isStartTest" class="card test__shadow">
         <div class="description description__point q-mb-lg">
             {{selectSubtest.description}}
         </div>
@@ -40,7 +39,7 @@
               :key="`question-${question.id}`"
               class="q-pa-lg q-pb-xl"
             >
-              <div class="test__shadow">
+              <div class="card test__shadow">
                 <div class="text-h2 text-bold text-center q-mb-xl">
                   {{question.name}}
                 </div>

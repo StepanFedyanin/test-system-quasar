@@ -20,4 +20,19 @@
       border: 1px solid var(--q-primary);
     }
   }
+  &__tabs{
+    background: var(--color-white);
+    border-top-right-radius: var(--b-radius) !important;
+    border-top-left-radius: var(--b-radius) !important;
+  }
+  &__tab{
+    width: 100%;
+    align-items: flex-start !important;
+    .q-tab__indicator{
+
+    }
+  }
+  &__panel{
+    min-height: 200px;
+  }
 }

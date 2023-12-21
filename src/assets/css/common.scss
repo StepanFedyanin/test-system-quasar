@@ -49,6 +49,7 @@ body {
     }
 }
 
+
 .text {
     &-h1 {
         font-size: calc(var(--font-family-size) * 3.375);
@@ -94,12 +95,10 @@ body {
         overflow: hidden;
         text-overflow: ellipsis;
     }
-}
-
-
-@media (max-width: 1440px) {
-    .container {
-        max-width: 1000px;
+    &-ellipsis{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
@@ -329,6 +328,9 @@ body {
         &--small {
             border-radius: var(--b-radius);
         }
+        &--bottom{
+            border-radius: 0 0 var(--b-radius) var(--b-radius);
+        }
     }
 
     &__header {
@@ -430,6 +432,7 @@ body {
 }
 
 .error{
+    z-index: 10000;
     position: fixed;
     right: 0;
     top: 5vh;
@@ -441,6 +444,6 @@ body {
 
 .router-link {
     &-active{
-        opacity: 0.6;
+        font-weight: 700;
     }
 }

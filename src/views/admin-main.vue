@@ -12,21 +12,21 @@
         <div class="col-1">Шкалы</div>
         <div class="col">Статус</div>
       </div>
-      <router-link v-for="test in tests" :key="test.id" :to="{ name: 'adminTest', params: {id:test.id} }"
+      <router-link v-for="test in tests.data" :key="test.id" :to="{ name: 'adminTest', params: {id:test.id} }"
                    class="admin__test row col-12 items-center q-mb-sm">
         <div class="col-8 text-bold text-primary">{{ test.name }}</div>
         <div class="col-2 text-secondary">
-          {{ $helpers.stringForNumber(test.count_question, ['вопрос', 'вопроса', 'вопросов']) }}
+          {{ $helpers.stringForNumber(test.count_quest, ['вопрос', 'вопроса', 'вопросов']) }}
         </div>
-        <div class="col-1 text-secondary">{{ test.count_scale }} шкал</div>
+        <div class="col-1 text-secondary">{{ test.count_scale}} шкал</div>
         <div class="col">
-          <q-icon v-if="test.status" name="done" color="positive" size="20px"/>
+          <q-icon v-if="test.status == 'опубликовано'" name="done" color="positive" size="20px"/>
           <q-icon v-else name="close" color="negative" size="20px"/>
         </div>
       </router-link>
     </div>
     <div class="flex items-center q-gutter-lg q-mb-lg">
-    <div class="text-secondary">Всего строк: 1753</div>
+    <div class="text-secondary">Всего строк: {{tests.count_test}}</div>
     <div class="flex items-center text-secondary">
       На странице:
       <q-btn flat :label="`${pagination.limit} строк`">
@@ -41,9 +41,11 @@
       </q-btn>
     </div>
   </div>
-    <q-pagination class="q-pb-xl"
+    <q-pagination
+      class="q-pb-xl"
+      v-if="tests.count_test < 100"
     v-model="pagination.offset"
-    max="5"
+    :max="Math.ceil(this.tests.count_test / this.pagination.limit)"
     direction-links
     flat
     color="grey"
@@ -61,37 +63,29 @@ export default {
   data () {
     return {
       pagination: { limit: 10, offset: 1 },
-      tests: [{
-        id: 1,
-        name: 'Тест спилберга',
-        count_question: 10,
-        status: true,
-        count_scale: 10
-      },
-      {
-        id: 2,
-        name: 'Тест спилберга 2',
-        count_question: 100,
-        status: false,
-        count_scale: 5
-      },
-      {
-        id: 3,
-        name: 'Тест спилберга 3',
-        count_question: 15,
-        status: true,
-        count_scale: 7
-      }
-      ],
+      tests: {},
       limitData: [10, 25, 50, 100]
     }
   },
   created () {
     this.getTests()
   },
+  watch: {
+    'pagination.limit': {
+      handler () {
+        this.getTests()
+      }
+    },
+    'pagination.offset': {
+      handler () {
+        this.getTests()
+      }
+    }
+  },
   methods: {
     getTests () {
-      app.getAdminTests(this.pagination).then(() => {
+      app.getAdminTests(this.pagination).then((data) => {
+        this.tests = data
       })
     },
     changeLimit (value) {

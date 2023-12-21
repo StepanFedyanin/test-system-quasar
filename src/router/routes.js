@@ -340,7 +340,7 @@ const routes = [
         path: '',
         name: 'passedTests',
         meta: {
-          title: 'ProTest',
+          title: 'Пройденные тесты',
           requiresAuth: true,
           current: false,
           breadcrumb () {
@@ -471,13 +471,7 @@ const routes = [
         meta: {
           title: 'Администрирование',
           requiresAuth: false,
-          breadcrumb () {
-            return {
-              label: 'Администрирование',
-              link: 'admin',
-              current: false
-            }
-          }
+          breadcrumb: false
         },
         component: () => import('src/views/admin-main.vue')
       },

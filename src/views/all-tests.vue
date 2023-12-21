@@ -8,41 +8,6 @@
         class="description__selected">поиском</span> по названию. Можно посмотреть <span
         class="description__selected">полный список</span>.
       </div>
-<!--      <div class="row">-->
-<!--        <q-btn-->
-<!--          v-for="testFilter in testFilters"-->
-<!--          :key="testFilter.type"-->
-<!--          @click="changeCurrentType(testFilter.type)"-->
-<!--          :outline="currentFilter.type!==testFilter.type"-->
-<!--          color="primary"-->
-<!--          class="q-px-xl q-mr-md q-mb-md"-->
-<!--        >-->
-<!--          {{ testFilter.name }}-->
-<!--        </q-btn>-->
-<!--      </div>-->
-<!--      <div class="row q-mb-md items-center">-->
-<!--        Сортировать по:-->
-<!--        <div class="col-12 col-sm-10">-->
-<!--          <q-btn-->
-<!--            v-for="testFilterAds in testFiltersAds"-->
-<!--            :key="testFilterAds.type"-->
-<!--            :variant="currentFilter.sorted===testFilterAds.type?'secondary active':'secondary'"-->
-<!--            @click="changeCurrentSorted(testFilterAds.type)"-->
-<!--            :class="[`${currentFilter.sorted===testFilterAds.type?'text-primary': 'text-secondary'}`]"-->
-<!--            flat-->
-<!--          >-->
-<!--            {{ testFilterAds.name }}-->
-<!--          </q-btn>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="q-mb-xl">-->
-<!--        <q-input class="tests__search" label="Поиск">-->
-<!--          <template v-slot:append>-->
-<!--            <q-btn round icon="search" size="10px">-->
-<!--            </q-btn>-->
-<!--          </template>-->
-<!--        </q-input>-->
-<!--      </div>-->
     </div>
     <div
       v-if="showLoaderTests"
@@ -63,7 +28,7 @@
         :key="`category-${category.id}`"
       >
         <q-card-section class="card__header q-py-sm">
-          <div class="text-white">{{ category.name }}</div>
+          <div class="text-white text-ellipsis">{{ category.name }}</div>
         </q-card-section>
 
         <q-card-actions vertical class="q-pa-none">
@@ -90,11 +55,28 @@ export default {
   name: 'all-test',
   async preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
     if (!process.env.SERVER) { return null }
-    await app.getCategory().then((res) => {
-      store.dispatch('data', { key: 'tests', data: res })
-    }).catch((error) => {
-      store.dispatch('showError', error)
-    })
+    console.log(currentRoute.name)
+    if (currentRoute.name === 'tests') {
+      await app.getCategory().then((res) => {
+        store.dispatch('data', { key: 'tests', data: res })
+      }).catch((error) => {
+        store.dispatch('showError', error)
+      })
+    }
+    if (currentRoute.name === 'authorsTests') {
+      await app.getAuthor().then((res) => {
+        store.dispatch('data', { key: 'tests', data: res })
+      }).catch((error) => {
+        store.dispatch('showError', error)
+      })
+    }
+    if (currentRoute.name === 'topicTests') {
+      await app.getTopic().then((res) => {
+        store.dispatch('data', { key: 'tests', data: res })
+      }).catch((error) => {
+        store.dispatch('showError', error)
+      })
+    }
   },
   components: { BreadcrumbsMenu },
   data () {
@@ -136,7 +118,9 @@ export default {
     '$route.name': {
       immediate: true,
       handler (to) {
-        if (process.env.CLIENT) this.getCategory()
+        if (process.env.CLIENT && to === 'tests') this.getCategory()
+        if (process.env.CLIENT && to === 'authorsTests') this.getAuthor()
+        if (process.env.CLIENT && to === 'topicTests') this.getTopic()
       }
     }
   },
@@ -144,6 +128,26 @@ export default {
     getCategory () {
       this.showLoaderTests = true
       app.getCategory().then((res) => {
+        this.$store.dispatch('data', { key: 'tests', data: res })
+        this.showLoaderTests = false
+      }).catch((error) => {
+        this.$store.dispatch('showError', error)
+        this.showLoaderTests = false
+      })
+    },
+    getTopic () {
+      this.showLoaderTests = true
+      app.getTopic().then((res) => {
+        this.$store.dispatch('data', { key: 'tests', data: res })
+        this.showLoaderTests = false
+      }).catch((error) => {
+        this.$store.dispatch('showError', error)
+        this.showLoaderTests = false
+      })
+    },
+    getAuthor () {
+      this.showLoaderTests = true
+      app.getAuthor().then((res) => {
         this.$store.dispatch('data', { key: 'tests', data: res })
         this.showLoaderTests = false
       }).catch((error) => {

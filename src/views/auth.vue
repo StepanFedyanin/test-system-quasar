@@ -1,4 +1,5 @@
 <template>
+  <top-bar class="q-mb-lg"/>
   <div class="auth">
     <q-card class="card card__shadow card__border card__wrapper">
       <div
@@ -106,10 +107,11 @@
 <script>
 import { app } from 'src/services'
 import ModalWrapper from 'components/modal.vue'
+import TopBar from 'components/top-bar.vue'
 
 export default {
   name: 'auth-page',
-  components: { ModalWrapper },
+  components: { TopBar, ModalWrapper },
   data () {
     return {
       test: {},
@@ -170,8 +172,7 @@ export default {
       }
     },
     createAttempt () {
-      app.addUserAttempt(this.$route.params.attempt).then(() => {
-      }).catch(error => {
+      app.addUserAttempt(this.$route.params.attempt).catch(error => {
         this.$store.dispatch('showError', error)
       })
     },

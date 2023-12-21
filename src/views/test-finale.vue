@@ -17,7 +17,7 @@
         class="description__selected">профессиональным психологом</span>.
       </div>
       <div v-if="$route.params?.id" class="row items-center q-gutter-md">
-        <div class="description description__bg description__point text-bold q-py-xs q-px-lg cursor-pointer"
+        <div class="description description__bg description__point text-accent text-bold q-py-xs q-px-lg cursor-pointer"
              @click="copyUrl()">
           "Ссылка на результаты теста": <span class="q-px-sm text-primary text-weight-light"
                                               ref="attemptUrl"> ссылка</span>
@@ -41,7 +41,7 @@
     </div>
     <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_description_${index}`"
          class="description description__point q-mb-lg">
-      <div class="text-bold text-h2 q-mb-md">{{ conclusion.title }}</div>
+      <div class="text-bold text-h2 q-mb-md text-accent">{{ conclusion.title }}</div>
       <span class="description__paragraph">
          {{ conclusion.description }}
       </span>

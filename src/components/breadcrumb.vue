@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     initBreadcrumbs () {
+      console.log(this.$breadcrumbs.value)
       this.$nextTick(() => {
         this.$breadcrumbs.value.forEach((breadcrumbs, index) => {
           if (breadcrumbs.label.includes('replace')) {

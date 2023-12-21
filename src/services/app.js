@@ -56,6 +56,22 @@ export default class extends REST {
     })
   }
 
+  static getTopic () {
+    return this._get('test/topic', {}, {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить темы')
+    })
+  }
+
+  static getAuthor () {
+    return this._get('test/author', {}, {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить авторов')
+    })
+  }
+
   static getTestForId (id) {
     return this._get(`test/test/${id}`, {}, {}).then((data) => {
       return data
@@ -126,6 +142,38 @@ export default class extends REST {
       return data
     }).catch((error) => {
       throw new RESTError(error, 'Не удалось получить тесты')
+    })
+  }
+
+  static getAdminTest (test) {
+    return this._get(`test/test/full_description_test/${test}`, {}, {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить тест')
+    })
+  }
+
+  static getAdminTestSubtests (test) {
+    return this._get(`test/test/full_test/${test}`, {}, {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить сабтесты')
+    })
+  }
+
+  static getAdminTestScale (test) {
+    return this._get(`test/test/full_scales/${test}`, {}, {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить шкалы')
+    })
+  }
+
+  static getAdminTestKeys (test) {
+    return this._get(`test/test/question_answer/${test}`, {}, {}).then((data) => {
+      return data
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить ключи')
     })
   }
 }

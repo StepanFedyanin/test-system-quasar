@@ -50,6 +50,9 @@ export default route(function (/* { store, ssrContext } */) {
         app.refreshToken(tokens.refresh).then((token) => {
           tokens.access = token.access
           store.dispatch('token', tokens)
+        }).catch(() => {
+          store.dispatch('initUser', {})
+          store.dispatch('clearToken')
         })
       }
     }

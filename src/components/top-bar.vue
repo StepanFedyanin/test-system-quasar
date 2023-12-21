@@ -1,9 +1,9 @@
 <template>
   <div>
     <q-toolbar class="topbar q-mt-md justify-between">
-      <div class="col-auto q-mr-md">
+      <div class="col-grow col-md-auto q-mr-md">
         <h1 class="topbar__logo text-h2 full-width text-primary" @click="next('home')">
-          Pro<span class="text-secondary">Test</span>
+          Pro<span class="text-accent">Test</span>
         </h1>
       </div>
       <div :class="['topbar__menu', 'col-grow', showMenu&&'topbar__menu--active']" @click="handleShowMenu()">
@@ -21,14 +21,32 @@
           <router-link
             v-for="item in accountMenu"
             :key="item.name"
-            class="text-primary text-h3 text-bold q-mx-sm"
+            class="text-primary text-h4 q-mx-sm"
             :to="item.link"
             :title="item.title"
           >
             {{ item.title }}
           </router-link>
-          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm cursor-pointer" v-if="user.id" @click="exit()">Выход</span>
+          <span class="topbar__content--extra text-primary text-h3  q-mx-sm cursor-pointer" v-if="user.id" @click="exit()">Выход</span>
           <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm cursor-pointer" @click="exit()" v-else>вход / регистрация</span>
+        </div>
+      </div>
+      <div :class="['topbar__search', searchActive&&'topbar__search--active']">
+        <q-input borderless v-model="searchValue" @update:model-value="handleInput" @focus="changeSearchState" @blur="changeSearchState" label="Поиск" class="topbar__search--input">
+          <template v-slot:append>
+            <q-icon name="search"/>
+          </template>
+        </q-input>
+        <div v-if="searchActive" class="topbar__search--results">
+          <router-link
+            v-for="(test, index) in tests"
+            :key="`searchResult_${index}`"
+            class="card__item card__link flex no-wrap items-center justify-between"
+            :to="''"
+          >
+            <span class="text-weight-regular">Название теста {{index + 1}}</span>
+            <q-icon color="primary" name="chevron_right" size="20px"/>
+          </router-link>
         </div>
       </div>
       <div v-if="user?.id" class="topbar__user col-auto row q-gutter-sm">
@@ -62,6 +80,7 @@
 
 <script>
 import { accountMenu } from 'src/settings'
+import debounce from 'lodash.debounce'
 
 export default {
   name: 'TopBar',
@@ -69,7 +88,10 @@ export default {
     return {
       user: {},
       accountMenu: [],
-      showMenu: false
+      showMenu: false,
+      searchValue: '',
+      searchActive: false,
+      tests: []
     }
   },
   watch: {
@@ -97,6 +119,13 @@ export default {
     }
   },
   methods: {
+    changeSearchState () {
+      this.tests = []
+      this.searchActive = !this.searchActive
+    },
+    handleInput: debounce(function () {
+      this.tests = [1, 2, 3, 4, 5, 6]
+    }, 500),
     next (params) {
       this.$router.push({ name: params || 'allTests' })
     },
