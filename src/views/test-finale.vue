@@ -5,8 +5,8 @@
       <div class="flex column q-px-xl">
         <span class="text-center q-mb-md text-h3 text-primary">Сохранить результат?</span>
         <div class="row q-gutter-x-lg">
-          <q-btn class="q-px-xl" color="primary" @click="next('authAttempt', test.attempt)">Да</q-btn>
-          <q-btn class="q-px-xl" outline color="primary" @click="showOfferAuth = !showOfferAuth">Нет</q-btn>
+          <q-btn class="col q-px-xl" color="primary" @click="next('authAttempt', test.attempt)">Да</q-btn>
+          <q-btn class="col q-px-xl" outline color="primary" @click="showOfferAuth = !showOfferAuth">Нет</q-btn>
         </div>
       </div>
     </modal-wrapper>
@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <div class="card card__border q-px-xl q-py-lg q-mb-xl">
+    <div class="card card__border q-px-md q-py-lg q-mb-xl">
       <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_${index}`"
            class="row text-secondary q-mb-lg q-gutter-md items-center">
         <div class="col-sm-3 col-md-2">{{ conclusion.title }}</div>

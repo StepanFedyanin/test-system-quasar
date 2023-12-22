@@ -12,7 +12,7 @@
             <span/>
           </div>
           <router-link
-            class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm"
+            class="topbar__content--extra text-primary text-h4  q-mx-sm cursor-pointer"
             to="/profile"
             v-if="user?.id"
           >
@@ -27,8 +27,8 @@
           >
             {{ item.title }}
           </router-link>
-          <span class="topbar__content--extra text-primary text-h3  q-mx-sm cursor-pointer" v-if="user.id" @click="exit()">Выход</span>
-          <span class="topbar__content--extra text-primary text-h3 text-bold q-mx-sm cursor-pointer" @click="exit()" v-else>вход / регистрация</span>
+          <span class="topbar__content--extra text-primary text-h4  q-mx-sm cursor-pointer" v-if="user.id" @click="exit()">Выход</span>
+          <span class="topbar__content--extra text-primary text-h4  q-mx-sm cursor-pointer" @click="exit()" v-else>вход / регистрация</span>
         </div>
       </div>
       <div :class="['topbar__search', searchActive&&'topbar__search--active']">

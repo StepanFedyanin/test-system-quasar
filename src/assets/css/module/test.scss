@@ -39,4 +39,29 @@
         transform: scale(0);
         transition: transform .2s;
     }
+    &__pagination{
+        display: flex;
+
+        @media (max-width: 768px) {
+            justify-content: center;
+            margin-bottom: 16px;
+            order: -1;
+            width: 100%;
+        }
+        &--item{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+            color: var(--q-secondary);
+            transition: background .3s;
+            &.active{
+                color: var(--color-white);
+                background: var(--q-primary);
+            }
+        }
+    }
 }

@@ -142,8 +142,8 @@ body {
         border: 2px solid transparent;
         padding: 3px 20px;
         border-radius: var(--b-radius);
-        transition: border .2s;
-
+        transition: border .3s;
+        box-shadow: var(--box-shadow-border);
         &:hover {
             border: 2px solid var(--q-primary);
         }

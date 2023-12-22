@@ -21,7 +21,7 @@
     <div v-else class="test">
       <div v-if="!isStartTest" class="card test__shadow">
         <div class="description description__point q-mb-lg">
-            {{selectSubtest.description}}
+          {{selectSubtest.description}}
         </div>
         <div class="flex justify-end">
           <q-btn class="q-px-xl" color="primary" @click="startTest">Начать</q-btn>
@@ -101,6 +101,15 @@
             >
               Назад
             </q-btn>
+            <div class="test__pagination">
+              <span
+                v-for="(question, index) in selectSubtest.question"
+                :key="`pagination_${index}.${question.id}`"
+                :class="['test__pagination--item text-weight-medium', activeSlide === index&& 'active']"
+              >
+                {{ index +1 }}
+              </span>
+            </div>
             <q-btn
               :disable="disableButton"
               class="q-px-xl q-py-sm" color="primary" @click="activeSlide >= $refs.reviews?.splide?.length - 1? onSubmit(): changeQuestion('next')"
