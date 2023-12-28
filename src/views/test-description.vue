@@ -40,7 +40,7 @@
           </table>
           <div :class="[attempts.length===0?'col-12': 'col-12 col-md-7 col-lg-8']">
             <div class="description description__point q-mb-lg">
-              {{ test.author }}
+              {{ test.author_name }}
             </div>
             <div class="description description__point q-mb-lg">
               {{ test.sdescription }}
@@ -63,7 +63,7 @@
           <q-btn color="primary" @click="next()">Пройти тест</q-btn>
         </div>
         <div class="description description__point q-mb-lg">
-          {{ test.author }}
+          {{ test.author_name }}
         </div>
         <div class="description description__point q-mb-lg">
           {{ test.sdescription }}

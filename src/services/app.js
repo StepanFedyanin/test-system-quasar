@@ -129,6 +129,15 @@ export default class extends REST {
     })
   }
 
+  static getSearchTest (params) {
+    return this._get('test/test', params, {}).then((data) => {
+      const tokens = data
+      return tokens
+    }).catch((error) => {
+      throw new RESTError(error, 'Не удалось получить тесты')
+    })
+  }
+
   static getMetas () {
     return this._get('test/seo_scheme', {}, {}).then((data) => {
       return data

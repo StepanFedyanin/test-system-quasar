@@ -13,21 +13,16 @@
         class="q-ma-md"
       />
     </div>
-    <div v-else class="q-mb-md">
-      <q-btn
-        class="card full-width description__point"
-        align="between"
-        flat
-        v-for="attempt in attempts" :key="`attempt_${attempt.test_id}`"
-        @click="next('testPassed', attempt.test_id)"
-      >
+    <div v-else-if="attempts.length" class="q-mb-md">
+      <router-link  v-for="attempt in attempts" :key="`attempt_${attempt.test_id}`" :to="{name:'testPassed' , params: {id:attempt.test_id }}" class="card description__point test__passed items-center q-mb-md">
         {{ attempt.test }}
-        <div class="text-primary row items-center">
-          {{ $helpers.stringForNumber(attempt.count, ['попытка', 'попытки', 'попыток']) }}
-          <q-icon color="primary" name="chevron_right"/>
-        </div>
-      </q-btn>
+        <span class="text-primary row items-center">
+              {{ $helpers.stringForNumber(attempt.count, ['попытка', 'попытки', 'попыток']) }}
+              <q-icon color="primary" name="chevron_right"/>
+            </span>
+      </router-link>
     </div>
+    <div v-else class="text-secondary text-h3 text-center">вы еще не проходили тесты</div>
   </div>
 </template>
 

@@ -27,61 +27,65 @@
         <q-tab name="registration" label="Регистрация"/>
       </q-tabs>
       <q-tab-panels v-model="tab" animated>
-        <q-tab-panel name="auth">
-          <q-input borderless v-model="login.email" label="Email" class="q-mb-lg">
-            <template v-slot:append>
-              <q-icon name="person"/>
-            </template>
-          </q-input>
-          <q-input class="q-mb-lg" borderless v-model="login.password" label="Пароль"
-                   :type="login.hiddenPassword ? 'password' : 'text'">
-            <template v-slot:append>
-              <q-icon
-                :name="login.hiddenPassword ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="login.hiddenPassword = !login.hiddenPassword"
-              />
-            </template>
-          </q-input>
-          <q-btn color="primary" class="full-width q-py-sm q-my-sm" :disable="disabledLogin" @click="onLogin()">Войти
-          </q-btn>
-          <q-btn flat class="full-width q-py-sm q-mb-sm">Забыли пароль?</q-btn>
-          <q-separator class='q-mb-md'/>
-          <q-btn color="primary" outline class="full-width q-py-sm" @click="next()">Войти без регистрации</q-btn>
-        </q-tab-panel>
-        <q-tab-panel name="registration">
-          <q-input class="q-mb-md" borderless v-model="register.name" label="Имя"/>
-          <q-input class="q-mb-md" borderless v-model="register.surname" label="Фамилия"/>
-          <q-select class="q-mb-md" v-model="register.gender" borderless :options="gender" label="Пол"/>
-          <q-input class="q-mb-md" borderless v-model="register.birthday" mask="##.##.####" label="Дата рождения">
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date mask="DD-MM-YYYY" v-model="register.birthday" landscape>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-          <q-input class="q-mb-md" borderless v-model="register.email" label="Email"/>
-          <q-input class="q-mb-lg" borderless v-model="register.password" label="Пароль"
-                   :type="register.hiddenPassword ? 'password' : 'text'">
-            <template v-slot:append>
-              <q-icon
-                :name="register.hiddenPassword ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="register.hiddenPassword = !register.hiddenPassword"
-              />
-            </template>
-          </q-input>
-          <q-btn color="primary" class="full-width q-mb-lg" :disable="disabledRegister" @click="onRegister()">
-            Регистрация
-          </q-btn>
-          <div class="description text-h6 text-center cursor-pointer" @click="showAgreementModal()">
-            Регистрируясь, вы соглашаетесь с <span class="description__selected">пользовательским соглашением</span> и
-            даете согласие на обработку <span class="description__selected">персональных данных</span>
-          </div>
-        </q-tab-panel>
+          <q-tab-panel name="auth">
+            <q-form>
+              <q-input borderless v-model="login.email" label="Email" class="q-mb-lg">
+                <template v-slot:append>
+                  <q-icon name="person"/>
+                </template>
+              </q-input>
+              <q-input class="q-mb-lg" borderless v-model="login.password" label="Пароль"
+                       :type="login.hiddenPassword ? 'password' : 'text'">
+                <template v-slot:append>
+                  <q-icon
+                    :name="login.hiddenPassword ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="login.hiddenPassword = !login.hiddenPassword"
+                  />
+                </template>
+              </q-input>
+              <q-btn color="primary" class="full-width q-py-sm q-my-sm" :disable="disabledLogin" @click="onLogin()">Войти
+              </q-btn>
+              <q-btn flat class="full-width q-py-sm q-mb-sm">Забыли пароль?</q-btn>
+              <q-separator class='q-mb-md'/>
+              <q-btn color="primary" outline class="full-width q-py-sm" @click="next()">Войти без регистрации</q-btn>
+            </q-form>
+          </q-tab-panel>
+          <q-tab-panel name="registration">
+            <q-form>
+              <q-input class="q-mb-md" borderless v-model="register.name" label="Имя"/>
+              <q-input class="q-mb-md" borderless v-model="register.surname" label="Фамилия"/>
+              <q-select class="q-mb-md" v-model="register.gender" borderless :options="gender" label="Пол"/>
+              <q-input class="q-mb-md" borderless v-model="register.birthday" mask="##.##.####" label="Дата рождения">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-date mask="DD-MM-YYYY" v-model="register.birthday" landscape>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+              <q-input class="q-mb-md" borderless v-model="register.email" label="Email"/>
+              <q-input class="q-mb-lg" borderless v-model="register.password" label="Пароль"
+                       :type="register.hiddenPassword ? 'password' : 'text'">
+                <template v-slot:append>
+                  <q-icon
+                    :name="register.hiddenPassword ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="register.hiddenPassword = !register.hiddenPassword"
+                  />
+                </template>
+              </q-input>
+              <q-btn color="primary" class="full-width q-mb-lg" :disable="disabledRegister" @click="onRegister()">
+                Регистрация
+              </q-btn>
+              <div class="description text-h6 text-center cursor-pointer" @click="showAgreementModal()">
+                Регистрируясь, вы соглашаетесь с <span class="description__selected">пользовательским соглашением</span> и
+                даете согласие на обработку <span class="description__selected">персональных данных</span>
+              </div>
+            </q-form>
+          </q-tab-panel>
       </q-tab-panels>
     </q-card>
     <modal-wrapper title="Пользовательское соглашение" :center="true" v-model="isShowAgreement">

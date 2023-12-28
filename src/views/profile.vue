@@ -2,7 +2,7 @@
   <top-bar class="q-mb-lg"/>
   <div class="profile row justify-between q-pb-lg">
     <q-no-ssr>
-      <form class="card profile__form row col-12 col-sm-5 col-lg-3 q-pa-lg ">
+      <q-form class="card profile__form row col-12 col-sm-5 col-lg-3 q-pa-lg ">
         <div class="flex col-12 items-center q-mb-lg q-px-sm">
           <div class="cover q-mr-md">
             <span/>
@@ -52,7 +52,7 @@
         </q-input>
         <div class="col-12 q-mb-md q-px-sm">
           <div class="text-secondary text-weight-bold q-mb-sm">Придумайте новый пароль</div>
-          <q-input rounded standout="bg-primary text-white" class="full-width" v-model="user.changedUser"
+          <q-input borderless class="full-width" v-model="user.changedUser"
                    :type="userForm.password ? 'password' : 'text'">
             <template v-slot:append>
               <q-icon
@@ -66,7 +66,7 @@
         <div class="col-12 q-mb-md q-px-sm">
           <div class="text-secondary text-weight-bold q-mb-sm">Впишите старый пароль <span class="text-primary">*</span>
           </div>
-          <q-input rounded standout="bg-primary text-white" class="full-width" v-model="changedUser.old_password"
+          <q-input borderless class="full-width" v-model="changedUser.old_password"
                    :type="userForm.old_password ? 'password' : 'text'">
             <template v-slot:append>
               <q-icon
@@ -82,7 +82,7 @@
             Сохранить
           </q-btn>
         </div>
-      </form>
+      </q-form>
     </q-no-ssr>
     <div class="profile__tests col-12 col-sm-6 col-lg-8">
       <breadcrumbs-menu class="q-mb-xl"/>
@@ -100,22 +100,19 @@
       </div>
       <div v-else-if="attempts.length > 0" class="profile__list">
         <div v-for="attempt in attempts" :key="`attempt_${attempt.test_id}`" class="full-width q-mb-md">
-          <q-btn
-            class="card full-width description__point"
-            align="between"
-            flat
-            @click="next('testPassed', attempt.test_id)"
-          >
+          <router-link :to="{name:'testPassed' , params: {id:attempt.test_id }}" class="card description__point test__passed items-center">
             {{ attempt.test }}
-            <div class="text-primary row items-center">
+            <span class="text-primary row items-center">
               {{ $helpers.stringForNumber(attempt.count, ['попытка', 'попытки', 'попыток']) }}
               <q-icon color="primary" name="chevron_right"/>
-            </div>
-          </q-btn>
+            </span>
+          </router-link>
         </div>
       </div>
-      <div v-else>
-        вы еще не проходили тесты
+      <div v-else class="profile__list">
+        <span class="text-secondary text-h3 full-width text-center">
+         вы еще не проходили тесты
+        </span>
       </div>
       <div class="flex justify-end">
         <q-btn color="primary" class="q-px-lg" @click="next('passedTests')">Все тесты</q-btn>

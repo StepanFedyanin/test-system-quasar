@@ -23,7 +23,7 @@
     </div>
     <div v-else class="row q-pb-lg">
       <q-card
-        class="card col-6 col-sm-4 col-lg-3"
+        class="card card__border--small col-6 col-sm-4 col-lg-3"
         v-for="category in testsCategory"
         :key="`category-${category.id}`"
       >

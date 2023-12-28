@@ -64,4 +64,20 @@
             }
         }
     }
+    &__passed{
+        display: flex;
+        justify-content: space-between;
+        font-weight: 400;
+        border-radius: 5px var(--b-radius) var(--b-radius) 5px;
+        padding-right: 15px;
+        box-shadow: none;
+        transition: all .3s;
+        span{
+            padding: 6px 0;
+        }
+        &:hover{
+            box-shadow: var(--box-shadow-volume);
+            color: var(--q-primary);
+        }
+    }
 }

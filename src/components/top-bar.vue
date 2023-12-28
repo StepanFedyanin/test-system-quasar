@@ -2,7 +2,7 @@
   <div>
     <q-toolbar class="topbar q-mt-md justify-between">
       <div class="col-grow col-md-auto q-mr-md">
-        <h1 class="topbar__logo text-h2 full-width text-primary" @click="next('home')">
+        <h1 class="topbar__logo text-h2 full-width text-primary" @click="next('allTests')">
           Pro<span class="text-accent">Test</span>
         </h1>
       </div>
@@ -38,15 +38,27 @@
           </template>
         </q-input>
         <div v-if="searchActive" class="topbar__search--results">
-          <router-link
-            v-for="(test, index) in tests"
-            :key="`searchResult_${index}`"
-            class="card__item card__link flex no-wrap items-center justify-between"
-            :to="''"
-          >
-            <span class="text-weight-regular">Название теста {{index + 1}}</span>
-            <q-icon color="primary" name="chevron_right" size="20px"/>
-          </router-link>
+          <div v-if="showLoaderTest" class="flex justify-center">
+            <q-circular-progress
+              indeterminate
+              rounded
+              size="50px"
+              color="primary"
+              class="q-ma-md"
+            />
+          </div>
+          <template v-else-if="tests.length && searchValue.length">
+            <router-link
+              v-for="(test) in tests"
+              :key="`searchResult_${test.id}`"
+              class="card__item card__link flex no-wrap items-center justify-between"
+              :to="`test/${test.id}`"
+            >
+              <span class="text-weight-regular">{{test.name}}</span>
+              <q-icon color="primary" name="chevron_right" size="20px"/>
+            </router-link>
+          </template>
+          <div v-else-if="searchValue.length" class="text-h6 q-pa-sm text-secondary">нет тестов удовлетворяющих поиску</div>
         </div>
       </div>
       <div v-if="user?.id" class="topbar__user col-auto row q-gutter-sm">
@@ -81,6 +93,7 @@
 <script>
 import { accountMenu } from 'src/settings'
 import debounce from 'lodash.debounce'
+import { app } from 'src/services'
 
 export default {
   name: 'TopBar',
@@ -91,6 +104,7 @@ export default {
       showMenu: false,
       searchValue: '',
       searchActive: false,
+      showLoaderTest: false,
       tests: []
     }
   },
@@ -122,15 +136,30 @@ export default {
     changeSearchState () {
       this.tests = []
       this.searchActive = !this.searchActive
+      if (this.searchActive && this.searchValue.length) {
+        this.getTests()
+      }
     },
     handleInput: debounce(function () {
-      this.tests = [1, 2, 3, 4, 5, 6]
+      this.getTests()
     }, 500),
+
     next (params) {
       this.$router.push({ name: params || 'allTests' })
     },
     handleShowMenu () {
       this.showMenu = !this.showMenu
+    },
+    getTests () {
+      this.showLoaderTest = true
+      this.tests = []
+      app.getSearchTest({ name: this.searchValue }).then((data) => {
+        this.tests = data
+        this.showLoaderTest = false
+      }).catch(error => {
+        this.showLoaderTest = false
+        this.$store.dispatch('showError', error)
+      })
     },
     exit () {
       this.$store.dispatch('initUser', {})

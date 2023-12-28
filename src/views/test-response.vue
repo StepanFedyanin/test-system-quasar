@@ -3,7 +3,7 @@
     <div class="row justify-between items-center">
       <breadcrumbs-menu class="q-mb-xl"/>
       <q-no-ssr>
-        <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="selectSubtest.necessary_time" />
+        <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="selectSubtest.necessary_time" @stop="onSubmit()"/>
       </q-no-ssr>
     </div>
     <div
@@ -136,19 +136,21 @@ export default {
   async preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
     if (!process.env.SERVER) { return null }
     const test = store.state.test
-    app.getSubTest(test.subtest[test.active_subtest]?.id).then((data) => {
-      const answers = {}
-      data.question.forEach(question => {
-        answers[question.id] = { id: question.id, answers: [] }
+    if (test.subtest[test.active_subtest]?.id) {
+      app.getSubTest(test.subtest[test.active_subtest]?.id).then((data) => {
+        const answers = {}
+        data.question.forEach(question => {
+          answers[question.id] = { id: question.id, answers: [] }
+        })
+        store.dispatch('updateTest', helpers.removeKeys({
+          ...test,
+          answers,
+          select_subtest: data
+        }, ['id']))
+      }).catch((error) => {
+        store.dispatch('showError', error)
       })
-      store.dispatch('updateTest', helpers.removeKeys({
-        ...test,
-        answers,
-        select_subtest: data
-      }, ['id']))
-    }).catch((error) => {
-      store.dispatch('showError', error)
-    })
+    }
   },
   components: { TestTimer, BreadcrumbsMenu, Splide, SplideSlide },
   data () {
@@ -216,20 +218,24 @@ export default {
   methods: {
     getSubTest () {
       this.showLoaderTest = true
-      app.getSubTest(this.test.subtest[this.test.active_subtest]?.id).then((data) => {
-        const answers = {}
-        data.question.forEach(question => {
-          answers[question.id] = { id: question.id, answers: [] }
+      if (this.test.subtest[this.test.active_subtest]?.id) {
+        app.getSubTest(this.test.subtest[this.test.active_subtest]?.id).then((data) => {
+          const answers = {}
+          data.question.forEach(question => {
+            answers[question.id] = { id: question.id, answers: [] }
+          })
+          this.$store.dispatch('updateTest', { ...this.test, answers, select_subtest: data })
+          this.$nextTick(() => {
+            this.isStartTest = this.test.select_subtest.description === ''
+          })
+          this.showLoaderTest = false
+        }).catch((error) => {
+          this.showLoaderTest = true
+          this.$store.dispatch('showError', error)
         })
-        this.$store.dispatch('updateTest', { ...this.test, answers, select_subtest: data })
-        this.$nextTick(() => {
-          this.isStartTest = this.test.select_subtest.description === ''
-        })
-        this.showLoaderTest = false
-      }).catch((error) => {
-        this.showLoaderTest = true
-        this.$store.dispatch('showError', error)
-      })
+      } else {
+        this.next('allTests')
+      }
     },
     startTest () {
       this.isStartTest = true

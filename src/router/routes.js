@@ -35,14 +35,7 @@ const routes = [
     meta: {
       title: 'Все тесты',
       requiresAuth: false,
-      breadcrumb () {
-        return {
-          label: 'Все тесты',
-          link: 'allTests',
-          current: false,
-          _path: ''
-        }
-      }
+      breadcrumb: false
     },
     redirect: { name: 'tests' },
     component: () => import('src/views/wrapper-all.vue'),
@@ -126,8 +119,8 @@ const routes = [
       requiresAuth: false,
       breadcrumb () {
         return {
-          label: 'Темы',
-          link: 'allTests',
+          label: 'Авторы',
+          link: 'authors',
           current: false,
           _path: ''
         }
@@ -146,7 +139,7 @@ const routes = [
           breadcrumb () {
             return {
               label: 'Авторы',
-              link: 'allTests',
+              link: 'authors',
               current: false,
               _path: ''
             }
@@ -175,7 +168,7 @@ const routes = [
               breadcrumb () {
                 return {
                   label: 'replace',
-                  link: 'allTests',
+                  link: 'authors',
                   current: false,
                   _path: ''
                 }
@@ -202,7 +195,7 @@ const routes = [
               breadcrumb () {
                 return {
                   label: 'Заключение',
-                  link: 'allTests',
+                  link: 'authors',
                   current: false,
                   _path: '/finale'
                 }
@@ -242,7 +235,7 @@ const routes = [
           breadcrumb () {
             return {
               label: 'Темы',
-              link: 'allTests',
+              link: 'topic',
               current: false,
               _path: ''
             }
@@ -271,7 +264,7 @@ const routes = [
               breadcrumb () {
                 return {
                   label: 'replace',
-                  link: 'allTests',
+                  link: 'topic',
                   current: false,
                   _path: ''
                 }
@@ -298,7 +291,7 @@ const routes = [
               breadcrumb () {
                 return {
                   label: 'Заключение',
-                  link: 'allTests',
+                  link: 'topic',
                   current: false,
                   _path: '/finale'
                 }

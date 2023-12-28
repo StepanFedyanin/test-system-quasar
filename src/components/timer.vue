@@ -1,5 +1,5 @@
 <template>
-  <div class="card text-primary text-bold q-py-sm q-px-lg">
+  <div class="card card__border--small text-primary text-bold q-py-sm q-px-lg">
     {{currentTime}}
   </div>
 </template>

@@ -307,7 +307,6 @@ body {
 }
 
 .card {
-    border-radius: var(--b-radius);
     background: var(--color-white);
 
     &__shadow {
@@ -422,10 +421,10 @@ body {
     tbody {
         tr {
             border: 1px solid transparent;
-            transition: border .2s;
+            transition: all .2s;
 
             &:hover {
-                border: 1px solid var(--q-primary);
+                color: var(--q-primary);
             }
         }
     }
