@@ -52,7 +52,7 @@ const routes = [
         component: () => import('src/views/all-tests.vue')
       },
       {
-        path: 'test/:id',
+        path: 'test/:id*',
         name: 'test',
         meta: {
           title: 'ProTest',
@@ -485,6 +485,26 @@ const routes = [
         component: () => import('src/views/admin-test.vue')
       }
     ]
+  },
+  {
+    path: '/error401',
+    name: 'error401',
+    meta: {
+      title: 'error',
+      requiresAuth: false,
+      breadcrumb: false
+    },
+    component: () => import('src/views/error401.vue')
+  },
+  {
+    path: '/error404',
+    name: 'error404',
+    meta: {
+      title: 'error',
+      requiresAuth: false,
+      breadcrumb: false
+    },
+    component: () => import('src/views/error404.vue')
   }
 ]
 

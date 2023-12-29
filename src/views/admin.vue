@@ -11,11 +11,7 @@ import TopBar from 'components/top-bar.vue'
 export default {
   name: 'admin-panel',
   components: { TopBar },
-  methods: {
-    next (params) {
-      this.$router.push({ name: params || 'adminTest' })
-    }
-  }
+  methods: {}
 }
 </script>
 

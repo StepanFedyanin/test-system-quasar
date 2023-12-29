@@ -136,7 +136,7 @@ export default {
   async preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
     if (!process.env.SERVER) { return null }
     const test = store.state.test
-    if (test.subtest[test.active_subtest]?.id) {
+    if (test?.subtest[test?.active_subtest]?.id) {
       app.getSubTest(test.subtest[test.active_subtest]?.id).then((data) => {
         const answers = {}
         data.question.forEach(question => {

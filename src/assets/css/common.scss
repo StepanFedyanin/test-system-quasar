@@ -52,7 +52,7 @@ body {
 
 .text {
     &-h1 {
-        font-size: calc(var(--font-family-size) * 3.375);
+        font-size: calc(var(--font-family-size) * 5);
         line-height: normal;
         letter-spacing: normal;
         @media (max-width: 600px) {

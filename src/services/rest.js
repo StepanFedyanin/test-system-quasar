@@ -56,7 +56,7 @@ class REST {
     return this._request('delete', url, params, data)
   }
 
-  static _request (method, url, params = {}, data = {}) {
+  static ye n_request (method, url, params = {}, data = {}) {
     return ajax.request({
       method,
       url: `${this.settings.url}/${url}/`,

@@ -7,13 +7,17 @@ import { ssrMiddleware } from 'quasar/wrappers'
 export default ssrMiddleware(({ app, resolve, render, serve }) => {
   // we capture any other Express route and hand it
   // over to Vue and Vue Router to render our page
+  // app.set('view engine', 'ejs');
   app.get(resolve.urlPath('*'), (req, res) => {
     res.setHeader('Content-Type', 'text/html')
-
     render(/* the ssrContext: */ { req, res })
       .then(html => {
         // now let's send the rendered html to the client
-        res.send(html)
+        if (html.indexOf('m--error-404') !== -1) {
+          res.status(404).send(html)
+        } else {
+          res.send(html)
+        }
       })
       .catch(err => {
         // oops, we had an error while rendering the page
@@ -30,7 +34,8 @@ export default ssrMiddleware(({ app, resolve, render, serve }) => {
 
           // Should reach here only if no "catch-all" route
           // is defined in /src/routes
-          res.status(404).send('404 | Page Not Found')
+          // res.status(404).send('404 | Page Not Found')
+          res.redirect(resolve.urlPath('/error404'))
         } else if (process.env.DEV) {
           // well, we treat any other code as error;
           // if we're in dev mode, then we can use Quasar CLI
@@ -47,11 +52,8 @@ export default ssrMiddleware(({ app, resolve, render, serve }) => {
 
           // Render Error Page on production or
           // create a route (/src/routes) for an error page and redirect to it
-          res.status(500).send('500 | Internal Server Error')
-
-          if (process.env.DEBUGGING) {
-            console.error(err.stack)
-          }
+          // res.status(500).send('500 | Internal Server Error')
+          res.status(500).redirect(resolve.urlPath('/error500'))
         }
       })
   })

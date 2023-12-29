@@ -1,6 +1,6 @@
 <template>
   <div class="admin q-pb-lg">
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center q-mb-md">
       <breadcrumbs-menu/>
       <q-btn color="primary" class="q-px-lg" @click="next()">
         ко всем тестам
@@ -157,6 +157,7 @@ export default {
       }).catch((error) => {
         this.showLoaderTest = false
         this.$store.dispatch('showError', error)
+        this.next('error401')
       })
     },
     getSubtests () {
@@ -167,6 +168,7 @@ export default {
       }).catch((error) => {
         this.showLoaderTab = false
         this.$store.dispatch('showError', error)
+        this.next('error401')
       })
     },
     getScale () {
@@ -177,6 +179,7 @@ export default {
       }).catch((error) => {
         this.showLoaderTab = false
         this.$store.dispatch('showError', error)
+        this.next('error401')
       })
     },
     getConnection () {
@@ -187,6 +190,7 @@ export default {
       }).catch((error) => {
         this.showLoaderTab = false
         this.$store.dispatch('showError', error)
+        this.next('error401')
       })
     },
     next (params) {

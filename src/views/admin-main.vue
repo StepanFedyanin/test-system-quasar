@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-between items-center q-mb-xl">
     <breadcrumbs-menu/>
-    <q-btn color="primary" class="q-px-lg">
+    <q-btn color="primary" class="q-px-lg" @click="next('api/admin/api/test/', true)">
       Добавить тест
     </q-btn>
   </div>
@@ -43,13 +43,13 @@
   </div>
     <q-pagination
       class="q-pb-xl"
-      v-if="tests.count_test < 100"
-    v-model="pagination.offset"
-    :max="Math.ceil(this.tests.count_test / this.pagination.limit)"
-    direction-links
-    flat
-    color="grey"
-    active-color="primary"
+      v-if="tests.count_test < tests.count_test /pagination.limit"
+      v-model="pagination.offset"
+      :max="Math.ceil(tests.count_test / pagination.limit)"
+      direction-links
+      flat
+      color="grey"
+      active-color="primary"
   />
 </template>
 
@@ -86,13 +86,18 @@ export default {
     getTests () {
       app.getAdminTests(this.pagination).then((data) => {
         this.tests = data
+      }).catch(() => {
+        this.next('error401')
       })
     },
     changeLimit (value) {
       this.pagination.limit = value
     },
-    next (params) {
-      this.$router.push({ name: params || 'adminTest' })
+    next (name, isName = false) {
+      if (isName) {
+        window.location.href = window.location.href.replace('admin', name)
+      }
+      this.$router.push({ name: name || 'adminTest' })
     }
   }
 }
