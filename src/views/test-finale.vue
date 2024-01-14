@@ -1,6 +1,9 @@
 <template>
   <div>
-    <breadcrumbs-menu class="q-mb-xl"/>
+    <div class='flex justify-between items-center q-mb-xl'>
+      <breadcrumbs-menu/>
+      <AppError />
+    </div>
     <modal-wrapper :center="true" v-model="showOfferAuth">
       <div class="flex column q-px-xl">
         <span class="text-center q-mb-md text-h3 text-primary">Сохранить результат?</span>
@@ -10,42 +13,56 @@
         </div>
       </div>
     </modal-wrapper>
-    <div class="test q-pb-xl">
-      <div class="description q-mb-lg">
-        Внимание! Результаты и интерпретации, полученные без участия специалистов, не следует воспринимать слишком
-        серьезно. Диагностическую ценность имеют только исследования, проведенные <span
-        class="description__selected">профессиональным психологом</span>.
-      </div>
-      <div v-if="$route.params?.id" class="row items-center q-gutter-md">
-        <div class="description description__bg description__point text-accent text-bold q-py-xs q-px-lg cursor-pointer"
-             @click="copyUrl()">
-          "Ссылка на результаты теста": <span class="q-px-sm text-primary text-weight-light"
-                                              ref="attemptUrl"> ссылка</span>
-        </div>
-        <div ref="alertUser" class="test__message text-h5 text-secondary">
-          Ваша ссылка скопирована!
-        </div>
-      </div>
+    <div
+      class="loader"
+      v-if="showLoaderTest"
+    >
+      <q-circular-progress
+        indeterminate
+        rounded
+        size="50px"
+        color="primary"
+        class="q-ma-md"
+      />
     </div>
-    <div class="card card__border q-px-md q-py-lg q-mb-xl">
-      <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_${index}`"
-           class="row text-secondary q-mb-lg q-gutter-md items-center">
-        <div class="col-sm-3 col-md-2">{{ conclusion.title }}</div>
-        <div class="card__progress col-10 col-sm-grow">
+    <template v-else>
+      <div class="test q-pb-xl">
+        <div class="description q-mb-lg">
+          Внимание! Результаты и интерпретации, полученные без участия специалистов, не следует воспринимать слишком
+          серьезно. Диагностическую ценность имеют только исследования, проведенные <span
+          class="description__selected">профессиональным психологом</span>.
+        </div>
+        <div v-if="$route.params?.id" class="row items-center q-gutter-md">
+          <div class="description description__bg description__point text-accent text-bold q-py-xs q-px-lg cursor-pointer"
+               @click="copyUrl()">
+            "Ссылка на результаты теста": <span class="q-px-sm text-primary text-weight-light"
+                                                ref="attemptUrl"> ссылка</span>
+          </div>
+          <div ref="alertUser" class="test__message text-h5 text-secondary">
+            Ваша ссылка скопирована!
+          </div>
+        </div>
+      </div>
+      <div class="card card__border q-px-md q-py-lg q-mb-xl">
+        <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_${index}`"
+             class="row text-secondary q-mb-lg q-gutter-md items-center">
+          <div class="col-sm-3 col-md-2">{{ conclusion.title }}</div>
+          <div class="card__progress col-10 col-sm-grow">
           <span :style="{width: `${conclusion.fin_scores / conclusion.max_score * 100}%`}">
             {{ conclusion.fin_scores }}
           </span>
+          </div>
+          <div class="text-bold text-h3 col-sm-auto">{{ conclusion.max_score }}</div>
         </div>
-        <div class="text-bold text-h3 col-sm-auto">{{ conclusion.max_score }}</div>
       </div>
-    </div>
-    <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_description_${index}`"
-         class="description description__point q-mb-lg">
-      <div class="text-bold text-h2 q-mb-md text-accent">{{ conclusion.title }}</div>
-      <span class="description__paragraph">
+      <div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_description_${index}`"
+           class="description description__point q-mb-lg">
+        <div class="text-bold text-h2 q-mb-md text-accent">{{ conclusion.title }}</div>
+        <span class="description__paragraph">
          {{ conclusion.description }}
       </span>
-    </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -53,6 +70,7 @@
 import { app } from 'src/services'
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
 import ModalWrapper from 'components/modal.vue'
+import AppError from 'components/app-error.vue'
 
 export default {
   name: 'test-finale',
@@ -64,11 +82,12 @@ export default {
       store.dispatch('showError', error)
     })
   },
-  components: { ModalWrapper, BreadcrumbsMenu },
+  components: { AppError, ModalWrapper, BreadcrumbsMenu },
   data () {
     return {
       showOfferAuth: false,
-      user: {}
+      user: {},
+      showLoaderTest: false
     }
   },
   created () {
@@ -94,10 +113,13 @@ export default {
   methods: {
     getConclusion () {
       if (this.$route.params.attempt) {
+        this.showLoaderTest = true
         app.getAttemptById(this.$route.params.attempt).then((data) => {
           this.$store.dispatch('data', { key: 'conclusions', data })
+          this.showLoaderTest = false
         }).catch(error => {
           this.$store.dispatch('showError', error)
+          this.showLoaderTest = false
         })
       }
     },

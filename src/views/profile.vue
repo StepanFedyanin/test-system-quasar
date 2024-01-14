@@ -85,7 +85,10 @@
       </q-form>
     </q-no-ssr>
     <div class="profile__tests col-12 col-sm-6 col-lg-8">
-      <breadcrumbs-menu class="q-mb-xl"/>
+      <div class='flex justify-between items-center q-mb-xl'>
+        <breadcrumbs-menu/>
+        <AppError />
+      </div>
       <div
         v-if="showLoaderTests"
         class="loader"
@@ -125,10 +128,11 @@
 import TopBar from 'components/top-bar.vue'
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
 import { app } from 'src/services'
+import AppError from 'components/app-error.vue'
 
 export default {
   name: 'profile-page',
-  components: { BreadcrumbsMenu, TopBar },
+  components: { AppError, BreadcrumbsMenu, TopBar },
   data () {
     return {
       gender: [

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <breadcrumbs-menu class="q-mb-xl"/>
+    <div class='flex justify-between items-center q-mb-xl'>
+      <breadcrumbs-menu/>
+      <AppError />
+    </div>
     <div
       v-if="showLoaderTests"
       class="loader"
@@ -30,10 +33,11 @@
 
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
 import { app } from 'src/services'
+import AppError from 'components/app-error.vue'
 
 export default {
   name: 'passed-test',
-  components: { BreadcrumbsMenu },
+  components: { AppError, BreadcrumbsMenu },
   data () {
     return {
       attempts: [],

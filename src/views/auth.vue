@@ -1,7 +1,7 @@
 <template>
   <top-bar class="q-mb-lg"/>
   <div class="auth">
-    <q-card class="card card__shadow card__border card__wrapper">
+    <q-card class="card card__shadow card__border card__wrapper q-mb-md">
       <div
         class="loader"
         v-if="showLoader"
@@ -88,6 +88,9 @@
           </q-tab-panel>
       </q-tab-panels>
     </q-card>
+    <div class='flex justify-center'>
+      <AppError />
+    </div>
     <modal-wrapper title="Пользовательское соглашение" :center="true" v-model="isShowAgreement">
       <div class="description text-secondary">
         <span class="description__selected">1. Предмет</span><br/>
@@ -112,10 +115,11 @@
 import { app } from 'src/services'
 import ModalWrapper from 'components/modal.vue'
 import TopBar from 'components/top-bar.vue'
+import AppError from 'components/app-error.vue'
 
 export default {
   name: 'auth-page',
-  components: { TopBar, ModalWrapper },
+  components: { AppError, TopBar, ModalWrapper },
   data () {
     return {
       test: {},

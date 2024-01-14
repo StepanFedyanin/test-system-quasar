@@ -47,9 +47,20 @@ const helpers = {
     return newObj
   },
   createTitle: (obj, route) => {
+    console.log(route, 'testDescription "testResponse" "testFinale"')
     if (obj.title) return obj.title
     const metaTemplates = store.state.meta || {}
+    const testTemplates = store.state.test || {}
     let title = (metaTemplates.commonPfx?.title || '') + (metaTemplates[route.name]?.title || obj.name || route.meta.title) + ' ' + (metaTemplates.commonSfx?.title || '')
+    if (route.name.includes('Description')) {
+      title = metaTemplates.description.replace('replace', testTemplates.name) || route.meta.title
+    }
+    if (route.name.includes('Response')) {
+      title = metaTemplates.response.replace('replace', testTemplates.name) || route.meta.title
+    }
+    if (route.name.includes('Finale')) {
+      title = metaTemplates.finale.replace('replace', testTemplates.name) || route.meta.title
+    }
     Object.keys(obj).forEach((key) => {
       title = title.replace(`%${key}%`, obj[key])
     })

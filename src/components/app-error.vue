@@ -1,7 +1,7 @@
 <template>
   <div v-if="showModal" class="error">
     <div class="card error__container text-secondary">
-      {{errorMessages}}
+      {{errorMessages || 'произошла какая-то ошибка'}}
     </div>
   </div>
 </template>

@@ -6,20 +6,18 @@
     />
     <div class="container full-height">
       <router-view/>
-      <AppError />
     </div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import AppError from 'components/app-error.vue'
 import MetaTags from 'components/meta-tags.vue'
 import { app } from 'src/services'
 
 export default defineComponent({
   name: 'App',
-  components: { MetaTags, AppError },
+  components: { MetaTags },
   async preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
     app.getMetas().then(res => {
       const meta = {}

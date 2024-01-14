@@ -31,7 +31,7 @@
           <span class="topbar__content--extra text-primary text-h4  q-mx-sm cursor-pointer" @click="exit()" v-else>вход / регистрация</span>
         </div>
       </div>
-      <div :class="['topbar__search', searchActive&&'topbar__search--active']">
+      <div :class="['topbar__search',  searchValue.length && 'topbar__search--active']">
         <q-input borderless v-model="searchValue" @update:model-value="handleInput" @focus="changeSearchState" @blur="changeSearchState" label="Поиск" class="topbar__search--input">
           <template v-slot:append>
             <q-icon name="search"/>

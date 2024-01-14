@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div class="row justify-between items-center">
-      <breadcrumbs-menu class="q-mb-xl"/>
+    <div class='flex justify-between items-center q-mb-xl relative-position'>
+      <breadcrumbs-menu/>
+      <AppError class="absolute-right"/>
       <q-no-ssr>
         <test-timer class="q-mb-md" v-if="isStartTest" :timer-value="selectSubtest.necessary_time" @stop="onSubmit()"/>
       </q-no-ssr>
@@ -130,6 +131,7 @@ import { app } from 'src/services'
 import { helpers } from 'src/utils/helpers'
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
 import TestTimer from 'components/timer.vue'
+import AppError from 'components/app-error.vue'
 
 export default {
   name: 'test-response',
@@ -152,7 +154,7 @@ export default {
       })
     }
   },
-  components: { TestTimer, BreadcrumbsMenu, Splide, SplideSlide },
+  components: { AppError, TestTimer, BreadcrumbsMenu, Splide, SplideSlide },
   data () {
     return {
       test: {},

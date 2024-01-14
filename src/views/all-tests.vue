@@ -1,5 +1,8 @@
 <template>
-    <breadcrumbs-menu class="q-mb-xl"/>
+  <div class='flex justify-between items-center q-mb-xl'>
+    <breadcrumbs-menu/>
+    <AppError />
+  </div>
     <div class="tests">
       <div class="description description__point q-mb-lg">
         Быстрая навигация по популярным тестам и тематикам. Всего на сайте более тысячи тестов, найти нужный можно
@@ -23,7 +26,7 @@
     </div>
     <div v-else-if="testsCategory.length > 0" class="row q-pb-lg">
       <q-card
-        class="card card__border--small col-6 col-sm-4 col-lg-3"
+        class="card card__border--small col-6 col-sm-4 col-lg-3 q-pb-md"
         v-for="category in testsCategory"
         :key="`category-${category.id}`"
       >
@@ -35,7 +38,7 @@
           <router-link
             v-for="test in category.test"
             :key="`test-${test.id}`"
-            class="card__item card__link flex no-wrap items-center"
+            class="card__item card__link flex no-wrap items-center justify-between"
             :to="`${this?.$route?.path.replace('/','')}/test/${test.id}`"
           >
             <span>{{ test.name }}</span>
@@ -53,6 +56,7 @@
 
 import app from 'src/services/app'
 import BreadcrumbsMenu from 'components/breadcrumb.vue'
+import AppError from 'components/app-error.vue'
 
 export default {
   name: 'all-test',
@@ -81,7 +85,7 @@ export default {
       })
     }
   },
-  components: { BreadcrumbsMenu },
+  components: { AppError, BreadcrumbsMenu },
   data () {
     return {
       testFilters: [
