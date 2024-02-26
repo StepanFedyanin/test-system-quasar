@@ -10,12 +10,14 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev NODE_ENV=development",
     "build": "quasar build NODE_ENV=development",
-    "ssr": "quasar dev -m ssr",
+    "serve": "quasar dev",
+    "serve:ssr": "quasar dev -m ssr",
     "build:dev": "npx cross-env NODE_ENV=development quasar build",
     "build:dev:ssr": "npx cross-env NODE_ENV=development quasar build -m ssr"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
+    "@sentry/vue": "^7.102.0",
     "@splidejs/vue-splide": "^0.6.12",
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.2",

@@ -86,7 +86,10 @@
     </q-no-ssr>
     <div class="profile__tests col-12 col-sm-6 col-lg-8">
       <div class='flex justify-between items-center q-mb-xl'>
-        <breadcrumbs-menu/>
+        <breadcrumbs-menu :breadcrumbs="[
+           { name: 'Профиль', route: { name: 'allTests' } },
+          ]"
+		/>
         <AppError />
       </div>
       <div

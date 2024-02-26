@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class='flex justify-between items-center q-mb-xl'>
-      <breadcrumbs-menu/>
+      <breadcrumbs-menu
+		:breadcrumbs="[
+			{ name: $route.meta.title, route: { name: 'allTests' } },
+		]"
+	/>
       <AppError />
     </div>
     <div

@@ -11,7 +11,7 @@ export default boot(async ({ store }) => {
   //     meta: store.state.meta
   //   }))
   // }
-  console.log(Object.assign(window.__INITIAL_STATE__, store.state))
+  // console.log(Object.assign(window.__INITIAL_STATE__, store.state))
   // For Vuex
   if (window.__INITIAL_STATE__) store.replaceState({ ...Object.assign(window.__INITIAL_STATE__, store.state), meta: store.state.meta })
 })

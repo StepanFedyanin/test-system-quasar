@@ -11,7 +11,7 @@
  **/
 
 
-import { createSSRApp } from 'vue'
+import { createApp } from 'vue'
 
 
 
@@ -41,7 +41,7 @@ import { addPreFetchHooks } from './client-prefetch.js'
 
 
 
-console.info('[Quasar] Running SSR.')
+console.info('[Quasar] Running SPA.')
 
 
 
@@ -116,22 +116,22 @@ async function start ({
   app.use(store, storeKey)
 
   
+
     
-    // wait until router has resolved all async before hooks
-    // and async components...
-    router.isReady().then(() => {
-      
-      addPreFetchHooks({ router, store, publicPath })
-      
+    addPreFetchHooks({ router, store })
+    
+
+    
       app.mount('#q-app')
-    })
+    
+
     
 
   
 
 }
 
-createQuasarApp(createSSRApp, quasarUserOptions)
+createQuasarApp(createApp, quasarUserOptions)
 
   .then(app => {
     // eventually remove this when Cordova/Capacitor/Electron support becomes old

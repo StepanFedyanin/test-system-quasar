@@ -3,41 +3,43 @@ module.exports = {
   // This option interrupts the configuration hierarchy at this file
   // Remove this if you have an higher level ESLint config file (it usually happens into a monorepos)
   root: true,
-
+  
   parserOptions: {
     parser: '@babel/eslint-parser',
     ecmaVersion: 2021, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module' // Allows for the use of imports
   },
-
+  
   env: {
     browser: true,
     'vue/setup-compiler-macros': true
   },
-
+  
   // Rules order is important, please avoid shuffling them
   extends: [
     // Base ESLint recommended rules
-    // 'eslint:recommended',
-
+    'eslint:recommended',
+    
     // Uncomment any of the lines below to choose desired strictness,
     // but leave only one uncommented!
     // See https://eslint.vuejs.org/rules/#available-rules
-    'plugin:vue/vue3-essential', // Priority A: Essential (Error Prevention)
+    'plugin:import/recommended',
+    'plugin:vue/essential', // Priority A: Essential (Error Prevention)
+    // 'plugin:vue/vue3-essential', // Priority A: Essential (Error Prevention)
     // 'plugin:vue/vue3-strongly-recommended', // Priority B: Strongly Recommended (Improving Readability)
     // 'plugin:vue/vue3-recommended', // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
-
-    'standard'
-
+    
+    // 'standard'
+  
   ],
-
+  
   plugins: [
     // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-files
     // required to lint *.vue files
     'vue',
-
+  
   ],
-
+  
   globals: {
     ga: 'readonly', // Google Analytics
     cordova: 'readonly',
@@ -50,10 +52,10 @@ module.exports = {
     Capacitor: 'readonly',
     chrome: 'readonly'
   },
-
+  
   // add your custom rules here
   rules: {
-
+    
     // allow async-await
     'generator-star-spacing': 'off',
     // allow paren-less arrow functions
@@ -61,18 +63,24 @@ module.exports = {
     'one-var': 'off',
     'no-void': 'off',
     'multiline-ternary': 'off',
-
+    
     'import/first': 'off',
-    'import/named': 'off',
-    'import/namespace': 'off',
-    'import/default': 'off',
-    'import/export': 'off',
+    'import/named': 'error',
+    'import/namespace': 'error',
+    'import/default': 'error',
+    'import/export': 'error',
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
-
+    
     'prefer-promise-reject-errors': 'off',
-
+    
+    'no-multiple-template-root': 'off',
+    'no-v-for-template-key': 'off',
+    'no-unused-vars': 'off',
+    'vue/no-multiple-template-root': 'warn',
+    'vue/no-v-for-template-key': 'warn',
+    'vue/multi-word-component-names': 'off',
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }

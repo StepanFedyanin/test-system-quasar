@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div
+	<div
       class="loader"
       v-if="showLoaderTest"
     >
@@ -15,7 +15,12 @@
     <div v-else>
       <template v-if="user.id">
         <div class='flex justify-between items-center q-mb-xl'>
-          <breadcrumbs-menu/>
+          <breadcrumbs-menu
+			:breadcrumbs="[
+               { name: 'Главная', route: { name: 'allTests' } },
+               { name: test.name, route: { name: 'allTests' } },
+               { name: $route.meta.title, route: { name: 'allTests' } },
+          ]"/>
           <AppError />
         </div>
         <div class="row items-start justify-between">
@@ -59,7 +64,11 @@
       </template>
       <template v-else>
         <div class='flex justify-between items-center q-mb-xl'>
-          <breadcrumbs-menu/>
+          <breadcrumbs-menu :breadcrumbs="[
+               { name: 'Главная', route: { name: 'allTests' } },
+               { name: test.name, route: { name: 'allTests' } },
+               { name: $route.meta.title, route: { name: 'allTests' } },
+          ]"/>
           <AppError />
         </div>
         <div class="row justify-between items-center q-mb-lg">
@@ -90,7 +99,7 @@ export default {
   async preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
     if (!process.env.SERVER) { return null }
     await app.getTestForId(currentRoute.params.id).then((res) => {
-      store.dispatch('updateTest', helpers.removeKeys({ ...res, test: res.id, active_subtest: 0 }, ['id']))
+      store.dispatch('initTest', helpers.removeKeys({ ...res, test: res.id, active_subtest: 0 }, ['id']))
     }).catch((error) => {
       store.dispatch('showError', error)
     })
@@ -128,7 +137,7 @@ export default {
       this.showLoaderTest = true
       app.getTestForId(this.$route.params.id).then((res) => {
         this.showLoaderTest = false
-        this.$store.dispatch('updateTest', helpers.removeKeys({ ...res, test: res.id, active_subtest: 0 }, ['id']))
+		this.$store.dispatch('initTest', helpers.removeKeys({ ...res, test: res.id, active_subtest: 0 }, ['id']))
       }).catch((error) => {
         this.showLoaderTest = false
         this.$store.dispatch('showError', error)

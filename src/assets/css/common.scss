@@ -277,17 +277,20 @@ body {
 
 .breadcrumb {
     display: flex;
+    flex-direction: column;
     margin: 0;
     padding: 0 0 10px;
     font-weight: 500;
 
-    &__item:not(:last-child) {
-        padding-right: 10px;
-        cursor: pointer;
+    &__item {
+        &:not(:last-child) {
+            padding-right: 10px;
+            cursor: pointer;
 
-        &:after {
-            content: "-";
-            padding-left: 10px;
+            &:after {
+                content: "-";
+                padding-left: 10px;
+            }
         }
     }
 }

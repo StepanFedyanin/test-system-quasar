@@ -9,6 +9,8 @@ const vuexPersist = new VuexPersist({
 
 const templateTest = (id) => {
   return {
+    attempt: null,
+    activeSlide: 0,
     name: '',
     sdescription: '',
     test: id,
@@ -47,6 +49,7 @@ const store = createStore({
     },
     INIT_TEST (state, data) {
       state.test = { ...templateTest(data.id), ...$helpers.removeKeys(data, ['id']) }
+      console.log(state.test)
     },
     UPDATE_TEST (state, data) {
       state.test = data
