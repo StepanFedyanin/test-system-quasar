@@ -9,6 +9,8 @@ const vuexPersist = new VuexPersist({
 
 const templateTest = (id) => {
   return {
+    attempt: null,
+    activeSlide: 0,
     name: '',
     sdescription: '',
     test: id,

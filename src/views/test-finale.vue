@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class='flex justify-between items-center q-mb-xl'>
-      <breadcrumbs-menu/>
+		<breadcrumbs-menu
+			:breadcrumbs="[
+           { name: 'Главная', route: { name: 'allTests' } },
+           { name: test.name, route: { name: 'allTests' } },
+           { name: $route.meta.title, route: { name: 'allTests' } },
+          ]"
+		/>
       <AppError />
     </div>
     <modal-wrapper :center="true" v-model="showOfferAuth">

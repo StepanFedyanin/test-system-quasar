@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
+    "@sentry/vue": "^7.102.1",
     "@splidejs/vue-splide": "^0.6.12",
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.2",

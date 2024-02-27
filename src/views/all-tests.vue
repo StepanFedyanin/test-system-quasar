@@ -1,6 +1,9 @@
 <template>
   <div class='flex justify-between items-center q-mb-xl'>
-    <breadcrumbs-menu/>
+	  <breadcrumbs-menu :breadcrumbs="[
+           { name: $route.meta.title, route: { name: $route.name } },
+          ]"
+	  />
     <AppError />
   </div>
     <div class="tests">

@@ -97,7 +97,7 @@ export default class extends REST {
   }
 
   static getAttemptById (id) {
-    return this._get(`test/attempt_list/by_attempt_id/${id}`, {}, {}).then((data) => {
+    return this._get(`test/attempt/by_attempt_id/${id}`, {}, {}).then((data) => {
       return data
     }).catch((error) => {
       throw new RESTError(error, 'Не удалось получить попытку')

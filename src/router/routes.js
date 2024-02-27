@@ -15,7 +15,7 @@ const routes = [
     meta: {
       title: 'Вход',
       requiresAuth: false,
-      breadcrumb: false
+      // breadcrumb: false
     },
     component: () => import('src/views/auth.vue')
   },
@@ -25,7 +25,7 @@ const routes = [
     meta: {
       title: 'Вход',
       requiresAuth: false,
-      breadcrumb: false
+      // breadcrumb: false
     },
     component: () => import('src/views/auth.vue')
   },
@@ -35,7 +35,7 @@ const routes = [
     meta: {
       title: 'Все тесты',
       requiresAuth: false,
-      breadcrumb: false
+      // breadcrumb: false
     },
     redirect: { name: 'tests' },
     component: () => import('src/views/wrapper-all.vue'),
@@ -47,7 +47,7 @@ const routes = [
           title: 'Все тесты',
           requiresAuth: false,
           current: false,
-          breadcrumb: false
+          // breadcrumb: false
         },
         component: () => import('src/views/all-tests.vue')
       },
@@ -58,7 +58,7 @@ const routes = [
           title: 'ProTest',
           requiresAuth: false,
           current: false,
-          breadcrumb: false
+          // breadcrumb: false
         },
         component: () => import('src/views/test.vue'),
         redirect: { name: 'testDescription' },
@@ -69,14 +69,14 @@ const routes = [
             meta: {
               title: 'Описание',
               requiresAuth: false,
-              breadcrumb () {
-                return {
-                  label: 'replace',
-                  link: 'allTests',
-                  current: false,
-                  _path: ''
-                }
-              }
+              // breadcrumb () {
+              //   return {
+              //     label: 'replace',
+              //     link: 'allTests',
+              //     current: false,
+              //     _path: ''
+              //   }
+              // }
             },
             component: () => import('src/views/test-description.vue')
           },
@@ -86,7 +86,7 @@ const routes = [
             meta: {
               title: 'Тест',
               requiresAuth: false,
-              breadcrumb: false
+              // breadcrumb: false
             },
             component: () => import('src/views/test-response.vue')
           },
@@ -94,16 +94,16 @@ const routes = [
             path: 'finale/:attempt',
             name: 'testFinale',
             meta: {
-              title: 'Описание теста',
+              title: 'Заключение',
               requiresAuth: false,
-              breadcrumb () {
-                return {
-                  label: 'Заключение',
-                  link: 'allTests',
-                  current: false,
-                  _path: '/finale'
-                }
-              }
+              // breadcrumb () {
+              //   return {
+              //     label: 'Заключение',
+              //     link: 'allTests',
+              //     current: false,
+              //     _path: '/finale'
+              //   }
+              // }
             },
             component: () => import('src/views/test-finale.vue')
           }
@@ -117,14 +117,14 @@ const routes = [
     meta: {
       title: 'Авторы',
       requiresAuth: false,
-      breadcrumb () {
-        return {
-          label: 'Авторы',
-          link: 'authors',
-          current: false,
-          _path: ''
-        }
-      }
+      // breadcrumb () {
+      //   return {
+      //     label: 'Авторы',
+      //     link: 'authors',
+      //     current: false,
+      //     _path: ''
+      //   }
+      // }
     },
     redirect: { name: 'authorsTests' },
     component: () => import('src/views/wrapper-all.vue'),
@@ -136,14 +136,14 @@ const routes = [
           title: 'Авторы',
           requiresAuth: false,
           current: false,
-          breadcrumb () {
-            return {
-              label: 'Авторы',
-              link: 'authors',
-              current: false,
-              _path: ''
-            }
-          }
+          // breadcrumb () {
+          //   return {
+          //     label: 'Авторы',
+          //     link: 'authors',
+          //     current: false,
+          //     _path: ''
+          //   }
+          // }
         },
         component: () => import('src/views/all-tests.vue')
       },
@@ -154,7 +154,7 @@ const routes = [
           title: 'ProTest',
           requiresAuth: false,
           current: false,
-          breadcrumb: false
+          // breadcrumb: false
         },
         component: () => import('src/views/test.vue'),
         redirect: { name: 'authorsTestDescription' },
@@ -165,14 +165,14 @@ const routes = [
             meta: {
               title: 'Описание',
               requiresAuth: false,
-              breadcrumb () {
-                return {
-                  label: 'replace',
-                  link: 'authors',
-                  current: false,
-                  _path: ''
-                }
-              }
+              // breadcrumb () {
+              //   return {
+              //     label: 'replace',
+              //     link: 'authors',
+              //     current: false,
+              //     _path: ''
+              //   }
+              // }
             },
             component: () => import('src/views/test-description.vue')
           },
@@ -182,7 +182,7 @@ const routes = [
             meta: {
               title: 'Тест',
               requiresAuth: false,
-              breadcrumb: false
+              // breadcrumb: false
             },
             component: () => import('src/views/test-response.vue')
           },
@@ -190,16 +190,16 @@ const routes = [
             path: 'finale/:attempt',
             name: 'authorsTestFinale',
             meta: {
-              title: 'Описание теста',
+              title: 'Заключение',
               requiresAuth: false,
-              breadcrumb () {
-                return {
-                  label: 'Заключение',
-                  link: 'authors',
-                  current: false,
-                  _path: '/finale'
-                }
-              }
+              // breadcrumb () {
+              //   return {
+              //     label: 'Заключение',
+              //     link: 'authors',
+              //     current: false,
+              //     _path: '/finale'
+              //   }
+              // }
             },
             component: () => import('src/views/test-finale.vue')
           }
@@ -213,14 +213,14 @@ const routes = [
     meta: {
       title: 'Темы',
       requiresAuth: false,
-      breadcrumb () {
-        return {
-          label: 'Темы',
-          link: 'allTests',
-          current: false,
-          _path: ''
-        }
-      }
+      // breadcrumb () {
+      //   return {
+      //     label: 'Темы',
+      //     link: 'allTests',
+      //     current: false,
+      //     _path: ''
+      //   }
+      // }
     },
     redirect: { name: 'topicTests' },
     component: () => import('src/views/wrapper-all.vue'),
@@ -232,14 +232,14 @@ const routes = [
           title: 'Темы',
           requiresAuth: false,
           current: false,
-          breadcrumb () {
-            return {
-              label: 'Темы',
-              link: 'topic',
-              current: false,
-              _path: ''
-            }
-          }
+          // breadcrumb () {
+          //   return {
+          //     label: 'Темы',
+          //     link: 'topic',
+          //     current: false,
+          //     _path: ''
+          //   }
+          // }
         },
         component: () => import('src/views/all-tests.vue')
       },
@@ -250,7 +250,7 @@ const routes = [
           title: 'ProTest',
           requiresAuth: false,
           current: false,
-          breadcrumb: false
+          // breadcrumb: false
         },
         component: () => import('src/views/test.vue'),
         redirect: { name: 'topicTestDescription' },
@@ -261,14 +261,14 @@ const routes = [
             meta: {
               title: 'Описание',
               requiresAuth: false,
-              breadcrumb () {
-                return {
-                  label: 'replace',
-                  link: 'topic',
-                  current: false,
-                  _path: ''
-                }
-              }
+              // breadcrumb () {
+              //   return {
+              //     label: 'replace',
+              //     link: 'topic',
+              //     current: false,
+              //     _path: ''
+              //   }
+              // }
             },
             component: () => import('src/views/test-description.vue')
           },
@@ -278,7 +278,7 @@ const routes = [
             meta: {
               title: 'Тест',
               requiresAuth: false,
-              breadcrumb: false
+              // breadcrumb: false
             },
             component: () => import('src/views/test-response.vue')
           },
@@ -288,14 +288,14 @@ const routes = [
             meta: {
               title: 'Описание теста',
               requiresAuth: false,
-              breadcrumb () {
-                return {
-                  label: 'Заключение',
-                  link: 'topic',
-                  current: false,
-                  _path: '/finale'
-                }
-              }
+              // breadcrumb () {
+              //   return {
+              //     label: 'Заключение',
+              //     link: 'topic',
+              //     current: false,
+              //     _path: '/finale'
+              //   }
+              // }
             },
             component: () => import('src/views/test-finale.vue')
           }
@@ -309,13 +309,13 @@ const routes = [
     meta: {
       title: 'Профиль',
       requiresAuth: true,
-      breadcrumb () {
-        return {
-          label: 'Личный кабинет',
-          link: 'profile',
-          current: false
-        }
-      }
+      // breadcrumb () {
+      //   return {
+      //     label: 'Личный кабинет',
+      //     link: 'profile',
+      //     current: false
+      //   }
+      // }
     },
     component: () => import('src/views/profile.vue')
   },
@@ -325,7 +325,7 @@ const routes = [
     meta: {
       title: 'Пройденные тесты',
       requiresAuth: true,
-      breadcrumb: false
+      // breadcrumb: false
     },
     component: () => import('src/views/wrapper-passed.vue'),
     children: [
@@ -336,13 +336,13 @@ const routes = [
           title: 'Пройденные тесты',
           requiresAuth: true,
           current: false,
-          breadcrumb () {
-            return {
-              label: 'Пройденные тесты',
-              link: 'passedTests',
-              current: false
-            }
-          }
+          // breadcrumb () {
+          //   return {
+          //     label: 'Пройденные тесты',
+          //     link: 'passedTests',
+          //     current: false
+          //   }
+          // }
         },
         component: () => import('src/views/passed-tests.vue')
       },
@@ -353,7 +353,7 @@ const routes = [
           title: 'ProTest',
           requiresAuth: true,
           current: false,
-          breadcrumb: false
+          // breadcrumb: false
         },
         component: () => import('src/views/test.vue'),
         redirect: { name: 'testDescriptionPassed' },
@@ -364,14 +364,14 @@ const routes = [
             meta: {
               title: 'Описание',
               requiresAuth: true,
-              breadcrumb () {
-                return {
-                  label: 'replace',
-                  link: 'passedTests',
-                  current: false,
-                  _path: ''
-                }
-              }
+              // breadcrumb () {
+              //   return {
+              //     label: 'replace',
+              //     link: 'passedTests',
+              //     current: false,
+              //     _path: ''
+              //   }
+              // }
             },
             component: () => import('src/views/test-description.vue')
           },
@@ -381,13 +381,13 @@ const routes = [
             meta: {
               title: 'Тест',
               requiresAuth: true,
-              breadcrumb () {
-                return {
-                  label: 'Решение',
-                  link: 'passedTests',
-                  current: false
-                }
-              }
+              // breadcrumb () {
+              //   return {
+              //     label: 'Решение',
+              //     link: 'passedTests',
+              //     current: false
+              //   }
+              // }
             },
             component: () => import('src/views/test-response.vue')
           },
@@ -397,14 +397,14 @@ const routes = [
             meta: {
               title: 'Заключение',
               requiresAuth: true,
-              breadcrumb () {
-                return {
-                  label: 'Заключение',
-                  link: 'passedTests',
-                  current: false,
-                  _path: '/finale'
-                }
-              }
+              // breadcrumb () {
+              //   return {
+              //     label: 'Заключение',
+              //     link: 'passedTests',
+              //     current: false,
+              //     _path: '/finale'
+              //   }
+              // }
             },
             component: () => import('src/views/test-finale.vue')
           }
@@ -419,7 +419,7 @@ const routes = [
     meta: {
       title: 'Заключение по ссылке',
       requiresAuth: false,
-      breadcrumb: false
+      // breadcrumb: false
     },
     component: () => import('src/views/attempt-test.vue'),
     children: [
@@ -429,13 +429,13 @@ const routes = [
         meta: {
           title: 'Заключение по ссылке',
           requiresAuth: false,
-          breadcrumb () {
-            return {
-              label: 'тест заключение',
-              link: 'passedTests',
-              current: false
-            }
-          }
+          // breadcrumb () {
+          //   return {
+          //     label: 'тест заключение',
+          //     link: 'passedTests',
+          //     current: false
+          //   }
+          // }
         },
         component: () => import('src/views/test-finale.vue')
       }
@@ -448,13 +448,13 @@ const routes = [
     meta: {
       title: 'Панель администрирования',
       requiresAuth: false,
-      breadcrumb () {
-        return {
-          label: 'Администрирование',
-          link: 'admin',
-          current: false
-        }
-      }
+      // breadcrumb () {
+      //   return {
+      //     label: 'Администрирование',
+      //     link: 'admin',
+      //     current: false
+      //   }
+      // }
     },
     component: () => import('src/views/admin.vue'),
     children: [
@@ -464,7 +464,7 @@ const routes = [
         meta: {
           title: 'Администрирование',
           requiresAuth: false,
-          breadcrumb: false
+          // breadcrumb: false
         },
         component: () => import('src/views/admin-main.vue')
       },
@@ -474,13 +474,13 @@ const routes = [
         meta: {
           title: 'Просмотр теста',
           requiresAuth: false,
-          breadcrumb () {
-            return {
-              label: 'replace теста',
-              link: 'admin',
-              current: false
-            }
-          }
+          // breadcrumb () {
+          //   return {
+          //     label: 'replace теста',
+          //     link: 'admin',
+          //     current: false
+          //   }
+          // }
         },
         component: () => import('src/views/admin-test.vue')
       }
@@ -492,7 +492,7 @@ const routes = [
     meta: {
       title: 'error',
       requiresAuth: false,
-      breadcrumb: false
+      // breadcrumb: false
     },
     component: () => import('src/views/error401.vue')
   },
@@ -502,7 +502,7 @@ const routes = [
     meta: {
       title: 'error',
       requiresAuth: false,
-      breadcrumb: false
+      // breadcrumb: false
     },
     component: () => import('src/views/error404.vue')
   }
