@@ -13,7 +13,7 @@
     "serve": "quasar dev",
     "serve:ssr": "quasar dev -m ssr",
     "build:dev": "npx cross-env NODE_ENV=development quasar build",
-    "build:dev:ssr": "npx cross-env NODE_ENV=development quasar build -m ssr"
+    "build:ssr": "npx cross-env NODE_ENV=development quasar build -m ssr"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
@@ -22,6 +22,7 @@
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.2",
     "core-js": "^3.6.5",
+    "dotenv": "^16.4.5",
     "fecha": "^4.2.3",
     "lodash.debounce": "^4.0.8",
     "pm2": "^5.3.0",

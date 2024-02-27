@@ -47,10 +47,10 @@ const helpers = {
     return newObj
   },
   createTitle: (obj, route) => {
-    if (obj.title) return obj.title
-    const metaTemplates = store.state.meta || {}
-    // const testTemplates = store.state.test || {}
-    let title = (metaTemplates.commonPfx?.title || '') + (metaTemplates[route.name]?.title || obj.name || route.meta.title) + ' ' + (metaTemplates.commonSfx?.title || '')
+    // if (obj.title) return obj.title
+    // const metaTemplates = store.state.meta || {}
+    // // const testTemplates = store.state.test || {}
+    // let title = (metaTemplates.commonPfx?.title || '') + (metaTemplates[route.name]?.title || obj.name || route.meta.title) + ' ' + (metaTemplates.commonSfx?.title || '')
     // if (route.name.includes('Description')) {
     //   title = metaTemplates.description.replace('replace', testTemplates.name) || route.meta.title
     // }
@@ -60,34 +60,34 @@ const helpers = {
     // if (route.name.includes('Finale')) {
     //   title = metaTemplates.finale.replace('replace', testTemplates.name) || route.meta.title
     // }
-    console.log(route)
-    Object.keys(obj).forEach((key) => {
-      title = title.replace(`%${key}%`, obj[key])
-    })
-    title = title.replace(/%.*%/, '')
-    return title
+    // console.log(route)
+    // Object.keys(obj).forEach((key) => {
+    //   title = title.replace(`%${key}%`, obj[key])
+    // })
+    // title = title.replace(/%.*%/, '')
+    return 'title'
   },
 
   createDescription: (obj, route) => {
-    if (obj.description) return obj.description
-    const metaTemplates = store.state.meta || {}
-    let description = (metaTemplates.commonPfx?.description || '') + (metaTemplates[route.name]?.description || '') + ' ' + (metaTemplates.commonSfx?.description || '')
-    Object.keys(obj).forEach((key) => {
-      description = description.replace(`%${key}%`, obj[key])
-    })
-    description = description.replace(/%.*%/, '')
-    return description
+    // if (obj.description) return obj.description
+    // const metaTemplates = store.state.meta || {}
+    // let description = (metaTemplates.commonPfx?.description || '') + (metaTemplates[route.name]?.description || '') + ' ' + (metaTemplates.commonSfx?.description || '')
+    // Object.keys(obj).forEach((key) => {
+    //   description = description.replace(`%${key}%`, obj[key])
+    // })
+    // description = description.replace(/%.*%/, '')
+    return 'description'
   },
 
   createKeywords: (obj, route) => {
-    if (obj.keywords) return obj.keywords
-    const metaTemplates = store.state.meta || {}
-    let keywords = (metaTemplates.commonPfx?.keywords || '') + (metaTemplates[route.name]?.keywords || '') + ' ' + (metaTemplates.commonSfx?.keywords || '')
-    Object.keys(obj).forEach((key) => {
-      keywords = keywords.replace(`%${key}%`, obj[key])
-    })
-    keywords = keywords.replace(/%.*%/, '')
-    return keywords
+    // if (obj.keywords) return obj.keywords
+    // const metaTemplates = store.state.meta || {}
+    // let keywords = (metaTemplates.commonPfx?.keywords || '') + (metaTemplates[route.name]?.keywords || '') + ' ' + (metaTemplates.commonSfx?.keywords || '')
+    // Object.keys(obj).forEach((key) => {
+    //   keywords = keywords.replace(`%${key}%`, obj[key])
+    // })
+    // keywords = keywords.replace(/%.*%/, '')
+    return 'keywords'
   }
 
 }
