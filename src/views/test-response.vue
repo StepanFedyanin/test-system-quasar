@@ -8,8 +8,8 @@
           ]"/>
 			<AppError class="absolute-right"/>
 			<q-no-ssr>
-				<test-timer class="q-mb-md" v-if="isStartTest" :timer-value="selectSubtest.necessary_time"
-							@stop="onSubmit()"/>
+				<test-timer class="q-mb-md" v-if="isStartTest" :timer-value="selectSubtest.time_for_solution"
+							@stop="timeIsOver()"/>
 			</q-no-ssr>
 		</div>
 		<div
@@ -265,11 +265,17 @@ export default {
 					})
 					this.showLoaderTest = false
 				}).catch((error) => {
-					this.showLoaderTest = true
+					this.showLoaderTest = false
 					this.$store.dispatch('showError', error)
 				})
 			} else {
-				// this.next('allTests');
+				console.log(this.test,this.test.attempt)
+				this.showLoaderTest = false;
+				if (this.test.attempt){
+					this.next();
+				}else{
+					this.next('allTests');
+				}
 			}
 		},
 		startTest () {
@@ -301,13 +307,19 @@ export default {
 		// 	}
 		// 	return array
 		// },
+		timeIsOver () {
+			this.test.activeSlide = 0;
+			this.test.active_subtest++;
+			this.$store.dispatch('updateTest', this.test);
+			this.getSubTest();
+		},
 		onSubmit () {
 			const question = this.test.select_subtest.question[this.test.activeSlide]
 			const params = {
 				attempt: this.test.attempt,
 				test: this.test.test,
 				question: question.id,
-				answer: this.test.answers[question.id]
+				answers: this.test.answers[question.id]
 			}
 			this.showLoaderSending = true;
 			app.pushAnswer(params).then((data) => {
