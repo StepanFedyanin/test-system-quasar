@@ -6,8 +6,6 @@
 export default (opts) => {
   return Promise.all([
     
-    import(/* webpackMode: "eager" */ 'src-ssr/middlewares/compression'),
-    
     import(/* webpackMode: "eager" */ 'src-ssr/middlewares/render')
     
   ]).then(async rawMiddlewares => {

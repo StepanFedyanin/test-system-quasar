@@ -8,8 +8,8 @@
           ]"/>
 			<AppError class="absolute-right"/>
 			<q-no-ssr>
-				<test-timer class="q-mb-md" v-if="isStartTest" :timer-value="selectSubtest.necessary_time"
-							@stop="onSubmit()"/>
+				<test-timer class="q-mb-md" v-if="isStartTest" :timer-value="selectSubtest.time_for_solution"
+							@stop="getSubTest(true)"/>
 			</q-no-ssr>
 		</div>
 		<div
@@ -205,7 +205,7 @@ export default {
 				// height      : '100%',
 				// heightRatio : 0.6,
 				// fixedWidth  : 160,
-				
+
 				// fixedHeight : 220,
 				cover: true,
 				// focus       : 'center',
@@ -227,8 +227,8 @@ export default {
 			if (question && !question[this.test.activeSlide]?.obligatory) {
 				return false
 			}
-			const answers = this.test.answers[this.selectSubtest?.question[this.test.activeSlide].id].answers
-			if (Number(answers)) return Number(answers) && !question
+			const answers = this.test.answers[this.selectSubtest?.question[this.test.activeSlide].id]
+            if (Number(answers)) return Number(answers) && !question
 			return question && !answers.length
 		}
 	},
@@ -247,7 +247,8 @@ export default {
 		}
 	},
 	methods: {
-		getSubTest () {
+		getSubTest (next = false) {
+            if (next) this.test.active_subtest++
 			this.showLoaderTest = true;
 			if (this.test.subtest[this.test.active_subtest]?.id) {
 				app.getSubTest(this.test.subtest[this.test.active_subtest]?.id).then((data) => {
@@ -269,7 +270,11 @@ export default {
 					this.$store.dispatch('showError', error)
 				})
 			} else {
-				// this.next('allTests');
+                if (this.test.attempt){
+                    this.next();
+                }else {
+                    this.$router.go(-1);
+                }
 			}
 		},
 		startTest () {
@@ -287,20 +292,6 @@ export default {
 			}
 			this.$refs.reviews?.go(this.test.activeSlide)
 		},
-		// destructuringResponses (obj) {
-		// 	const array = []
-		// 	for (const key in obj) {
-		// 		if (Array.isArray(obj[key].answers)) {
-		// 			array.push(obj[key])
-		// 		} else {
-		// 			array.push({
-		// 				id: obj[key].id,
-		// 				answers: [obj[key].answers]
-		// 			})
-		// 		}
-		// 	}
-		// 	return array
-		// },
 		onSubmit () {
 			const question = this.test.select_subtest.question[this.test.activeSlide]
 			const params = {

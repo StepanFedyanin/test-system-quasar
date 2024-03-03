@@ -113,7 +113,7 @@ export default class extends REST {
   }
 
   static getAttemptForUser () {
-    return this._get('test/attempt_list', {}).then((data) => {
+    return this._get('test/attempt', {}).then((data) => {
       return data
     }).catch((error) => {
       throw new RESTError(error, 'Не удалось получить попытки пользователя')
@@ -121,7 +121,7 @@ export default class extends REST {
   }
 
   static addUserAttempt (params) {
-    return this._get(`test/attempt_list/${params}`, {}, {}).then((data) => {
+    return this._get(`test/attempt/${params}`, {}, {}).then((data) => {
       const tokens = data
       return tokens
     }).catch((error) => {

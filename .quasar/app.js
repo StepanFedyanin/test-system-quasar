@@ -46,6 +46,8 @@ export default async function (createAppFn, quasarUserOptions, ssrContext) {
   const app = createAppFn(RootComponent)
 
   
+  app.config.performance = true
+  
 
   app.use(Quasar, quasarUserOptions, ssrContext)
 

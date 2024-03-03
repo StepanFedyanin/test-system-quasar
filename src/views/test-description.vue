@@ -51,7 +51,7 @@
               {{ test.author_name }}
             </div>
             <div class="description description__point q-mb-lg">
-              {{ test.sdescription }}
+              {{ test.description_1 }}
             </div>
             <div class="row justify-between">
               <div class="text-primary text-bold text-h3">
@@ -81,7 +81,7 @@
           {{ test.author_name }}
         </div>
         <div class="description description__point q-mb-lg">
-          {{ test.sdescription }}
+          {{ test.description_1 }}
         </div>
       </template>
     </div>

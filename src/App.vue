@@ -18,13 +18,13 @@ import { app } from 'src/services'
 export default defineComponent({
   name: 'App',
   components: { MetaTags },
-  async preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
-    app.getMetas().then(res => {
-      const meta = {}
-      res.forEach(item => { meta[item.key] = item })
-      return store.dispatch('setMeta', meta)
-    })
-  }
+  // async preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
+  //   app.getMetas().then(res => {
+  //     const meta = {}
+  //     res.forEach(item => { meta[item.key] = item })
+  //     return store.dispatch('setMeta', meta)
+  //   })
+  // }
 })
 </script>
 
