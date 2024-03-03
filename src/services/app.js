@@ -105,7 +105,7 @@ export default class extends REST {
   }
 
   static getAttemptForTest (id) {
-    return this._get(`test/attempt_list/user_attempt_by_id/${id}`, {}).then((data) => {
+    return this._get(`test/attempt/user_attempt_by_id/${id}`, {}).then((data) => {
       return data
     }).catch((error) => {
       throw new RESTError(error, 'Не удалось получить попытки пользователя по определенному тесту')

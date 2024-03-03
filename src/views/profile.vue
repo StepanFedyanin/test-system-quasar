@@ -2,7 +2,7 @@
   <top-bar class="q-mb-lg"/>
   <div class="profile row justify-between q-pb-lg">
     <q-no-ssr>
-      <q-form class="card profile__form row col-12 col-sm-5 col-lg-3 q-pa-lg ">
+      <q-form class="card profile__form row col-12 col-sm-5 col-lg-3 q-pa-lg q-mb-md q-mb-md-none">
         <div class="flex col-12 items-center q-mb-lg q-px-sm">
           <div class="cover q-mr-md">
             <span/>
@@ -107,8 +107,10 @@
       <div v-else-if="attempts.length > 0" class="profile__list">
         <div v-for="attempt in attempts" :key="`attempt_${attempt.test_id}`" class="full-width q-mb-md">
           <router-link :to="{name:'testPassed' , params: {id:attempt.test_id }}" class="card description__point test__passed items-center">
-            {{ attempt.test }}
-            <span class="text-primary row items-center">
+              <span class="profile__list-name">
+                              {{ attempt.test }}
+              </span>
+            <span class="text-primary row items-center profile__list-count">
               {{ $helpers.stringForNumber(attempt.count, ['попытка', 'попытки', 'попыток']) }}
               <q-icon color="primary" name="chevron_right"/>
             </span>
