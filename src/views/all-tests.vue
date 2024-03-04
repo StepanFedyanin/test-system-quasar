@@ -27,14 +27,14 @@
             class="q-ma-md"
         />
     </div>
-    <div v-else-if="testsCategory.length > 0" class="row q-pb-lg ">
+    <div v-else-if="testsCategory.length > 0" class="row q-pb-lg bi-grid-3x3-gap-fill">
         <div
             v-for="category in testsCategory"
             :key="`category-${category.id}`"
-            class="col-6 col-sm-4 col-lg-3"
+            class="col-6 col-sm-4 col-lg-3 card__indentation"
         >
             <q-card
-                class="card card__border--small q-pb-md q-ma-md"
+                class="card card__border--small"
             >
                 <q-card-section class="card__header q-py-sm">
                     <div class="text-white text-ellipsis">{{ category.name }}</div>

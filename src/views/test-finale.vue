@@ -53,11 +53,11 @@
 				</div>
 			</div>
 			<div class="card card__border q-px-md q-py-lg q-mb-xl">
-				<div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_${index+conclusion.scale}`"
+				<div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_${index}`"
 					class="row text-secondary q-mb-lg q-gutter-md items-center">
 					<div class="col-sm-3 col-md-2">{{ conclusion.name }}</div>
 					<div class="card__progress col-10 col-sm-grow">
-          <span :style="{width: `${conclusion.max_score / conclusion.scores_summ * 100}%`}">
+          <span :style="{width: `${conclusion.scores_summ / conclusion.max_score * 100}%`}">
             {{ conclusion.scores_summ }}
           </span>
 					</div>
@@ -66,7 +66,7 @@
 			</div>
 			<div v-for="(conclusion,index) in conclusions.data" :key="`conclusion_description_${index}`"
 			class="description description__point q-mb-lg">
-				<div class="text-bold text-h2 q-mb-md text-accent">{{ conclusion.name }}</div>
+				<div class="text-bold text-h2 q-mb-md text-accent">{{ conclusion.name || 'название интерпритации' }}</div>
 				<span class="description__paragraph">
          {{ conclusion.text_interpret }}
       </span>
@@ -118,7 +118,7 @@ export default {
 	},
 	created () {
 		this.user = this.$store.state.user
-		this.showOfferAuth = !this.user.id
+		this.showOfferAuth = !this.user.id && this.$route.params.id
 	},
 	watch: {
 		'$route.name': {

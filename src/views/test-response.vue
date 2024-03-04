@@ -112,17 +112,33 @@
                         >
                             Назад
                         </q-btn>
-                        <div class="test__pagination">
-                            <div class="test__pagination-inner">
-                                <span
-                                    v-for="(question, index) in selectSubtest.question"
-                                    :key="`pagination_${index}.${question.id}`"
-                                    :class="['test__pagination--item text-weight-medium', test.activeSlide === index&& 'active']"
-                                >
-                                {{ index + 1 }}
-                            </span>
-                            </div>
-                        </div>
+						<Splide
+							ref="pagination"
+							class="test__pagination"
+							:options="slidePaginationOptions"
+						>
+							<SplideSlide
+								v-for="(question, index) in selectSubtest.question"
+								:key="`pagination_${index}.${question.id}`"
+							>
+								<div
+									:class="['test__pagination--item text-weight-medium', test.activeSlide === index&& 'active']"
+								>
+									{{ index + 1 }}
+								</div>
+							</SplideSlide>
+						</Splide>
+<!--                        <div class="test__pagination">-->
+<!--                            <div class="test__pagination-inner">-->
+<!--                                <span-->
+<!--                                    v-for="(question, index) in selectSubtest.question"-->
+<!--                                    :key="`pagination_${index}.${question.id}`"-->
+<!--                                    :class="['test__pagination&#45;&#45;item text-weight-medium', test.activeSlide === index&& 'active']"-->
+<!--                                >-->
+<!--                                {{ index + 1 }}-->
+<!--                            </span>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <q-btn
                             :disable="disableButton"
                             class="q-px-xl q-py-sm" color="primary" @click="onSubmit()"
@@ -218,6 +234,31 @@ export default {
                 // arrowPath: '0',
                 arrows: false
             },
+			slidePaginationOptions: {
+				hasTrack: false,
+				drag: false,
+				// type: 'loop',
+				// rewind      : true,
+				start: 0,
+				// autoHeight  : true,
+				perPage: 15,
+				// width       : 800,
+				// gap: '1rem',
+				padding: '2',
+				pagination: false,
+				// direction   : 'ttb',
+				// height      : '100%',
+				// heightRatio : 0.6,
+				// fixedWidth  : 160,
+				
+				// fixedHeight : 220,
+				cover: true,
+				// focus       : 'center',
+				// isNavigation: true,
+				cloneStatus: false,
+				// arrowPath: '0',
+				arrows: false
+			},
         }
     },
     created() {
@@ -294,6 +335,7 @@ export default {
                     this.test.activeSlide += 1
                 }
             }
+			this.$refs.pagination?.go(this.test.activeSlide)
             this.$refs.reviews?.go(this.test.activeSlide)
         },
         onSubmit() {
